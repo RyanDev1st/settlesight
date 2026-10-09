@@ -161,4 +161,60 @@ describe('Server & Endpoints Integration Tests', () => {
       await new Promise((resolve) => localServer.close(resolve));
     }
   });
+
+  test('POST /api/llm: returns 503 when GEMINI_API_KEY is not configured', async () => {
+    const unconfiguredLlmClient = {
+      hasApiKey: () => false,
+      chatCompletion: async () => {},
+    };
+    const localServer = createServer({ llmClient: unconfiguredLlmClient });
+    await new Promise((resolve) => localServer.listen(0, '127.0.0.1', resolve));
+    const port = localServer.address().port;
+
+    try {
+      const res = await fetch(`http://127.0.0.1:${port}/api/llm`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: 'hello' }] }),
+      });
+      assert.equal(res.status, 503);
+      const body = await res.json();
+      assert.ok(body.error.includes('GEMINI_API_KEY'));
+    } finally {
+      await new Promise((resolve) => localServer.close(resolve));
+    }
+  });
+
+  test('POST /api/llm: succeeds and returns completion when configured', async () => {
+    let capturedPayload = null;
+    const mockLlmClient = {
+      hasApiKey: () => true,
+      chatCompletion: async (payload) => {
+        capturedPayload = payload;
+        return {
+          id: 'chatcmpl-mock-123',
+          choices: [{ message: { role: 'assistant', content: 'Reconciliation looks healthy.' } }],
+        };
+      },
+    };
+    const localServer = createServer({ llmClient: mockLlmClient });
+    await new Promise((resolve) => localServer.listen(0, '127.0.0.1', resolve));
+    const port = localServer.address().port;
+
+    try {
+      const res = await fetch(`http://127.0.0.1:${port}/api/llm`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: 'Audit status' }] }),
+      });
+      assert.equal(res.status, 200);
+      const body = await res.json();
+      assert.equal(body.id, 'chatcmpl-mock-123');
+      assert.equal(body.choices[0].message.content, 'Reconciliation looks healthy.');
+      assert.ok(capturedPayload);
+      assert.equal(capturedPayload.messages[0].content, 'Audit status');
+    } finally {
+      await new Promise((resolve) => localServer.close(resolve));
+    }
+  });
 });

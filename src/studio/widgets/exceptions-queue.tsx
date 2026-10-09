@@ -1,39 +1,16 @@
 import React, { useState } from 'react';
 import type { AgWidgetParams } from 'ag-studio';
-import { DEMO_MATCHES, DEMO_INVOICES, DEMO_TRANSACTIONS } from '../../ui/placeholder-data';
-
-interface QueueItem {
-  id: string;
-  invoiceNumber: string;
-  customerName: string;
-  payerName: string;
-  amount: number;
-  method: string;
-  confidence: number;
-  reasons: string;
-  state: 'auto' | 'suggested' | 'approved' | 'rejected';
-}
+import { useReconciliation } from '../../ui/reconciliation-context';
+import { listExceptions } from '../../agent/tools.js';
+import type { ExceptionItem } from '../../agent/types';
 
 export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
-  const [items, setItems] = useState<QueueItem[]>(() => {
-    return DEMO_MATCHES.filter((m) => m.state === 'suggested' || m.confidence < 1.0).map((m) => {
-      const inv = DEMO_INVOICES.find((i) => i.id === m.invoice_id);
-      const txn = DEMO_TRANSACTIONS.find((t) => t.id === m.transaction_id);
-      return {
-        id: m.id,
-        invoiceNumber: inv?.number ?? m.invoice_id,
-        customerName: inv?.customer_name ?? 'Unknown Customer',
-        payerName: txn?.payer_name ?? 'Unknown Payer',
-        amount: m.allocated,
-        method: m.method,
-        confidence: m.confidence,
-        reasons: m.reasons,
-        state: m.state,
-      };
-    });
-  });
-
+  const { engineState, approveCandidate } = useReconciliation();
   const [activeTab, setActiveTab] = useState<'all' | 'suggested' | 'review'>('all');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Compute live exceptions list directly from engine state
+  const items: ExceptionItem[] = listExceptions(engineState);
 
   const filteredItems = items.filter((item) => {
     if (activeTab === 'suggested') return item.state === 'suggested';
@@ -41,10 +18,15 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
     return true;
   });
 
+  const suggestedCount = items.filter((i) => i.state === 'suggested').length;
+  const reviewCount = items.filter((i) => i.confidence < 0.8).length;
+
   const handleApprove = (id: string) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, state: 'approved' } : item))
-    );
+    setErrorMessage(null);
+    const result = approveCandidate(id);
+    if (!result.success) {
+      setErrorMessage(`Cannot approve match ${id}: ${result.error || 'Validation failed'}`);
+    }
   };
 
   const getMethodBadgeStyle = (method: string): React.CSSProperties => {
@@ -57,6 +39,8 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
         return { backgroundColor: '#E0F2FE', color: '#0369A1' };
       case 'refund':
         return { backgroundColor: '#FEE2E2', color: '#991B1B' };
+      case 'ambiguity':
+        return { backgroundColor: '#FCE7F3', color: '#9D174D' };
       default:
         return { backgroundColor: '#F3F4F6', color: '#374151' };
     }
@@ -74,7 +58,8 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
         fontFamily: 'system-ui, -apple-system, sans-serif',
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+      {/* Header & Tabs */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
         <div>
           <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#0A192F', margin: 0 }}>
             Exceptions Queue
@@ -87,9 +72,9 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
           <button
             onClick={() => setActiveTab('all')}
             style={{
-              padding: '4px 8px',
+              padding: '4px 10px',
               fontSize: '11px',
-              fontWeight: 500,
+              fontWeight: 600,
               borderRadius: '4px',
               border: '1px solid #CBD5E1',
               backgroundColor: activeTab === 'all' ? '#0070BA' : '#FFFFFF',
@@ -102,9 +87,9 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
           <button
             onClick={() => setActiveTab('suggested')}
             style={{
-              padding: '4px 8px',
+              padding: '4px 10px',
               fontSize: '11px',
-              fontWeight: 500,
+              fontWeight: 600,
               borderRadius: '4px',
               border: '1px solid #CBD5E1',
               backgroundColor: activeTab === 'suggested' ? '#0070BA' : '#FFFFFF',
@@ -112,14 +97,14 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
               cursor: 'pointer',
             }}
           >
-            Suggested
+            Suggested ({suggestedCount})
           </button>
           <button
             onClick={() => setActiveTab('review')}
             style={{
-              padding: '4px 8px',
+              padding: '4px 10px',
               fontSize: '11px',
-              fontWeight: 500,
+              fontWeight: 600,
               borderRadius: '4px',
               border: '1px solid #CBD5E1',
               backgroundColor: activeTab === 'review' ? '#0070BA' : '#FFFFFF',
@@ -127,15 +112,42 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
               cursor: 'pointer',
             }}
           >
-            Review (&lt;80%)
+            Review &lt;80% ({reviewCount})
           </button>
         </div>
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto', border: '1px solid #E2E8F0', borderRadius: '6px' }}>
+      {/* Validation Error Banner */}
+      {errorMessage && (
+        <div
+          style={{
+            marginBottom: '8px',
+            padding: '8px 12px',
+            backgroundColor: '#FEF2F2',
+            border: '1px solid #F87171',
+            borderRadius: '4px',
+            fontSize: '12px',
+            color: '#B91C1C',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <span>⚠️ {errorMessage}</span>
+          <button
+            onClick={() => setErrorMessage(null)}
+            style={{ background: 'none', border: 'none', color: '#B91C1C', cursor: 'pointer', fontWeight: 700 }}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      {/* Scrollable Table View */}
+      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', border: '1px solid #E2E8F0', borderRadius: '6px' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#F8FAFC', borderBottom: '1px solid #E2E8F0', color: '#475569' }}>
+          <thead style={{ position: 'sticky', top: 0, backgroundColor: '#F8FAFC', zIndex: 1 }}>
+            <tr style={{ borderBottom: '1px solid #E2E8F0', color: '#475569' }}>
               <th style={{ padding: '8px 10px', fontWeight: 600 }}>Invoice / Payer</th>
               <th style={{ padding: '8px 10px', fontWeight: 600 }}>Amount</th>
               <th style={{ padding: '8px 10px', fontWeight: 600 }}>Pattern</th>
@@ -158,7 +170,7 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
                   <div style={{ fontSize: '11px', color: '#64748B' }}>{item.payerName}</div>
                 </td>
                 <td style={{ padding: '8px 10px', fontWeight: 600, color: '#0F172A' }}>
-                  ${item.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                  ${item.allocated.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </td>
                 <td style={{ padding: '8px 10px' }}>
                   <span
@@ -194,6 +206,8 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
                 <td style={{ padding: '8px 10px', textAlign: 'right' }}>
                   {item.state === 'approved' ? (
                     <span style={{ fontSize: '11px', color: '#16A34A', fontWeight: 600 }}>Approved</span>
+                  ) : item.state === 'exception' ? (
+                    <span style={{ fontSize: '11px', color: '#9D174D', fontWeight: 600 }}>Needs Review</span>
                   ) : (
                     <button
                       onClick={() => handleApprove(item.id)}

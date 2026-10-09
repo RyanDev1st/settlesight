@@ -1,6 +1,6 @@
 import type { AgReportState } from 'ag-studio';
 
-export const STORAGE_KEY = 'settlesight_studio_layout';
+export const STORAGE_KEY = 'settlesight_studio_layout_v2';
 
 export const DEFAULT_INITIAL_STATE: any = {
   pages: [
@@ -13,16 +13,16 @@ export const DEFAULT_INITIAL_STATE: any = {
             value: [{ id: 'invoices.amount', aggregation: 'sum' }],
           },
           format: {
-            title: { text: 'Total Invoiced' },
+            title: { text: 'Invoiced' },
           },
         },
-        'widget-kpi-reconciled': {
+        'widget-kpi-matched': {
           type: 'value',
           dataMapping: {
             value: [{ id: 'invoices.paid_amount', aggregation: 'sum' }],
           },
           format: {
-            title: { text: 'Total Auto-Matched' },
+            title: { text: 'Matched' },
           },
         },
         'widget-kpi-open': {
@@ -31,33 +31,36 @@ export const DEFAULT_INITIAL_STATE: any = {
             value: [{ id: 'invoices.open_amount', aggregation: 'sum' }],
           },
           format: {
-            title: { text: 'Unreconciled Balance' },
+            title: { text: 'Open' },
+          },
+        },
+        'widget-kpi-exceptions': {
+          type: 'value',
+          dataMapping: {
+            value: [{ id: 'matches.id', aggregation: 'count' }],
+          },
+          format: {
+            title: { text: 'Exceptions' },
           },
         },
         'widget-meter': {
           type: 'reconciliationMeter',
         },
         'widget-aging-chart': {
-          type: 'bar-chart-grouped',
-          dataMapping: {
-            categoryKey: [{ id: 'invoices.customer_name' }],
-            valueKey: [{ id: 'invoices.open_amount', aggregation: 'sum' }],
-          },
-          format: {
-            title: { text: 'Open Balance by Customer' },
-          },
+          type: 'agingChart',
         },
         'widget-exceptions': {
           type: 'exceptionsQueue',
         },
       },
       widgetLayout: {
-        'widget-kpi-invoiced': { xTrack: 0, yTrack: 0, xSpan: 8, ySpan: 6 },
-        'widget-kpi-reconciled': { xTrack: 8, yTrack: 0, xSpan: 8, ySpan: 6 },
-        'widget-kpi-open': { xTrack: 16, yTrack: 0, xSpan: 8, ySpan: 6 },
-        'widget-meter': { xTrack: 0, yTrack: 6, xSpan: 10, ySpan: 12 },
-        'widget-aging-chart': { xTrack: 10, yTrack: 6, xSpan: 14, ySpan: 12 },
-        'widget-exceptions': { xTrack: 0, yTrack: 18, xSpan: 24, ySpan: 14 },
+        'widget-kpi-invoiced': { xTrack: 0, yTrack: 0, xSpan: 6, ySpan: 5 },
+        'widget-kpi-matched': { xTrack: 6, yTrack: 0, xSpan: 6, ySpan: 5 },
+        'widget-kpi-open': { xTrack: 12, yTrack: 0, xSpan: 6, ySpan: 5 },
+        'widget-kpi-exceptions': { xTrack: 18, yTrack: 0, xSpan: 6, ySpan: 5 },
+        'widget-meter': { xTrack: 0, yTrack: 5, xSpan: 10, ySpan: 12 },
+        'widget-aging-chart': { xTrack: 10, yTrack: 5, xSpan: 14, ySpan: 12 },
+        'widget-exceptions': { xTrack: 0, yTrack: 17, xSpan: 24, ySpan: 14 },
       },
     },
     {

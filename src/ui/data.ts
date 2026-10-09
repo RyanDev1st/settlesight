@@ -1,145 +1,96 @@
+/**
+ * SettleSight — Reconciliation Data Loader & Studio Sources
+ *
+ * Connects PayPal sandbox REST data (live) or pre-seeded JSON (demo)
+ * directly into the deterministic reconciliation match engine.
+ */
+
 import type { AgDataSourcesDefinition } from 'ag-studio';
-import {
-  DEMO_INVOICES,
-  DEMO_TRANSACTIONS,
-  DEMO_MATCHES,
-  type DemoInvoice,
-  type DemoTransaction,
-  type DemoMatch,
-} from './placeholder-data';
+import { normalizeInvoices, normalizeTransactions, fromCents } from '../match/normalize.js';
+import { proposeMatches, applyDecision } from '../match/engine.js';
+import { validateAllocation } from '../match/validator.js';
+import { summarize, toStudioSources } from '../match/summary.js';
 
-export type { DemoInvoice, DemoTransaction, DemoMatch };
+export { validateAllocation, applyDecision, summarize };
 
-export interface RawDataResult {
+export interface ReconciliationDataResult {
   mode: 'demo' | 'live';
-  invoices: any;
-  transactions: any;
-}
-
-/**
- * Loads invoices and transactions.
- * Tries live backend proxy first (/api/health). If live credentials exist,
- * fetches real sandbox data; otherwise falls back gracefully to demo JSON.
- */
-export async function loadData(): Promise<RawDataResult> {
-  // 1. Check if backend server is available and has PayPal configured
-  try {
-    const healthRes = await fetch('/api/health');
-    if (healthRes.ok) {
-      const health = await healthRes.json();
-      if (health.hasPaypal) {
-        const [invRes, txnRes] = await Promise.all([
-          fetch('/api/invoices'),
-          fetch('/api/transactions'),
-        ]);
-
-        if (invRes.ok && txnRes.ok) {
-          const invoices = await invRes.json();
-          const transactions = await txnRes.json();
-          return {
-            mode: 'live',
-            invoices,
-            transactions,
-          };
-        }
-      }
-    }
-  } catch (err) {
-    // Backend server offline or request failed; fall back to demo mode
-  }
-
-  // 2. Demo fallback: load pre-seeded demo JSON
-  try {
-    const [invModule, txnModule] = await Promise.all([
-      import('../data/demo/invoices.json').catch(() => null),
-      import('../data/demo/transactions.json').catch(() => null),
-    ]);
-
-    if (invModule && txnModule) {
-      return {
-        mode: 'demo',
-        invoices: invModule.default || invModule,
-        transactions: txnModule.default || txnModule,
-      };
-    }
-  } catch (err) {
-    // Dynamic import fallback
-  }
-
-  // 3. Static fallback shape if demo JSON is missing
-  return {
-    mode: 'demo',
-    invoices: {
-      total_items: DEMO_INVOICES.length,
-      total_pages: 1,
-      items: DEMO_INVOICES.map((inv) => ({
-        id: inv.id,
-        status: inv.paypal_status,
-        detail: {
-          invoice_number: inv.number,
-          invoice_date: inv.issue_date,
-          currency_code: inv.currency,
-          payment_term: { due_date: inv.due_date },
-        },
-        primary_recipients: [
-          {
-            billing_info: {
-              name: { full_name: inv.customer_name },
-              email_address: inv.customer_email,
-            },
-          },
-        ],
-        amount: { currency_code: inv.currency, value: inv.amount.toFixed(2) },
-        due_amount: { currency_code: inv.currency, value: inv.open_amount.toFixed(2) },
-      })),
-    },
-    transactions: {
-      total_items: DEMO_TRANSACTIONS.length,
-      total_pages: 1,
-      transaction_details: DEMO_TRANSACTIONS.map((txn) => ({
-        transaction_info: {
-          transaction_id: txn.id,
-          transaction_initiation_date: `${txn.date}T10:00:00Z`,
-          transaction_amount: { currency_code: txn.currency, value: txn.gross.toFixed(2) },
-          fee_amount: { currency_code: txn.currency, value: txn.fee.toFixed(2) },
-          net_amount: { currency_code: txn.currency, value: txn.net.toFixed(2) },
-          transaction_status: 'S',
-          invoice_id: txn.invoice_ref,
-          transaction_note: txn.note,
-          transaction_event_code: txn.event_code,
-        },
-        payer_info: {
-          email_address: txn.payer_email,
-          payer_name: { alternate_full_name: txn.payer_name },
-        },
-      })),
-    },
+  hasLlm: boolean;
+  state: {
+    invoices: any[];
+    transactions: any[];
+    matches: any[];
+    exceptions: any[];
   };
+  summary: ReturnType<typeof summarize>;
+  sources: AgDataSourcesDefinition;
 }
 
 /**
- * Provides AG Studio formatted data sources for analytical dashboard.
+ * Builds AG Studio sources and aging summary from engine state.
  */
-export function loadDemoData(): AgDataSourcesDefinition {
+export function buildStudioSources(state: any, summary: any): AgDataSourcesDefinition {
+  const baseSources = toStudioSources(state);
+
+  // Add aging_bucket field to each invoice for chart grouping
+  const invoicesWithAging = baseSources.invoices.map((inv: any) => {
+    let aging_bucket = '0-30 days';
+    const od = Number(inv.days_overdue) || 0;
+    if (od > 90) aging_bucket = '90+ days';
+    else if (od > 60) aging_bucket = '61-90 days';
+    else if (od > 30) aging_bucket = '31-60 days';
+    return { ...inv, aging_bucket };
+  });
+
+  // Dedicated aging buckets source for bar chart widget
+  const agingData = [
+    {
+      bucket: '0-30 days',
+      open_balance: fromCents(summary?.aging_buckets?.['0-30']?.value || 0),
+      count: summary?.aging_buckets?.['0-30']?.count || 0,
+    },
+    {
+      bucket: '31-60 days',
+      open_balance: fromCents(summary?.aging_buckets?.['31-60']?.value || 0),
+      count: summary?.aging_buckets?.['31-60']?.count || 0,
+    },
+    {
+      bucket: '61-90 days',
+      open_balance: fromCents(summary?.aging_buckets?.['61-90']?.value || 0),
+      count: summary?.aging_buckets?.['61-90']?.count || 0,
+    },
+    {
+      bucket: '90+ days',
+      open_balance: fromCents(summary?.aging_buckets?.['90+']?.value || 0),
+      count: summary?.aging_buckets?.['90+']?.count || 0,
+    },
+  ];
+
   return {
     sources: [
       {
         id: 'invoices',
         name: 'Invoices',
-        description: 'PayPal Invoicing v2 records with status and match tracking',
-        data: DEMO_INVOICES,
+        description: 'PayPal Invoicing v2 records with payment terms and aging',
+        data: invoicesWithAging,
       },
       {
         id: 'transactions',
         name: 'Transactions',
-        description: 'PayPal Transaction Search activity including fees and net amounts',
-        data: DEMO_TRANSACTIONS,
+        description: 'PayPal Transaction Search records including gross, fees, and net',
+        data: baseSources.transactions,
       },
       {
         id: 'matches',
         name: 'Reconciliation Matches',
-        description: 'Deterministic and AI-assisted match candidates and allocations',
-        data: DEMO_MATCHES,
+        description: 'Engine proposed allocations, confidence scores, and rule reasons',
+        data: baseSources.matches,
+      },
+      {
+        id: 'aging',
+        name: 'Aging Buckets',
+        description: 'Overdue invoice balances grouped by aging period',
+        data: agingData,
       },
     ],
     relationships: [
@@ -157,4 +108,69 @@ export function loadDemoData(): AgDataSourcesDefinition {
       },
     ],
   };
+}
+
+/**
+ * Loads invoices and transactions, executes engine match rules, and returns full reconciliation state.
+ */
+export async function loadReconciliationData(): Promise<ReconciliationDataResult> {
+  let mode: 'demo' | 'live' = 'demo';
+  let hasLlm = false;
+  let rawInvoices: any = null;
+  let rawTransactions: any = null;
+
+  // 1. Check live backend health
+  try {
+    const healthRes = await fetch('/api/health');
+    if (healthRes.ok) {
+      const health = await healthRes.json();
+      hasLlm = Boolean(health.hasLlm);
+      if (health.hasPaypal) {
+        const [invRes, txnRes] = await Promise.all([
+          fetch('/api/invoices'),
+          fetch('/api/transactions'),
+        ]);
+        if (invRes.ok && txnRes.ok) {
+          rawInvoices = await invRes.json();
+          rawTransactions = await txnRes.json();
+          mode = 'live';
+        }
+      }
+    }
+  } catch {
+    // Backend offline or error; fallback to demo JSON
+  }
+
+  // 2. Demo fallback if not live
+  if (!rawInvoices || !rawTransactions) {
+    const [invModule, txnModule] = await Promise.all([
+      import('../data/demo/invoices.json'),
+      import('../data/demo/transactions.json'),
+    ]);
+    rawInvoices = invModule.default || invModule;
+    rawTransactions = txnModule.default || txnModule;
+    mode = 'demo';
+  }
+
+  // 3. Normalize and run reconciliation match engine
+  const normInvoices = normalizeInvoices(rawInvoices);
+  const normTransactions = normalizeTransactions(rawTransactions);
+  const { state, summary } = proposeMatches(normInvoices, normTransactions);
+  const sources = buildStudioSources(state, summary);
+
+  return {
+    mode,
+    hasLlm,
+    state,
+    summary,
+    sources,
+  };
+}
+
+/**
+ * Backwards compatibility helper for AG Studio data loader.
+ */
+export function loadDemoData(): AgDataSourcesDefinition {
+  // Synchronous initial fallback while async loader runs
+  return buildStudioSources({ invoices: [], transactions: [], matches: [], exceptions: [] }, null);
 }

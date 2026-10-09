@@ -9,8 +9,9 @@
     "seed": "node scripts/seed-sandbox.mjs",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "node --test src/match/",
-    "test:server": "node --test server/*.test.mjs"
+    "test": "node --test src/match/ src/agent/agent.test.mjs",
+    "test:server": "node --test server/*.test.mjs",
+    "test:agent": "node --test src/agent/agent.test.mjs"
   },
   "dependencies": {
     "ag-charts-enterprise": "~14.2.0",

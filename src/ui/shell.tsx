@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { StudioDashboard } from '../studio/dashboard';
 import { clearSavedState } from '../studio/state';
 import { AgentChatPanel } from './agent-chat-panel';
+import { ReconciliationProvider, useReconciliation } from './reconciliation-context';
 
-export const AppShell: React.FC = () => {
+const AppShellInner: React.FC = () => {
   const [resetKey, setResetKey] = useState<number>(0);
   const [studioMode, setStudioMode] = useState<'view' | 'edit'>('view');
   const [activePage, setActivePage] = useState<string>('Close the month');
+  const { mode } = useReconciliation();
+
+  const isLive = mode === 'live';
 
   const handleResetLayout = () => {
     if (window.confirm('Reset dashboard layout to default PayPal reconciliation view?')) {
@@ -124,14 +128,14 @@ export const AppShell: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          {/* Mode Badge */}
+          {/* Dynamic Mode Badge */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              backgroundColor: '#002B49',
-              border: '1px solid #005088',
+              backgroundColor: isLive ? '#064E3B' : '#002B49',
+              border: `1px solid ${isLive ? '#059669' : '#005088'}`,
               padding: '4px 10px',
               borderRadius: '16px',
             }}
@@ -141,12 +145,12 @@ export const AppShell: React.FC = () => {
                 width: '8px',
                 height: '8px',
                 borderRadius: '50%',
-                backgroundColor: '#10B981',
-                boxShadow: '0 0 6px #10B981',
+                backgroundColor: isLive ? '#10B981' : '#38BDF8',
+                boxShadow: `0 0 6px ${isLive ? '#10B981' : '#38BDF8'}`,
               }}
             />
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#38BDF8' }}>
-              Demo Mode
+            <span style={{ fontSize: '12px', fontWeight: 600, color: isLive ? '#6EE7B7' : '#38BDF8' }}>
+              {isLive ? 'Live Sandbox' : 'Demo Mode'}
             </span>
           </div>
 
@@ -200,10 +204,18 @@ export const AppShell: React.FC = () => {
           />
         </main>
 
-        {/* Wave B Agent Chat Panel Placeholder */}
+        {/* AI Reconciliation Agent Panel */}
         <AgentChatPanel />
       </div>
     </div>
+  );
+};
+
+export const AppShell: React.FC = () => {
+  return (
+    <ReconciliationProvider>
+      <AppShellInner />
+    </ReconciliationProvider>
   );
 };
 

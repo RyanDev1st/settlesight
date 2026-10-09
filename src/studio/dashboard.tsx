@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useRef, useEffect } from 'react';
 import { AgStudio } from 'ag-studio-react';
 import type { AgStudioApi, AgStudioApiReadyEvent, AgStudioStateUpdatedEvent } from 'ag-studio';
-import { loadDemoData } from '../ui/data';
+import { useReconciliation } from '../ui/reconciliation-context';
 import { paypalTheme } from './theme';
 import { customWidgets } from './widgets';
 import { loadSavedState, saveStateToStorage } from './state';
@@ -19,7 +19,7 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
   activePageId,
   onPageChange,
 }) => {
-  const data = useMemo(() => loadDemoData(), []);
+  const { sources } = useReconciliation();
   const initialState = useMemo(() => loadSavedState(), [resetKey]);
   const apiRef = useRef<AgStudioApi | null>(null);
 
@@ -67,7 +67,7 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
     >
       <AgStudio
         key={`studio-${resetKey}`}
-        data={data}
+        data={sources}
         theme={paypalTheme}
         widgets={customWidgets}
         initialState={initialState}

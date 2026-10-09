@@ -10,6 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PayPalClient, defaultPayPalClient } from './paypal.mjs';
+import { LlmClient, defaultLlmClient } from './llm.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -109,6 +110,7 @@ async function parseJsonBody(req) {
  */
 export function createServer(options = {}) {
   const client = options.paypalClient || defaultPayPalClient;
+  const llmClient = options.llmClient || defaultLlmClient;
 
   return http.createServer(async (req, res) => {
     setCorsHeaders(req, res);
@@ -125,7 +127,7 @@ export function createServer(options = {}) {
       // GET /api/health
       if (req.method === 'GET' && pathname === '/api/health') {
         const hasPaypal = client.hasCredentials();
-        const hasLlm = Boolean(process.env.GEMINI_API_KEY);
+        const hasLlm = llmClient.hasApiKey();
         const payload = {
           mode: hasPaypal ? 'live' : 'demo',
           hasPaypal,
@@ -202,6 +204,23 @@ export function createServer(options = {}) {
         const result = await client.sendReminder(invoiceId, body);
         res.writeHead(200);
         return res.end(JSON.stringify(result));
+      }
+
+      // POST /api/llm
+      if (req.method === 'POST' && pathname === '/api/llm') {
+        if (!llmClient.hasApiKey()) {
+          res.writeHead(503);
+          return res.end(
+            JSON.stringify({
+              error: 'GEMINI_API_KEY is not configured on server. Live AI disabled.',
+            })
+          );
+        }
+
+        const body = await parseJsonBody(req);
+        const completion = await llmClient.chatCompletion(body);
+        res.writeHead(200);
+        return res.end(JSON.stringify(completion));
       }
 
       // 404 for unknown routes

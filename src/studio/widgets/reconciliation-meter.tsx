@@ -1,88 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import type { AgWidgetParams } from 'ag-studio';
-import { DEMO_INVOICES, DEMO_MATCHES } from '../../ui/placeholder-data';
+import { useReconciliation } from '../../ui/reconciliation-context';
+import { fromCents } from '../../match/normalize.js';
 
-interface MeterMetrics {
-  totalInvoiced: number;
-  autoMatched: number;
-  suggested: number;
-  openAmount: number;
-  matchedPercent: number;
-  suggestedPercent: number;
-}
+export const ReconciliationMeter: React.FC<AgWidgetParams> = () => {
+  const { mode, summary, engineState } = useReconciliation();
 
-export const ReconciliationMeter: React.FC<AgWidgetParams> = ({ widgetApi }) => {
-  const [metrics, setMetrics] = useState<MeterMetrics>(() => {
-    const total = DEMO_INVOICES.reduce((sum, inv) => sum + inv.amount, 0);
-    const auto = DEMO_MATCHES.filter((m) => m.state === 'auto' || m.state === 'approved').reduce(
-      (sum, m) => sum + Math.max(0, m.allocated),
-      0
-    );
-    const suggested = DEMO_MATCHES.filter((m) => m.state === 'suggested').reduce(
-      (sum, m) => sum + Math.max(0, m.allocated),
-      0
-    );
-    const open = Math.max(0, total - (auto + suggested));
-    const matchedPct = total > 0 ? (auto / total) * 100 : 0;
-    const suggPct = total > 0 ? (suggested / total) * 100 : 0;
+  const totalInvoiced = summary?.total_invoiced ? fromCents(summary.total_invoiced) : 0;
+  const autoMatched = summary?.matched_value ? fromCents(summary.matched_value) : 0;
+  const openAmount = summary?.open_value ? fromCents(summary.open_value) : 0;
 
-    return {
-      totalInvoiced: total,
-      autoMatched: auto,
-      suggested,
-      openAmount: open,
-      matchedPercent: matchedPct,
-      suggestedPercent: suggPct,
-    };
-  });
+  // Suggested matches pending seller approval
+  const suggestedCents = (engineState?.matches || [])
+    .filter((m: any) => m.state === 'suggested')
+    .reduce((sum: number, m: any) => sum + (m.allocated || 0), 0);
+  const suggested = fromCents(suggestedCents);
 
-  useEffect(() => {
-    let cancelled = false;
-    if (widgetApi?.getData && widgetApi?.getSchema) {
-      try {
-        const schema = widgetApi.getSchema();
-        const invTable = schema.find((t) => t.id === 'invoices');
-        if (invTable && invTable.fields && invTable.fields.length > 0) {
-          const fields = invTable.fields.filter(
-            (f) => f.key === 'amount' || f.key === 'paid_amount' || f.key === 'open_amount'
-          );
-          if (fields.length > 0) {
-            widgetApi
-              .getData({ fields })
-              .then((res) => {
-                if (!cancelled && res?.results?.rows?.[0]) {
-                  const row = res.results.rows[0];
-                  const total = Number(row['invoices.amount'] ?? metrics.totalInvoiced);
-                  const paid = Number(row['invoices.paid_amount'] ?? metrics.autoMatched);
-                  const open = Number(row['invoices.open_amount'] ?? metrics.openAmount);
-                  const pct = total > 0 ? (paid / total) * 100 : 0;
-                  setMetrics((prev) => ({
-                    ...prev,
-                    totalInvoiced: total,
-                    autoMatched: paid,
-                    openAmount: open,
-                    matchedPercent: pct,
-                  }));
-                }
-              })
-              .catch(() => {
-                // Fallback to seeded demo metrics
-              });
-          }
-        }
-      } catch (err) {
-        console.warn('Error querying schema in ReconciliationMeter:', err);
-      }
-    }
-    return () => {
-      cancelled = true;
-    };
-  }, [widgetApi]);
+  const matchedPercent = totalInvoiced > 0 ? (autoMatched / totalInvoiced) * 100 : 0;
+  const suggestedPercent = totalInvoiced > 0 ? (suggested / totalInvoiced) * 100 : 0;
+  const totalReconciledPercent = Math.min(100, matchedPercent + suggestedPercent);
 
-  const totalReconciledPercent = Math.min(
-    100,
-    metrics.matchedPercent + metrics.suggestedPercent
-  );
+  const isLive = mode === 'live';
 
   return (
     <div
@@ -114,12 +52,12 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = ({ widgetApi }) => 
               fontSize: '11px',
               padding: '2px 8px',
               borderRadius: '12px',
-              backgroundColor: '#E6F4EA',
-              color: '#137333',
-              fontWeight: 500,
+              backgroundColor: isLive ? '#E6F4EA' : '#E0F2FE',
+              color: isLive ? '#137333' : '#0284C7',
+              fontWeight: 600,
             }}
           >
-            Live Demo
+            {isLive ? 'Live Sandbox' : 'Demo Mode'}
           </span>
         </div>
 
@@ -128,11 +66,12 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = ({ widgetApi }) => 
             {totalReconciledPercent.toFixed(1)}%
           </span>
           <span style={{ fontSize: '13px', color: '#546E7A' }}>
-            reconciled (${(metrics.autoMatched + metrics.suggested).toLocaleString('en-US', { minimumFractionDigits: 2 })} of ${metrics.totalInvoiced.toLocaleString('en-US', { minimumFractionDigits: 2 })})
+            reconciled (${(autoMatched + suggested).toLocaleString('en-US', { minimumFractionDigits: 2 })} of $
+            {totalInvoiced.toLocaleString('en-US', { minimumFractionDigits: 2 })})
           </span>
         </div>
 
-        {/* Progress Bar */}
+        {/* Dual Progress Bar */}
         <div
           style={{
             height: '10px',
@@ -144,17 +83,17 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = ({ widgetApi }) => 
           }}
         >
           <div
-            title={`Auto-matched: ${metrics.matchedPercent.toFixed(1)}%`}
+            title={`Auto-matched: ${matchedPercent.toFixed(1)}%`}
             style={{
-              width: `${metrics.matchedPercent}%`,
+              width: `${matchedPercent}%`,
               backgroundColor: '#10B981',
               transition: 'width 0.4s ease',
             }}
           />
           <div
-            title={`Suggested: ${metrics.suggestedPercent.toFixed(1)}%`}
+            title={`Suggested: ${suggestedPercent.toFixed(1)}%`}
             style={{
-              width: `${metrics.suggestedPercent}%`,
+              width: `${suggestedPercent}%`,
               backgroundColor: '#0070BA',
               transition: 'width 0.4s ease',
             }}
@@ -178,7 +117,7 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = ({ widgetApi }) => 
             Auto-Matched
           </div>
           <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px' }}>
-            ${metrics.autoMatched.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            ${autoMatched.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
         </div>
 
@@ -188,7 +127,7 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = ({ widgetApi }) => 
             Suggested (AI)
           </div>
           <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px' }}>
-            ${metrics.suggested.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            ${suggested.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
         </div>
 
@@ -198,7 +137,7 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = ({ widgetApi }) => 
             Open Balance
           </div>
           <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px' }}>
-            ${metrics.openAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            ${openAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
         </div>
       </div>

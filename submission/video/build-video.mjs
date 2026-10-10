@@ -2,8 +2,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 
-const FFMPEG_BIN = 'D:\\Hermes\\tools\\ffmpeg-9.0.1-win32-x64\\bin\\ffmpeg.exe';
-const FFPROBE_BIN = 'D:\\Hermes\\tools\\ffmpeg-9.0.1-win32-x64\\bin\\ffprobe.exe';
+function findBinary(envVar, name) {
+  if (process.env[envVar]) return process.env[envVar];
+  const wingetPath = `C:/Users/admin/AppData/Local/Microsoft/WinGet/Links/${name}.exe`;
+  if (fs.existsSync(wingetPath)) return wingetPath;
+  const hermesPath = `D:/Hermes/tools/ffmpeg-9.0.1-win32-x64/bin/${name}.exe`;
+  if (fs.existsSync(hermesPath)) return hermesPath;
+  return name;
+}
+
+const FFMPEG_BIN = findBinary('FFMPEG_BIN', 'ffmpeg');
+const FFPROBE_BIN = findBinary('FFPROBE_BIN', 'ffprobe');
 const EDGE_PATH = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
 const CDP_PORT = 9222;
 const FPS = 10;
@@ -18,7 +27,7 @@ const MASTER_AUDIO = path.join(AUDIO_DIR, 'master_audio.wav');
 const SRT_PATH = path.join(VIDEO_DIR, 'subtitles.srt');
 const TIMINGS_PATH = path.join(AUDIO_DIR, 'voiceover_timings.json');
 
-const LIVE_URL = 'https://ryandev1st.github.io/settlesight/';
+const LIVE_URL = process.env.VIDEO_URL || 'https://ryandev1st.github.io/settlesight/';
 
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

@@ -23,7 +23,7 @@ $shots = @(
     @{
         id = "shot_03_dashboard"
         name = "Shot 3: Live Demo - Dashboard and Auto-Match"
-        text = "Meet SettleSight. Powered by AG Studio 3.0 and PayPal Developer APIs, it instantly pulls your PayPal Invoicing v2 records and Transaction Search feeds. Our deterministic match engine runs on integer cents, instantly auto-reconciling unambiguous payments with confidence 1.0. Notice our PayPal brand theme and the live Reconciliation Meter tracking our closing progress in real time."
+        text = "Meet SettleSight. Powered by AG Studio 3.0 and PayPal Developer APIs, in live mode it pulls PayPal Invoicing v2 and Transaction Search data; this demo uses a synthetic sandbox-shaped dataset. Our deterministic match engine runs on integer cents, instantly auto-reconciling unambiguous payments with confidence 1.0. Notice our PayPal brand theme and the live Reconciliation Meter tracking our closing progress in real time."
     },
     @{
         id = "shot_04_exceptions"
@@ -33,7 +33,7 @@ $shots = @(
     @{
         id = "shot_05_agent"
         name = "Shot 5: Ask the Reconciliation Agent"
-        text = "Need deeper insight? Our Reconciliation Auditor, built with AG Studio's Agent Framework, acts as your financial copilot. When we ask to audit partial payments and fee discrepancies, the agent executes client-side tools with visible audit badges, verifying fee formulas against standard merchant rates. The AI explains the exact reasoning in plain English before anything touches your ledger."
+        text = "Need deeper insight? Our Reconciliation Auditor, built with AG Studio's Agent Framework, acts as your financial copilot. When we ask to audit partial payments and fee discrepancies, the agent executes client-side tools with visible audit badges, verifying that fees fall within tolerance of the open amount. The AI explains the exact reasoning in plain English before anything touches your ledger."
     },
     @{
         id = "shot_06_layout"
@@ -52,7 +52,19 @@ $shots = @(
     }
 )
 
-$ffprobe = "D:\Hermes\tools\ffmpeg-9.0.1-win32-x64\bin\ffprobe.exe"
+function Find-Binary($envVar, $name) {
+    $val = [System.Environment]::GetEnvironmentVariable($envVar)
+    if ($val) { return $val }
+    if (Get-Command $name -ErrorAction SilentlyContinue) { return $name }
+    $winget = "C:\Users\admin\AppData\Local\Microsoft\WinGet\Links\$name.exe"
+    if (Test-Path $winget) { return $winget }
+    $hermes = "D:\Hermes\tools\ffmpeg-9.0.1-win32-x64\bin\$name.exe"
+    if (Test-Path $hermes) { return $hermes }
+    return $name
+}
+
+$ffmpeg = Find-Binary "FFMPEG_BIN" "ffmpeg"
+$ffprobe = Find-Binary "FFPROBE_BIN" "ffprobe"
 $results = @()
 $totalDuration = 0.0
 
@@ -93,3 +105,19 @@ $metadata = @{
 }
 $metadata | ConvertTo-Json -Depth 4 | Set-Content $metaPath -Encoding UTF8
 Write-Host "Saved timing metadata to $metaPath"
+
+# Generate master_audio.wav with 2s title silence
+Write-Host "Concatenating master audio with $ffmpeg..."
+$silenceWav = Join-Path $audioDir "silence_title.wav"
+& $ffmpeg -y -f lavfi -i anullsrc=r=22050:cl=mono -t 2.0 -c:a pcm_s16le $silenceWav
+
+$concatList = Join-Path $audioDir "concat_list.txt"
+$lines = @("file 'silence_title.wav'")
+foreach ($shot in $shots) {
+    $lines += "file '$($shot.id).wav'"
+}
+$lines | Set-Content $concatList -Encoding ASCII
+
+$masterAudio = Join-Path $audioDir "master_audio.wav"
+& $ffmpeg -y -f concat -safe 0 -i $concatList -c:a pcm_s16le $masterAudio
+Write-Host "Master audio generated at $masterAudio"

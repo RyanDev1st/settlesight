@@ -48,8 +48,8 @@ Hook     Problem  Dashboard   Exceptions  Agent Chat  Add Widget    Validator   
   - Click on the "Close the month" navigation tab.
   - Cursor points to the **Reconciliation Meter** progress bar showing progress.
   - Scroll the top metric summary cards showing 30 invoices loaded, auto-matched revenue, and open balances.
-- **Voiceover (62 words | 25s):**
-  > *"Meet SettleSight. Powered by AG Studio 3.0 and PayPal Developer APIs, it instantly pulls your PayPal Invoicing v2 records and Transaction Search feeds. Our deterministic match engine runs on integer cents, instantly auto-reconciling unambiguous payments with confidence 1.0. Notice our PayPal brand theme and the live Reconciliation Meter tracking our closing progress in real time."*
+- **Voiceover (65 words | 25s):**
+  > *"Meet SettleSight. Powered by AG Studio 3.0 and PayPal Developer APIs, in live mode it pulls PayPal Invoicing v2 and Transaction Search data; this demo uses a synthetic sandbox-shaped dataset. Our deterministic match engine runs on integer cents, instantly auto-reconciling unambiguous payments with confidence 1.0. Notice our PayPal brand theme and the live Reconciliation Meter tracking our closing progress in real time."*
 
 ---
 
@@ -77,7 +77,7 @@ Hook     Problem  Dashboard   Exceptions  Agent Chat  Add Widget    Validator   
   - Click the second suggested prompt button: `"Audit partial payments & fee discrepancies"`.
   - Watch the tool call step `explain_match()` expand with detailed fee calculations.
 - **Voiceover (64 words | 25s):**
-  > *"Need deeper insight? Our Reconciliation Auditor, built with AG Studio's Agent Framework, acts as your financial copilot. When we ask to audit partial payments and fee discrepancies, the agent executes client-side tools with visible audit badges, verifying fee formulas against standard merchant rates. The AI explains the exact reasoning in plain English before anything touches your ledger."*
+  > *"Need deeper insight? Our Reconciliation Auditor, built with AG Studio's Agent Framework, acts as your financial copilot. When we ask to audit partial payments and fee discrepancies, the agent executes client-side tools with visible audit badges, verifying that fees fall within tolerance of the open amount. The AI explains the exact reasoning in plain English before anything touches your ledger."*
 
 ---
 

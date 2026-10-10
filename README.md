@@ -142,7 +142,7 @@ SettleSight showcases the capabilities of **AG Studio 3.0** (`ag-studio`, `ag-st
 ## Running Live Locally
 
 ### Prerequisites
-- Node.js 20+
+- Node.js 22+
 - npm 10+
 - (Optional) PayPal Developer Sandbox REST app credentials from [developer.paypal.com](https://developer.paypal.com/dashboard/applications/sandbox)
 - (Optional) Free Google AI Studio API key from [aistudio.google.com](https://aistudio.google.com/)

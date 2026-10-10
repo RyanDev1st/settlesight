@@ -128,10 +128,15 @@ export function createServer(options = {}) {
       if (req.method === 'GET' && pathname === '/api/health') {
         const hasPaypal = client.hasCredentials();
         const hasLlm = llmClient.hasApiKey();
+        const llmProvider = typeof llmClient.getProvider === 'function'
+          ? llmClient.getProvider()
+          : (llmClient.provider || 'gemini');
         const payload = {
           mode: hasPaypal ? 'live' : 'demo',
           hasPaypal,
           hasLlm,
+          llmProvider,
+          hasLlmKey: hasLlm,
         };
         res.writeHead(200);
         return res.end(JSON.stringify(payload));
@@ -209,10 +214,14 @@ export function createServer(options = {}) {
       // POST /api/llm
       if (req.method === 'POST' && pathname === '/api/llm') {
         if (!llmClient.hasApiKey()) {
+          const provider = typeof llmClient.getProvider === 'function'
+            ? llmClient.getProvider()
+            : (llmClient.provider || 'gemini');
+          const keyName = provider === 'nebius' ? 'NEBIUS_API_KEY' : 'GEMINI_API_KEY';
           res.writeHead(503);
           return res.end(
             JSON.stringify({
-              error: 'GEMINI_API_KEY is not configured on server. Live AI disabled.',
+              error: `${keyName} is not configured on server. Live AI disabled.`,
             })
           );
         }

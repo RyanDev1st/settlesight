@@ -20,7 +20,7 @@ The server discovers and caches NVIDIA Nemotron IDs through `/v1/models`, honors
 
 ## Verified live on 2026-10-11
 
-The [live verification report](../../docs/live-verification.md) records real Nebius tool calling, 30 PayPal sandbox invoices, and a confirmed payment-recording API request. A subsequent read shows SS-DEMO-028 as `PARTIALLY_PAID` with $25 recorded. The [video verification](verification.md) and [sanitized recording log](run-log.json) contain this recording's actual calls, validator counts, and before/after totals. Narration and subtitles derive from those results.
+The [live verification report](https://github.com/RyanDev1st/settlesight/blob/main/docs/live-verification.md) records real Nebius tool calling, 30 PayPal sandbox invoices, and a confirmed payment-recording API request. A subsequent read shows SS-DEMO-028 as `PARTIALLY_PAID` with $25 recorded. The [video verification](https://github.com/RyanDev1st/settlesight/blob/main/submission/nebius/verification.md) and [sanitized recording log](https://github.com/RyanDev1st/settlesight/blob/main/submission/nebius/run-log.json) contain this recording's actual calls, validator counts, and before/after totals. Narration and subtitles derive from those results.
 
 ## Significantly updated during the Submission Period
 
@@ -45,7 +45,18 @@ The [official rules](https://nebiusglobalaihackathon.devpost.com/rules) give a s
 
 ## Feedback from using Nebius and NVIDIA models
 
-The OpenAI-compatible response structure let our tool loop use Token Factory without an SDK. Discovery mattered because IDs must match the live catalog. Super returned ranked JSON and Nano selected reconciliation tools in bounded checks. We record latency and usage in the reports instead of claiming general performance guarantees.
+What worked well:
+
+- **The OpenAI-compatible API made the switch about a one-file change.** Our existing tool loop runs on Token Factory with no SDK: the base URL, a Bearer key and the model ID are all it needs.
+- **Tool calling worked on both sizes we tried.** Super (`nvidia/nemotron-3-super-120b-a12b`) returned a structured `triage_exceptions` call and ranked JSON. Nano (`nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B`) picked `list_exceptions` with valid arguments.
+- **Splitting work by model size paid off.** Nano answered fast tool-selection turns in about 2.1 s. Super took about 14.7 s for one 8k-token triage turn, which is acceptable for a background "rank my review queue" step but too slow for chat. Measured numbers are in the live verification report.
+
+Concrete suggestions:
+
+1. **List the Nemotron model IDs in the docs.** The function-calling page and the quickstart use Llama and DeepSeek examples. We only found the exact Nemotron IDs after authenticating to `GET /v1/models`. A public table of model ID, context length, tool-calling support and recommended use would save every hackathon team a step.
+2. **Show a Nemotron example on the function-calling page.** That would confirm which Nemotron sizes support `tools` and `tool_choice`.
+3. **Tell people to discover models at runtime.** IDs such as `Nemotron-3_5-Lightning` and `NVIDIA-Nemotron-3-Nano-30B-A3B` don't follow one naming pattern, so hard-coded IDs are fragile. We cache `/v1/models` and fail loudly if no Nemotron model is listed. A short "discover models at runtime" note in the docs would prevent silent misconfiguration.
+4. **Redirect old doc URLs.** Search results still point to `docs.nebius.com/token-factory/...` pages that return 404. The live docs are at `docs.tokenfactory.nebius.com`.
 
 ## Built with
 
@@ -56,7 +67,7 @@ The OpenAI-compatible response structure let our tool loop use Token Factory wit
 - [Public repository and MIT license](https://github.com/RyanDev1st/settlesight)
 - [GitHub Pages demo](https://ryandev1st.github.io/settlesight/) — synthetic data and scripted fallback; Pages has no live credentials or proxy.
 - Video: `YOUTUBE_URL_PENDING` — local artifact `submission/nebius/settlesight-nebius.mp4` (gitignored).
-- [Live verification](../../docs/live-verification.md)
-- [Video verification and reproduction](verification.md)
+- [Live verification](https://github.com/RyanDev1st/settlesight/blob/main/docs/live-verification.md)
+- [Video verification and reproduction](https://github.com/RyanDev1st/settlesight/blob/main/submission/nebius/verification.md)
 
 For live AI, follow the README's local setup with your own Nebius credentials. Set `DATA_SOURCE=demo` with `LLM_PROVIDER=nebius` for the hybrid presentation; leave `DATA_SOURCE` unset for configured PayPal sandbox data. Uploading the video and submitting the entry remain pending.

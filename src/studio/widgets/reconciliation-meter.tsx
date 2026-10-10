@@ -2,9 +2,10 @@ import React from 'react';
 import type { AgWidgetParams } from 'ag-studio';
 import { useReconciliation } from '../../ui/reconciliation-context';
 import { fromCents } from '../../match/normalize.js';
+import { modeBadge } from '../../ui/mode.js';
 
 export const ReconciliationMeter: React.FC<AgWidgetParams> = () => {
-  const { mode, summary, engineState } = useReconciliation();
+  const { mode, summary, engineState, hasLlm, llmProvider, dataNotice } = useReconciliation();
 
   // Single source of numbers: summarize() from src/match
   const totalInvoiced = summary?.total_invoiced ? fromCents(summary.total_invoiced) : 0;
@@ -55,7 +56,7 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = () => {
               fontWeight: 600,
             }}
           >
-            {isLive ? 'Live Sandbox' : 'Demo Mode'}
+            {modeBadge({ mode, hasLlm, llmProvider, dataNotice })}
           </span>
         </div>
 

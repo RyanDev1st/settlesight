@@ -3,12 +3,13 @@ import { StudioDashboard } from '../studio/dashboard';
 import { clearSavedState } from '../studio/state';
 import { AgentChatPanel } from './agent-chat-panel';
 import { ReconciliationProvider, useReconciliation } from './reconciliation-context';
+import { modeBadge } from './mode.js';
 
 const AppShellInner: React.FC = () => {
   const [resetKey, setResetKey] = useState<number>(0);
   const [studioMode, setStudioMode] = useState<'view' | 'edit'>('view');
   const [activePage, setActivePage] = useState<string>('Close the month');
-  const { mode, dataNotice } = useReconciliation();
+  const { mode, dataNotice, hasLlm, llmProvider } = useReconciliation();
 
   const isLive = mode === 'live';
 
@@ -150,7 +151,7 @@ const AppShellInner: React.FC = () => {
               }}
             />
             <span style={{ fontSize: '12px', fontWeight: 600, color: isLive ? '#6EE7B7' : '#38BDF8' }}>
-              {dataNotice ? 'Live invoices + demo transactions' : isLive ? 'Live Sandbox' : 'Demo Mode'}
+            {modeBadge({ mode, dataNotice, hasLlm, llmProvider })}
             </span>
           </div>
 

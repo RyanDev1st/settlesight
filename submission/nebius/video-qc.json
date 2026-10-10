@@ -1,0 +1,57 @@
+{
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "10/1",
+        "side_data_list": [
+          {}
+        ]
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "sample_rate": "96000",
+        "channels": 1,
+        "r_frame_rate": "0/0"
+      }
+    ],
+    "format": {
+      "duration": "127.800000",
+      "size": "7711785"
+    }
+  },
+  "frames": [
+    {
+      "name": "frame_1_overview.png",
+      "seconds": 12.1249888
+    },
+    {
+      "name": "frame_2_triage.png",
+      "seconds": 44.420635
+    },
+    {
+      "name": "frame_3_validator.png",
+      "seconds": 59.3053062
+    },
+    {
+      "name": "frame_4_approved.png",
+      "seconds": 76.221451
+    },
+    {
+      "name": "frame_5_agent.png",
+      "seconds": 91.00116059999999
+    },
+    {
+      "name": "frame_6_sandbox.png",
+      "seconds": 108.7760266
+    }
+  ],
+  "volume": "[Parsed_volumedetect_0 @ 0000020aa4c7d1c0] mean_volume: -16.3 dB\r\n[Parsed_volumedetect_0 @ 0000020aa4c7d1c0] max_volume: -1.2 dB\r",
+  "narrationSeconds": 127.80067999999999
+}

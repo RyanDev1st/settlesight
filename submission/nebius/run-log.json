@@ -1,0 +1,572 @@
+{
+  "recordedAt": "2026-10-10T19:30:01.640Z",
+  "dataSource": "demo",
+  "llmProvider": "nebius",
+  "calls": [
+    {
+      "latencyMs": 16789,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "usage": {
+        "completion_tokens": 3983,
+        "prompt_tokens": 4323,
+        "total_tokens": 8306,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 1130,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "created_cache_tokens": 0,
+          "multimodal_tokens": null
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4323
+      },
+      "tools": []
+    },
+    {
+      "latencyMs": 5095,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "usage": {
+        "completion_tokens": 515,
+        "prompt_tokens": 654,
+        "total_tokens": 1169,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": null
+      },
+      "tools": [
+        {
+          "name": "list_exceptions",
+          "arguments": "{}"
+        }
+      ]
+    },
+    {
+      "latencyMs": 18074,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "usage": {
+        "completion_tokens": 1635,
+        "prompt_tokens": 3781,
+        "total_tokens": 5416,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": null
+      },
+      "tools": []
+    }
+  ],
+  "health": {
+    "mode": "demo",
+    "dataSource": "demo",
+    "hasPaypal": true,
+    "hasLlm": true,
+    "llmProvider": "nebius",
+    "llmModel": "nvidia/nemotron-3-super-120b-a12b",
+    "hasLlmKey": true
+  },
+  "triage": {
+    "mode": "nemotron_live",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "rankedItems": [
+      {
+        "matchId": "exc_2",
+        "priorityRank": 1,
+        "urgency": "critical",
+        "recommendedAction": "investigate",
+        "allocatedDollars": 0,
+        "reasoning": "Ambiguity: transaction TXN-DEMO-033 has two competing candidates with equal confidence 1.0; invoice INV-2026-033 shows an open amount of $180, creating uncertainty about which payment should settle it.",
+        "riskAssessment": "High risk of misapplication or unresolved open balance if not resolved.",
+        "invoiceNumber": "INV-2026-033",
+        "customerName": "Cate Blanchett",
+        "payerName": "Multiple Transactions",
+        "invariantPassed": true,
+        "rejectionReason": null,
+        "isAmbiguityException": true
+      },
+      {
+        "matchId": "exc_1",
+        "priorityRank": 2,
+        "urgency": "high",
+        "recommendedAction": "investigate",
+        "allocatedDollars": 0,
+        "reasoning": "Ambiguity: transaction TXN-DEMO-033 has two competing candidates with equal confidence 0.75; no open amount on the invoice side, but the payer (Brad Pitt) could be linked to multiple invoices.",
+        "riskAssessment": "Risk of incorrect allocation or duplicate charging.",
+        "invoiceNumber": "Multiple Invoices",
+        "customerName": "Competing Claims",
+        "payerName": "Brad Pitt",
+        "invariantPassed": true,
+        "rejectionReason": null,
+        "isAmbiguityException": true
+      },
+      {
+        "matchId": "exc_3",
+        "priorityRank": 3,
+        "urgency": "high",
+        "recommendedAction": "investigate",
+        "allocatedDollars": 0,
+        "reasoning": "Ambiguity: transaction TXN-DEMO-036 has two competing candidates with equal confidence 0.8; payer Daniel Craig faces similar duplicate‑candidate issue.",
+        "riskAssessment": "Risk of misapplied payment or unresolved invoice.",
+        "invoiceNumber": "Multiple Invoices",
+        "customerName": "Competing Claims",
+        "payerName": "Daniel Craig",
+        "invariantPassed": true,
+        "rejectionReason": null,
+        "isAmbiguityException": true
+      },
+      {
+        "matchId": "mat_33",
+        "priorityRank": 4,
+        "urgency": "high",
+        "recommendedAction": "rejected_by_engine",
+        "allocatedDollars": 620,
+        "reasoning": "Duplicate payment: $620 received for already‑settled invoice INV-2026-004 (openAmount 0).",
+        "riskAssessment": "Potential over‑payment; requires verification whether this is a genuine duplicate or a refund mis‑labelled.",
+        "invoiceId": "INV2-DEMO-004",
+        "invoiceNumber": "INV-2026-004",
+        "customerName": "Diana Prince",
+        "payerName": "Diana Prince",
+        "allocatedCents": 62000,
+        "invariantPassed": false,
+        "rejectionReason": "Invoice INV-2026-004 (INV2-DEMO-004) over-allocated: requested 62000 cents exceeds available open amount 0 cents"
+      },
+      {
+        "matchId": "mat_35",
+        "priorityRank": 5,
+        "urgency": "high",
+        "recommendedAction": "rejected_by_engine",
+        "allocatedDollars": 1500,
+        "reasoning": "Duplicate payment: $1500 received for already‑settled invoice INV-2026-005 (openAmount 0).",
+        "riskAssessment": "Large potential over‑payment; needs immediate review.",
+        "invoiceId": "INV2-DEMO-005",
+        "invoiceNumber": "INV-2026-005",
+        "customerName": "Evan Wright",
+        "payerName": "Evan Wright",
+        "allocatedCents": 150000,
+        "invariantPassed": false,
+        "rejectionReason": "Invoice INV-2026-005 (INV2-DEMO-005) over-allocated: requested 150000 cents exceeds available open amount 0 cents"
+      },
+      {
+        "matchId": "mat_26",
+        "priorityRank": 6,
+        "urgency": "high",
+        "recommendedAction": "investigate",
+        "allocatedDollars": 500,
+        "reasoning": "Partial payment: $500 received toward open balance $1500 on INV-2026-026, leaving $1000 outstanding.",
+        "riskAssessment": "Significant remaining balance; follow‑up needed to collect the rest.",
+        "invoiceId": "INV2-DEMO-026",
+        "invoiceNumber": "INV-2026-026",
+        "customerName": "Wendy Darling",
+        "payerName": "Wendy Darling",
+        "allocatedCents": 50000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_34",
+        "priorityRank": 7,
+        "urgency": "medium",
+        "recommendedAction": "rejected_by_engine",
+        "allocatedDollars": 2800,
+        "reasoning": "Refund match: $2800 refund linked to INV-2026-003 via email and amount; invoice shows openAmount 0.",
+        "riskAssessment": "Large refund; verify that the refund was properly authorized and not a duplicate payment.",
+        "invoiceId": "INV2-DEMO-003",
+        "invoiceNumber": "INV-2026-003",
+        "customerName": "Charlie Brown",
+        "payerName": "Charlie Brown",
+        "allocatedCents": 280000,
+        "invariantPassed": false,
+        "rejectionReason": "Invoice INV-2026-003 (INV2-DEMO-003) over-allocated: requested 280000 cents exceeds available open amount 0 cents"
+      },
+      {
+        "matchId": "mat_31",
+        "priorityRank": 8,
+        "urgency": "medium",
+        "recommendedAction": "rejected_by_engine",
+        "allocatedDollars": 1250,
+        "reasoning": "Refund match: $1250 refund linked to INV-2026-001 via reference; invoice openAmount 0.",
+        "riskAssessment": "Refund sizeable; confirm legitimacy.",
+        "invoiceId": "INV2-DEMO-001",
+        "invoiceNumber": "INV-2026-001",
+        "customerName": "Alice Smith",
+        "payerName": "Alice Smith",
+        "allocatedCents": 125000,
+        "invariantPassed": false,
+        "rejectionReason": "Invoice INV-2026-001 (INV2-DEMO-001) over-allocated: requested 125000 cents exceeds available open amount 0 cents"
+      },
+      {
+        "matchId": "mat_32",
+        "priorityRank": 9,
+        "urgency": "medium",
+        "recommendedAction": "rejected_by_engine",
+        "allocatedDollars": 450,
+        "reasoning": "Refund match: $450 refund linked to INV-2026-002 via reference; invoice openAmount 0.",
+        "riskAssessment": "Moderate refund; verify.",
+        "invoiceId": "INV2-DEMO-002",
+        "invoiceNumber": "INV-2026-002",
+        "customerName": "Bob Jones",
+        "payerName": "Bob Jones",
+        "allocatedCents": 45000,
+        "invariantPassed": false,
+        "rejectionReason": "Invoice INV-2026-002 (INV2-DEMO-002) over-allocated: requested 45000 cents exceeds available open amount 0 cents"
+      },
+      {
+        "matchId": "mat_25",
+        "priorityRank": 10,
+        "urgency": "medium",
+        "recommendedAction": "investigate",
+        "allocatedDollars": 400,
+        "reasoning": "Partial payment: $400 received toward open balance $800 on INV-2026-025, leaving $400 outstanding.",
+        "riskAssessment": "Half of invoice still unpaid; need collection.",
+        "invoiceId": "INV2-DEMO-025",
+        "invoiceNumber": "INV-2026-025",
+        "customerName": "Victor Creed",
+        "payerName": "Victor Creed",
+        "allocatedCents": 40000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_27",
+        "priorityRank": 11,
+        "urgency": "medium",
+        "recommendedAction": "investigate",
+        "allocatedDollars": 300,
+        "reasoning": "Partial payment: $300 received toward open balance $600 on INV-2026-027, leaving $300 outstanding.",
+        "riskAssessment": "Remaining balance requires follow‑up.",
+        "invoiceId": "INV2-DEMO-027",
+        "invoiceNumber": "INV-2026-027",
+        "customerName": "Xander Cage",
+        "payerName": "Xander Cage",
+        "allocatedCents": 30000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_28",
+        "priorityRank": 12,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 450,
+        "reasoning": "Email match: amount $450 matches open invoice INV-2026-028 for yvonne.direct@example.com without reference; confidence 0.75.",
+        "riskAssessment": "Low risk; amount exact, no fees involved.",
+        "invoiceId": "INV2-DEMO-028",
+        "invoiceNumber": "INV-2026-028",
+        "customerName": "Yvonne Strahovski",
+        "payerName": "Yvonne Strahovski",
+        "allocatedCents": 45000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_29",
+        "priorityRank": 13,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 920,
+        "reasoning": "Email match: amount $920 matches open invoice INV-2026-029 for zachary.direct@example.com without reference; confidence 0.75.",
+        "riskAssessment": "Low risk; exact amount match.",
+        "invoiceId": "INV2-DEMO-029",
+        "invoiceNumber": "INV-2026-029",
+        "customerName": "Zachary Levi",
+        "payerName": "Zachary Levi",
+        "allocatedCents": 92000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_30",
+        "priorityRank": 14,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 340,
+        "reasoning": "Email match: amount $340 matches open invoice INV-2026-030 for amber.direct@example.com without reference; confidence 0.75.",
+        "riskAssessment": "Low risk; exact amount match.",
+        "invoiceId": "INV2-DEMO-030",
+        "invoiceNumber": "INV-2026-030",
+        "customerName": "Amber Heard",
+        "payerName": "Amber Heard",
+        "allocatedCents": 34000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_16",
+        "priorityRank": 15,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 970.7,
+        "reasoning": "Fee-adjusted match: payment within fee tolerance of open amount for INV-2026-016 (fee: $29.30).",
+        "riskAssessment": "Low risk; fee adjustment aligns with expected PayPal fees.",
+        "invoiceId": "INV2-DEMO-016",
+        "invoiceNumber": "INV-2026-016",
+        "customerName": "Pam Beesly",
+        "payerName": "Pam Beesly",
+        "allocatedCents": 97070,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_17",
+        "priorityRank": 16,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 485.2,
+        "reasoning": "Fee-adjusted match: payment within fee tolerance of open amount for INV-2026-017 (fee: $14.80).",
+        "riskAssessment": "Low risk; fee adjustment reasonable.",
+        "invoiceId": "INV2-DEMO-017",
+        "invoiceNumber": "INV-2026-017",
+        "customerName": "Quinn Fabray",
+        "payerName": "Quinn Fabray",
+        "allocatedCents": 48520,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_18",
+        "priorityRank": 17,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 728,
+        "reasoning": "Fee-adjusted match: payment within fee tolerance of open amount for INV-2026-018 (fee: $22.00).",
+        "riskAssessment": "Low risk; fee adjustment reasonable.",
+        "invoiceId": "INV2-DEMO-018",
+        "invoiceNumber": "INV-2026-018",
+        "customerName": "Ryan Howard",
+        "payerName": "Ryan Howard",
+        "allocatedCents": 72800,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_19",
+        "priorityRank": 18,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 1165,
+        "reasoning": "Fee-adjusted match: payment within fee tolerance of open amount for INV-2026-019 (fee: $35.00).",
+        "riskAssessment": "Low risk; fee adjustment reasonable.",
+        "invoiceId": "INV2-DEMO-019",
+        "invoiceNumber": "INV-2026-019",
+        "customerName": "Stanley Hudson",
+        "payerName": "Stanley Hudson",
+        "allocatedCents": 116500,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_20",
+        "priorityRank": 19,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 350,
+        "reasoning": "Combined payment: $1000.00 covers 2 invoices (INV-2026-020, INV-2026-021) for toby.combined@example.com.",
+        "riskAssessment": "Low risk; allocated sums match total payment.",
+        "invoiceId": "INV2-DEMO-020",
+        "invoiceNumber": "INV-2026-020",
+        "customerName": "Toby Flenderson",
+        "payerName": "Toby Flenderson",
+        "allocatedCents": 35000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_21",
+        "priorityRank": 20,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 650,
+        "reasoning": "Combined payment: $1000.00 covers 2 invoices (INV-2026-020, INV-2026-021) for toby.combined@example.com.",
+        "riskAssessment": "Low risk; allocated sums match total payment.",
+        "invoiceId": "INV2-DEMO-021",
+        "invoiceNumber": "INV-2026-021",
+        "customerName": "Toby Flenderson",
+        "payerName": "Toby Flenderson",
+        "allocatedCents": 65000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_22",
+        "priorityRank": 21,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 200,
+        "reasoning": "Combined payment: $1000.00 covers 3 invoices (INV-2026-022, INV-2026-023, INV-2026-024) for ursula.batch@example.com.",
+        "riskAssessment": "Low risk; allocated sums match total payment.",
+        "invoiceId": "INV2-DEMO-022",
+        "invoiceNumber": "INV-2026-022",
+        "customerName": "Ursula Buffay",
+        "payerName": "Ursula Buffay",
+        "allocatedCents": 20000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_23",
+        "priorityRank": 22,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 300,
+        "reasoning": "Combined payment: $1000.00 covers 3 invoices (INV-2026-022, INV-2026-023, INV-2026-024) for ursula.batch@example.com.",
+        "riskAssessment": "Low risk; allocated sums match total payment.",
+        "invoiceId": "INV2-DEMO-023",
+        "invoiceNumber": "INV-2026-023",
+        "customerName": "Ursula Buffay",
+        "payerName": "Ursula Buffay",
+        "allocatedCents": 30000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      },
+      {
+        "matchId": "mat_24",
+        "priorityRank": 23,
+        "urgency": "low",
+        "recommendedAction": "approve",
+        "allocatedDollars": 500,
+        "reasoning": "Combined payment: $1000.00 covers 3 invoices (INV-2026-022, INV-2026-023, INV-2026-024) for ursula.batch@example.com.",
+        "riskAssessment": "Low risk; allocated sums match total payment.",
+        "invoiceId": "INV2-DEMO-024",
+        "invoiceNumber": "INV-2026-024",
+        "customerName": "Ursula Buffay",
+        "payerName": "Ursula Buffay",
+        "allocatedCents": 50000,
+        "invariantPassed": true,
+        "rejectionReason": null
+      }
+    ],
+    "verifiedCount": 15,
+    "rejectedCount": 5,
+    "totalItems": 23,
+    "summaryText": "The reconciliation queue contains 23 items. Three ambiguity exceptions (exc_1‑exc_3) require immediate attention due to competing matches. Duplicate payments (mat_33, mat_35) and a large partial payment (mat_26) are next‑most urgent. Refunds and smaller partials follow, while fee‑adjusted, combined, and exact‑amount email matches are low‑risk and can be approved.",
+    "timestamp": "2026-10-10T19:30:22.316Z"
+  },
+  "beforeApproval": {
+    "total_invoiced": 3699500,
+    "matched_value": 1728500,
+    "matched_percent": 46.72,
+    "open_count": 25,
+    "open_value": 1971000,
+    "exceptions_count": 3,
+    "suggested_count": 20,
+    "aging_buckets": {
+      "0-30": {
+        "count": 21,
+        "value": 1209000
+      },
+      "31-60": {
+        "count": 1,
+        "value": 82000
+      },
+      "61-90": {
+        "count": 1,
+        "value": 130000
+      },
+      "90+": {
+        "count": 2,
+        "value": 550000
+      }
+    }
+  },
+  "approvedMatchId": "mat_26",
+  "afterApproval": {
+    "total_invoiced": 3699500,
+    "matched_value": 1778500,
+    "matched_percent": 48.07,
+    "open_count": 25,
+    "open_value": 1921000,
+    "exceptions_count": 3,
+    "suggested_count": 19,
+    "aging_buckets": {
+      "0-30": {
+        "count": 21,
+        "value": 1159000
+      },
+      "31-60": {
+        "count": 1,
+        "value": 82000
+      },
+      "61-90": {
+        "count": 1,
+        "value": 130000
+      },
+      "90+": {
+        "count": 2,
+        "value": 550000
+      }
+    }
+  },
+  "approvalVisible": true,
+  "agent": {
+    "prompt": "Audit partial payments & fee discrepancies",
+    "toolNames": [
+      "list_exceptions"
+    ],
+    "response": "\n**Audit Summary – Partial Payments & Fee‑Adjustment Discrepancies**\n\n| Match ID | Invoice(s) | Customer | Amount Allocated | Open Amount | Method | Confidence | Key Reason |\n|----------|------------|----------|------------------|------------|--------|------------|------------|\n| **mat_25** | INV‑2026‑025 | Victor Creed | **$400.00** | $800.00 | **partial** | 0.80 | Partial payment: $400 received toward a $800 balance |\n| **mat_26** | INV‑2026‑026 | Wendy Darling | **$500.00** | $1,000.00 | **partial** | 0.80 | Partial payment: $500 received toward a $1,500 balance (approved) |\n| **mat_27** | INV‑2026‑027 | Xander Cage | **$300.00** | $600.00 | **partial** | 0.80 | Partial payment: $300 received toward a $600 balance |\n| **mat_16‑mat_19** | INV‑2026‑016 → INV‑2026‑019 | Various (Pam, Quinn, Ryan, Stanley) | Varies (≈ $970‑$1,165) | Varies (≈ $1,000‑$1,200) | **fee_adjusted** | 0.92 | Payment is within the fee‑tolerance band of the open amount (e.g., fee $29.30 on INV‑2026‑016) |\n| **mat_28‑mat_30** | INV‑2026‑028 → INV‑2026‑030 | Various (Yvonne, Zachary, Amber) | $450, $920, $340 | $450, $920, $340 | **email** | 0.75 | Email‑based match – amount exactly equals the open invoice; no reference ID provided |\n| **mat_31‑mat_34** | INV‑2026‑001 → INV‑2026‑004 | Various (Alice, Bob, Diana, Charlie) | $1,250, $450, $2,800, $620 | $0 (refund/duplicate) | **refund / duplicate** | 0.85‑0.70 | Refund or duplicate detection – amounts tie to settled invoices via reference or email |\n\n### What the Data Shows\n\n1. **Partial Payments**  \n   - Only three matches (`mat_25`, `mat_26`, `mat_27`) are flagged as **partial**.  \n   - All three have **confidence = 0.80** and are currently in **“suggested”** or **“approved”** state.  \n   - `mat_26` is already **approved**, meaning the system has accepted the partial amount as sufficient for that invoice. The other two remain suggested and would need merchant confirmation before finalizing.\n\n2. **Fee‑Adjustment Discrepancies**  \n   - The **fee_adjusted** matches (`mat_16`‑`mat_19`) all share a **high confidence (0.92)**.  \n   - Each entry notes a *fee tolerance* that was respected (e.g., a $29.30 fee on a $1,000 invoice).  \n   - No mismatches or over‑/under‑charges are evident; the allocated amounts sit comfortably within the allowed tolerance band.\n\n3. **Other Notable Flags**  \n   - **Duplicate / Refund** matches (`mat_33`, `mat_35`) indicate payments posted to already‑settled invoices – these should be reviewed to avoid double‑crediting.  \n   - **Ambiguity** exceptions (`exc_1`, `exc_2`, `exc_3`) highlight cases where multiple candidates share equal confidence. While not directly a fee‑discrepancy, they represent potential reconciliation risk and may need manual resolution.\n\n### Recommended Next Steps\n\n| Action | Reason |\n|--------|--------|\n| **Confirm** `mat_25` and `mat_27` (and optionally `mat_26` if you want to lock it) | These are the only true partial‑payment candidates. A merchant “accept” will move them out of the suggested state. |\n| **Validate fee tolerances** for `mat_16`‑`mat_19` | Although confidence is high, double‑check that the applied fees match your settlement policy (e.g., max fee % allowed). |\n| **Investigate duplicates** (`mat_33`, `mat_35`) | Ensure no double‑refund or double‑payment has been posted; if so, reverse or adjust accordingly. |\n| **Review ambiguity exceptions** (`exc_1`, `exc_2`, `exc_3`) | Resolve competing candidate selection (e.g., by applying additional business rules or manual review). |\n| **Monitor overdue flags** – none of the listed matches have `overdueDays > 0`, but keep an eye on any new entries that might cross that threshold. |\n\nIf you’d like to **deep‑dive** into any specific match (e.g., view the underlying transaction details, adjust the confidence threshold, or propose a settlement action), just let me know the `matchId` and the desired action (confirm, reject, or request more info). I’m ready to help you finalize the reconciliation."
+  },
+  "sandbox": {
+    "invoiceCount": 30,
+    "id": "INV2-C8Q2-3Y38-JVX8-WA85",
+    "number": "SS-DEMO-028",
+    "status": "PARTIALLY_PAID",
+    "paid": {
+      "currency_code": "USD",
+      "value": "25.00"
+    },
+    "paymentRecords": [
+      {
+        "paymentId": "EXTR-18338036U4388992R",
+        "amount": {
+          "currency_code": "USD",
+          "value": "25.00"
+        },
+        "method": "OTHER"
+      }
+    ]
+  },
+  "consoleErrors": [
+    "****************************************************************************************************************************",
+    "************************************************** AG Studio Core License **************************************************",
+    "************************************************** License Key Not Found ***************************************************",
+    "* All AG Studio Core features are unlocked for trial.                                                                      *",
+    "* If you want to hide the watermark please email info@ag-grid.com for a trial license key.                                 *",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************",
+    "************************************************** AG Studio Core License **************************************************",
+    "************************************************** License Key Not Found ***************************************************",
+    "* All AG Studio Core features are unlocked for trial.                                                                      *",
+    "* If you want to hide the watermark please email info@ag-grid.com for a trial license key.                                 *",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************",
+    "************************************************** AG Studio Core License **************************************************",
+    "************************************************** License Key Not Found ***************************************************",
+    "* All AG Studio Core features are unlocked for trial.                                                                      *",
+    "* If you want to hide the watermark please email info@ag-grid.com for a trial license key.                                 *",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************",
+    "************************************************** AG Studio Core License **************************************************",
+    "************************************************** License Key Not Found ***************************************************",
+    "* All AG Studio Core features are unlocked for trial.                                                                      *",
+    "* If you want to hide the watermark please email info@ag-grid.com for a trial license key.                                 *",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************",
+    "************************************************** AG Studio Core License **************************************************",
+    "************************************************** License Key Not Found ***************************************************",
+    "* All AG Studio Core features are unlocked for trial.                                                                      *",
+    "* If you want to hide the watermark please email info@ag-grid.com for a trial license key.                                 *",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************",
+    "************************************************** AG Studio Core License **************************************************",
+    "************************************************** License Key Not Found ***************************************************",
+    "* All AG Studio Core features are unlocked for trial.                                                                      *",
+    "* If you want to hide the watermark please email info@ag-grid.com for a trial license key.                                 *",
+    "****************************************************************************************************************************",
+    "****************************************************************************************************************************"
+  ]
+}

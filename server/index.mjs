@@ -111,6 +111,7 @@ async function parseJsonBody(req) {
 export function createServer(options = {}) {
   const client = options.paypalClient || new PayPalClient();
   const llmClient = options.llmClient || new LlmClient();
+  const dataSource = process.env.DATA_SOURCE === 'demo' ? 'demo' : 'paypal';
 
   return http.createServer(async (req, res) => {
     setCorsHeaders(req, res);
@@ -132,7 +133,8 @@ export function createServer(options = {}) {
           ? llmClient.getProvider()
           : (llmClient.provider || 'gemini');
         const payload = {
-          mode: hasPaypal ? 'live' : 'demo',
+          mode: hasPaypal && dataSource !== 'demo' ? 'live' : 'demo',
+          dataSource,
           hasPaypal,
           hasLlm,
           llmProvider,

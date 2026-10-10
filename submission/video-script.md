@@ -33,7 +33,7 @@ Hook     Problem  Dashboard   Exceptions  Agent Chat  Add Widget    Validator   
   - Cursor scrolls down through the open invoices table showing raw numbers.
 - **Exact UI Action:**
   - Click on "All data" tab in the top header.
-  - Hover over an invoice with a gross amount of $1,800 where the bank deposit is $1,737.30 (PayPal fee deduction).
+  - Hover over an invoice with a gross amount of $1,800 where the PayPal net transaction is $1,737.30 (PayPal fee deduction).
   - Hover over an invoice showing a partial 50% milestone payment.
 - **Voiceover (48 words | 20s):**
   > *"Here's the reality: PayPal deducts processing fees, buyers send partial milestone payments, one transfer covers two invoices, and clients forget invoice reference numbers. Standard accounting spreadsheets break, forcing sellers to manually calculate fees and guess which payment belongs to which invoice."*
@@ -46,10 +46,10 @@ Hook     Problem  Dashboard   Exceptions  Agent Chat  Add Widget    Validator   
   - Highlight AG Studio integration: custom PayPal brand theme, the Reconciliation Meter widget, and the high-confidence auto-matched items.
 - **Exact UI Action:**
   - Click on the "Close the month" navigation tab.
-  - Cursor points to the circular **Reconciliation Meter** showing progress.
+  - Cursor points to the **Reconciliation Meter** progress bar showing progress.
   - Scroll the top metric summary cards showing 30 invoices loaded, auto-matched revenue, and open balances.
 - **Voiceover (62 words | 25s):**
-  > *"Meet SettleSight. Powered by AG Studio 3.0 and PayPal Developer APIs, it instantly pulls your PayPal Invoicing v2 records and Transaction Search feeds. Our deterministic match engine runs on integer cents, instantly auto-reconciling unambiguous payments with 100% confidence. Notice our PayPal brand theme and the live Reconciliation Meter tracking our closing progress in real time."*
+  > *"Meet SettleSight. Powered by AG Studio 3.0 and PayPal Developer APIs, it instantly pulls your PayPal Invoicing v2 records and Transaction Search feeds. Our deterministic match engine runs on integer cents, instantly auto-reconciling unambiguous payments with confidence 1.0. Notice our PayPal brand theme and the live Reconciliation Meter tracking our closing progress in real time."*
 
 ---
 

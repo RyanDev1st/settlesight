@@ -169,7 +169,7 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
                   <div style={{ fontWeight: 600, color: '#0F172A' }}>{item.invoiceNumber}</div>
                   <div style={{ fontSize: '11px', color: '#64748B' }}>{item.payerName}</div>
                 </td>
-                <td style={{ padding: '8px 10px', fontWeight: 600, color: '#0F172A' }}>
+                <td style={{ padding: '8px 10px', fontWeight: 600, color: '#0F172A', fontVariantNumeric: 'tabular-nums' }}>
                   ${item.allocated.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </td>
                 <td style={{ padding: '8px 10px' }}>
@@ -197,7 +197,7 @@ export const ExceptionsQueue: React.FC<AgWidgetParams> = () => {
                           item.confidence >= 0.9 ? '#10B981' : item.confidence >= 0.7 ? '#F59E0B' : '#EF4444',
                       }}
                     />
-                    <span style={{ fontWeight: 600 }}>{(item.confidence * 100).toFixed(0)}%</span>
+                    <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>{(item.confidence * 100).toFixed(0)}%</span>
                   </div>
                 </td>
                 <td style={{ padding: '8px 10px', color: '#334155', maxWidth: '240px', lineHeight: 1.3 }}>

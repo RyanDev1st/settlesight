@@ -23,7 +23,7 @@ Sellers often waste hours cross-referencing PayPal CSV activity feeds against un
 **SettleSight** is an AI reconciliation desk powered by PayPal Developer APIs and AG Studio 3.0:
 
 1. **Ingests & Normalizes:** Connects to **PayPal Invoicing v2** and **Transaction Search v1** (or pre-seeded sandbox snapshots) and normalizes all amounts into integer cents to prevent floating-point drift.
-2. **Deterministic Auto-Matching:** Automatically matches unambiguous transactions (matching reference code and identical gross deposit) with 100% confidence.
+2. **Deterministic Auto-Matching:** Automatically matches unambiguous transactions (matching reference code and identical gross deposit) with confidence 1.0 (rule-based).
 3. **Smart Heuristic Candidate Proposals:** Generates scored match candidates for complex real-world accounting scenarios:
    - **Fee-Adjusted Matches:** Identifies transactions where gross received minus standard PayPal processing fees (~2.9% + $0.30) equals the net deposit.
    - **Combined Payments:** Detects single payments that cover two or more invoices from the same payer.
@@ -43,7 +43,7 @@ SettleSight is built with modern, high-performance web and developer tools:
 
 - **Frontend & Dashboard:** React 19, TypeScript, and Vite.
 - **AG Studio 3.0 (`ag-studio`, `ag-studio-react`):** Embedded analytics dashboard featuring a custom PayPal-branded theme (`paypalTheme`), layout persistence in `localStorage`, and three custom analytics widgets:
-  - *Reconciliation Meter:* Real-time radial reconciliation progress indicator.
+  - *Reconciliation Meter:* Real-time horizontal reconciliation progress indicator.
   - *Aging Distribution Chart:* Interactive bucket chart (`0-30`, `31-60`, `61-90`, `90+` days overdue).
   - *Exceptions Queue:* Actionable triage queue with confidence indicators, rule breakdowns, and Approve / Reject controls.
 - **Studio Agent Framework & LLM Architecture:**
@@ -55,7 +55,7 @@ SettleSight is built with modern, high-performance web and developer tools:
   - Node.js backend client (`server/paypal.mjs`) implementing OAuth 2.0 with token caching, Invoicing v2 (list, record payment, remind), and Transaction Search v1 with automatic 31-day query range chunking.
   - Sandbox seeder script (`scripts/seed-sandbox.mjs`) generating 30 test invoices across 8 realistic scenarios.
 - **Deterministic Math Engine:** Plain ESM JavaScript (`src/match/`) operating on integer cents with zero floating-point imprecision.
-- **Automated Verification:** 56 unit and regression tests written for Node.js native test runner (`node --test`).
+- **Automated Verification:** 57 unit and regression tests written for Node.js native test runner (`node --test`).
 
 ---
 
@@ -66,7 +66,7 @@ SettleSight is built with modern, high-performance web and developer tools:
 - Handled real-world API nuances: PayPal restricts Transaction Search queries to $\le 31$ days, so we implemented `splitDateRangeIntoWindows` to seamlessly chunk multi-month searches.
 - Full Studio Agent Framework integration with custom tools, combined with a secure server-side LLM proxy and a deterministic fallback runner.
 - Mathematical invariant validation guaranteeing that financial data integrity cannot be violated.
-- 56 automated tests verifying engine rules, API client methods, and security guards.
+- 57 automated tests verifying engine rules, API client methods, and security guards.
 
 ### 2. Design (20%)
 - Clean, cohesive, executive-grade product experience built inside AG Studio 3.0.
@@ -105,7 +105,7 @@ In compliance with Section 4 of the official PayPal AI Hackathon rules:
   - Commit `451750d` (Oct 9, 2026): Scaffolding of SettleSight AG Studio dashboard, theme, and shell.
   - Commit `d894aae` (Oct 9, 2026): PayPal OAuth 2.0, Invoicing v2, Transaction Search v1 client, and 30-invoice sandbox seeder.
   - Commit `87dc739` (Oct 9, 2026): Studio Agent Framework harness, custom agent tools, Gemini LLM proxy, and scripted demo runner.
-  - Commit `9169af6` (Oct 10, 2026): Integer-cent deterministic match engine, invariant validator, and 56-test regression suite.
+  - Commit `9169af6` (Oct 10, 2026): Integer-cent deterministic match engine, invariant validator, and 57-test regression suite.
   - Complete overhaul from a static CSV toy into a production-grade PayPal reconciliation application.
 
 ---
@@ -122,7 +122,7 @@ In compliance with Section 4 of the official PayPal AI Hackathon rules:
 
 - Zero-install, instantaneous demo mode deployed on GitHub Pages allowing judges to test every feature without creating PayPal sandbox apps or providing API keys.
 - Real integration of AG Studio 3.0 and the Studio Agent Framework with custom agent definitions, tools, and theme.
-- Robust, bug-free deterministic engine backed by 56 automated tests verifying complex matching rules (fees, combined, partial, email, refund, duplicate).
+- Robust, bug-free deterministic engine backed by 57 automated tests verifying complex matching rules (fees, combined, partial, email, refund, duplicate).
 - Zero-drift integer-cent mathematical invariant validator protecting merchants from over-allocation.
 
 ---

@@ -22,6 +22,7 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
   const { sources, setStudioApi } = useReconciliation();
   const initialState = useMemo(() => loadSavedState(), [resetKey]);
   const apiRef = useRef<AgStudioApi | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const handleApiReady = useCallback(
     (event: AgStudioApiReadyEvent) => {
@@ -71,8 +72,63 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
     }
   }, [sources]);
 
+  // Decorate the 4 KPI value tiles with explicit titles and fintech typography
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const KPI_CONFIGS = [
+      { id: 'widget-kpi-invoiced', label: 'Invoiced', color: '#0F172A' },
+      { id: 'widget-kpi-matched', label: 'Reconciled', color: '#10B981' },
+      { id: 'widget-kpi-open', label: 'Open balance', color: '#0F172A' },
+      { id: 'widget-kpi-exceptions', label: 'Needs review', color: '#0070BA' },
+    ];
+
+    const decorateKpis = () => {
+      const valueWidgets = container.querySelectorAll<HTMLElement>('.ag-studio-value-widget');
+      if (!valueWidgets || valueWidgets.length === 0) return;
+
+      const sorted = Array.from(valueWidgets).sort((a, b) => {
+        const layoutA = a.closest<HTMLElement>('.ag-studio-layout-widget');
+        const layoutB = b.closest<HTMLElement>('.ag-studio-layout-widget');
+        return (layoutA?.offsetLeft ?? 0) - (layoutB?.offsetLeft ?? 0);
+      });
+
+      sorted.forEach((widget, idx) => {
+        const cfg = KPI_CONFIGS[idx];
+        if (!cfg) return;
+
+        widget.setAttribute('data-kpi-id', cfg.id);
+
+        let labelEl = widget.querySelector<HTMLElement>('.settlesight-kpi-label');
+        if (!labelEl) {
+          labelEl = document.createElement('div');
+          labelEl.className = 'settlesight-kpi-label';
+          labelEl.style.cssText =
+            'font-size: 11px; font-weight: 600; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; line-height: 1; user-select: none; font-family: system-ui, -apple-system, sans-serif;';
+          widget.prepend(labelEl);
+        }
+        if (labelEl.textContent !== cfg.label) {
+          labelEl.textContent = cfg.label;
+        }
+
+        const contentEl = widget.querySelector<HTMLElement>('.ag-studio-value-widget-content');
+        if (contentEl) {
+          contentEl.style.color = cfg.color;
+          contentEl.style.fontVariantNumeric = 'tabular-nums';
+        }
+      });
+    };
+
+    decorateKpis();
+    const observer = new MutationObserver(decorateKpis);
+    observer.observe(container, { childList: true, subtree: true, characterData: true });
+    return () => observer.disconnect();
+  }, [sources, resetKey]);
+
   return (
     <div
+      ref={containerRef}
       style={{
         width: '100%',
         height: '100%',
@@ -80,6 +136,29 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
         backgroundColor: '#F8FAFC',
       }}
     >
+      <style>{`
+        .ag-studio-value-widget {
+          display: flex !important;
+          flex-direction: column !important;
+          justify-content: center !important;
+          align-items: flex-start !important;
+          padding: 12px 18px !important;
+          box-sizing: border-box !important;
+        }
+        .ag-studio-value-widget-content-container {
+          width: auto !important;
+          height: auto !important;
+          position: static !important;
+        }
+        .ag-studio-value-widget-content {
+          position: static !important;
+          font-size: 22px !important;
+          font-weight: 700 !important;
+          line-height: 1.2 !important;
+          font-variant-numeric: tabular-nums !important;
+          font-family: system-ui, -apple-system, sans-serif !important;
+        }
+      `}</style>
       <AgStudio
         key={`studio-${resetKey}`}
         data={sources}
@@ -87,6 +166,12 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
         widgets={customWidgets}
         initialState={initialState}
         mode={mode}
+        panels={{
+          view: {
+            left: [],
+            right: [], // Removes unused 210px "No filters available" panel in view mode
+          },
+        }}
         onApiReady={handleApiReady}
         onStateUpdated={handleStateUpdated}
         style={{ width: '100%', height: '100%' }}
@@ -96,3 +181,4 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
 };
 
 export default StudioDashboard;
+

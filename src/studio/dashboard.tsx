@@ -98,6 +98,15 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
         const cfg = KPI_CONFIGS[idx];
         if (!cfg) return;
 
+        // Hide any parent widget header (e.g. from AG Studio layout) to ensure only ONE label
+        const layoutWidget = widget.closest<HTMLElement>('.ag-studio-layout-widget');
+        const headerEl = layoutWidget?.querySelector<HTMLElement>(
+          '.ag-studio-layout-widget-header, .ag-studio-widget-header, [class*="layout-widget-header"]'
+        );
+        if (headerEl) {
+          headerEl.style.display = 'none';
+        }
+
         widget.setAttribute('data-kpi-id', cfg.id);
 
         let labelEl = widget.querySelector<HTMLElement>('.settlesight-kpi-label');
@@ -105,7 +114,7 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
           labelEl = document.createElement('div');
           labelEl.className = 'settlesight-kpi-label';
           labelEl.style.cssText =
-            'font-size: 11px; font-weight: 600; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; line-height: 1; user-select: none; font-family: system-ui, -apple-system, sans-serif;';
+            'font-size: 11px; font-weight: 600; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; line-height: 1; user-select: none; font-family: system-ui, -apple-system, sans-serif;';
           widget.prepend(labelEl);
         }
         if (labelEl.textContent !== cfg.label) {
@@ -137,26 +146,46 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
       }}
     >
       <style>{`
+        .ag-studio-layout-widget:has(.ag-studio-value-widget) .ag-studio-layout-widget-header,
+        .ag-studio-layout-widget:has(.ag-studio-value-widget) .ag-studio-widget-header,
+        .ag-studio-layout-widget:has(.ag-studio-value-widget) [class*="layout-widget-header"] {
+          display: none !important;
+          height: 0 !important;
+          max-height: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          border: none !important;
+          overflow: hidden !important;
+        }
         .ag-studio-value-widget {
           display: flex !important;
           flex-direction: column !important;
           justify-content: center !important;
           align-items: flex-start !important;
-          padding: 12px 18px !important;
+          padding: 16px 20px !important;
           box-sizing: border-box !important;
+          height: 100% !important;
+          width: 100% !important;
+          overflow: visible !important;
         }
         .ag-studio-value-widget-content-container {
           width: auto !important;
           height: auto !important;
           position: static !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow: visible !important;
         }
         .ag-studio-value-widget-content {
           position: static !important;
-          font-size: 22px !important;
+          font-size: 24px !important;
           font-weight: 700 !important;
-          line-height: 1.2 !important;
+          line-height: 1.3 !important;
           font-variant-numeric: tabular-nums !important;
           font-family: system-ui, -apple-system, sans-serif !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow: visible !important;
         }
       `}</style>
       <AgStudio

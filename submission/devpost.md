@@ -65,7 +65,7 @@ SettleSight is built with modern, high-performance web and developer tools:
 - Thorough integration with PayPal Developer Platform: OAuth 2.0 client credentials with in-memory expiration caching, Invoicing v2 (`/v2/invoicing/invoices`, `/payments`, `/remind`), and Transaction Search v1 (`/v1/reporting/transactions`).
 - Handled real-world API nuances: PayPal restricts Transaction Search queries to $\le 31$ days, so we implemented `splitDateRangeIntoWindows` to seamlessly chunk multi-month searches.
 - Full Studio Agent Framework integration with custom tools, combined with a secure server-side LLM proxy and a deterministic fallback runner.
-- Mathematical invariant validation guaranteeing that financial data integrity cannot be violated.
+- Mathematical invariant validation rejecting any allocation that would over-allocate an invoice or transaction.
 - 57 automated tests verifying engine rules, API client methods, and security guards.
 
 ### 2. Design (20%)
@@ -131,7 +131,7 @@ In compliance with Section 4 of the official PayPal AI Hackathon rules:
 
 - How to integrate AG Studio's `createAiHarness` and `directLlmRunner` to build domain-specific AI agents that operate seamlessly inside embedded analytics dashboards.
 - Nuances of PayPal's Invoicing v2 and Transaction Search v1 REST APIs, including event code classification (`T1107` refunds vs `T0006` checkouts) and pagination handling.
-- The power of combining deterministic mathematical verification with generative AI explanation: AI provides conversational agility, while strict code invariants guarantee financial accuracy.
+- The power of combining deterministic mathematical verification with generative AI explanation: AI provides conversational agility, while strict code invariants enforce allocation rules.
 
 ---
 

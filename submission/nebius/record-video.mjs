@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { spawn, execFileSync } from 'node:child_process';
 import { createServer } from '../../server/index.mjs';
 import { findBinary, assembleVideo } from '../video/build-video.mjs';
@@ -33,7 +34,7 @@ export async function runNebiusVideo() {
     run.health = health;
     edge = spawn('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', [
       '--headless=new', '--no-first-run', '--disable-gpu', '--disable-extensions', '--window-size=1920,1080',
-      '--remote-debugging-port=9233', `--user-data-dir=${path.join(directory, 'edge-profile')}`, 'about:blank',
+      '--remote-debugging-port=9233', `--user-data-dir=${path.join(os.tmpdir(), 'settlesight-nebius-video-edge')}`, 'about:blank',
     ], { stdio: 'ignore', windowsHide: true });
     let target;
     for (let i = 0; i < 40 && !target; i++) {

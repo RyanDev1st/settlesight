@@ -22,7 +22,7 @@ const SUGGESTED_PROMPTS = [
 ];
 
 export const AgentChatPanel: React.FC = () => {
-  const { engineState, summary, hasLlm, llmProvider, studioApi, approveCandidate } = useReconciliation();
+  const { engineState, summary, hasLlm, llmProvider, llmModel, dataNotice, studioApi, approveCandidate } = useReconciliation();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -100,6 +100,7 @@ export const AgentChatPanel: React.FC = () => {
       const result = await triageExceptionsWithNemotron({
         state: engineState,
         callLlm: hasLlm ? callLlmProxy : undefined,
+        model: llmModel || undefined,
       });
       setTriageResult(result);
 
@@ -195,7 +196,7 @@ export const AgentChatPanel: React.FC = () => {
           <div style={{ fontWeight: 600, color: '#0070BA', marginBottom: '4px', fontSize: '12px' }}>SettleSight Auditor</div>
           I have loaded <strong>{invCount} PayPal Invoices</strong> (${totalInv.toLocaleString('en-US', { minimumFractionDigits: 2 })}) and <strong>{txnCount} Sandbox Transactions</strong>.
           <ul style={{ margin: '6px 0 0', paddingLeft: '18px', fontSize: '12px' }}>
-            <li>{autoCount} invoices (${matchedVal.toLocaleString('en-US', { minimumFractionDigits: 2 })}) auto-matched</li>
+            <li>${matchedVal.toLocaleString('en-US', { minimumFractionDigits: 2 })} recorded/reconciled; {autoCount} invoices fully settled</li>
             <li>{suggestedMatches.length} candidate matches (${suggestedTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}) in Exceptions Queue</li>
             <li>{pendingCount} invoices pending settlement</li>
           </ul>
@@ -204,6 +205,8 @@ export const AgentChatPanel: React.FC = () => {
         {/* AI Triage (Nemotron) Toggle Card - VISIBLE ONLY WHEN llmProvider === 'nebius' */}
         {llmProvider === 'nebius' && (
           <div style={{ backgroundColor: '#F0FDF4', border: '1px solid #86EFAC', borderRadius: '8px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <span style={{ fontSize: '11px', color: '#166534', overflowWrap: 'anywhere' }}>{llmModel || 'Model discovery pending'}</span>
+            {dataNotice && <span style={{ fontSize: '11px', color: '#92400E' }}>{dataNotice}</span>}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span style={{ fontSize: '15px' }}>⚡</span>
@@ -367,7 +370,7 @@ export const AgentChatPanel: React.FC = () => {
         </div>
         <div style={{ fontSize: '11px', color: '#64748B', marginTop: '6px', textAlign: 'center' }}>
           {hasLlm
-            ? (llmProvider === 'nebius' ? 'NVIDIA Nemotron Super (Nebius Token Factory) connected' : 'Gemini 2.5 Flash connected')
+            ? (llmProvider === 'nebius' ? `${llmModel} (Nebius Token Factory) connected` : 'Gemini 2.5 Flash connected')
             : (llmProvider === 'nebius' ? 'Nebius mode (demo fallback) — add NEBIUS_API_KEY for live AI' : SCRIPTED_DEMO_NOTICE)}
         </div>
       </div>

@@ -19,6 +19,8 @@ export interface ReconciliationDataResult {
   mode: 'demo' | 'live';
   hasLlm: boolean;
   llmProvider: 'nebius' | 'gemini' | 'none';
+  llmModel: string;
+  dataNotice: string;
   state: {
     invoices: any[];
     transactions: any[];
@@ -212,6 +214,8 @@ export function getInitialDemoData(): ReconciliationDataResult {
     mode: 'demo',
     hasLlm: false,
     llmProvider: 'none',
+    llmModel: '',
+    dataNotice: '',
     state,
     summary,
     sources,
@@ -225,6 +229,8 @@ export async function loadReconciliationData(): Promise<ReconciliationDataResult
   let mode: 'demo' | 'live' = 'demo';
   let hasLlm = false;
   let llmProvider: 'nebius' | 'gemini' | 'none' = 'none';
+  let llmModel = '';
+  let dataNotice = '';
   let rawInvoices: any = null;
   let rawTransactions: any = null;
 
@@ -235,15 +241,25 @@ export async function loadReconciliationData(): Promise<ReconciliationDataResult
       const health = await healthRes.json();
       hasLlm = Boolean(health.hasLlm);
       llmProvider = (health.llmProvider as 'nebius' | 'gemini') || 'none';
+      llmModel = health.llmModel || '';
       if (health.hasPaypal) {
         const [invRes, txnRes] = await Promise.all([
           fetch('/api/invoices'),
           fetch('/api/transactions'),
         ]);
-        if (invRes.ok && txnRes.ok) {
+        if (invRes.ok) {
           rawInvoices = await invRes.json();
-          rawTransactions = await txnRes.json();
-          mode = 'live';
+          if (txnRes.ok) {
+            rawTransactions = await txnRes.json();
+          } else if (txnRes.status === 403) {
+            const error = await txnRes.json();
+            if (error.code === 'TRANSACTION_SEARCH_DISABLED') {
+              rawTransactions = demoTransactions;
+              dataNotice = error.error;
+              console.warn(dataNotice);
+            }
+          }
+          if (rawTransactions) mode = 'live';
         }
       }
     }
@@ -258,6 +274,8 @@ export async function loadReconciliationData(): Promise<ReconciliationDataResult
       ...initial,
       hasLlm,
       llmProvider,
+      llmModel,
+      dataNotice,
     };
   }
 
@@ -271,6 +289,8 @@ export async function loadReconciliationData(): Promise<ReconciliationDataResult
     mode,
     hasLlm,
     llmProvider,
+    llmModel,
+    dataNotice,
     state,
     summary,
     sources,

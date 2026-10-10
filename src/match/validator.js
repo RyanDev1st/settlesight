@@ -87,7 +87,7 @@ export function validateAllocation(alloc, state = {}) {
     )
     .reduce((sum, m) => sum + (m.allocated || 0), 0);
 
-  const availableInvOpen = Math.max(0, invoice.amount - committedInvAllocated);
+  const availableInvOpen = Math.max(0, invoice.amount - (invoice.baseline_paid || 0) - committedInvAllocated);
   if (allocatedCents > availableInvOpen) {
     reasons.push(
       `Invoice ${invoice.number} (${invoice.id}) over-allocated: requested ${allocatedCents} cents exceeds available open amount ${availableInvOpen} cents`
@@ -104,6 +104,9 @@ export function validateAllocation(alloc, state = {}) {
     .reduce((sum, m) => sum + (m.allocated || 0), 0);
 
   const availableTxnGross = Math.max(0, Math.abs(transaction.gross) - committedTxnAllocated);
+  if (transaction.recorded_payment_invoice_id) {
+    reasons.push(`Transaction ${transaction.id} is already included in the PayPal recorded-payment baseline`);
+  }
   if (allocatedCents > availableTxnGross) {
     reasons.push(
       `Transaction ${transaction.id} over-allocated: requested ${allocatedCents} cents exceeds available gross ${availableTxnGross} cents`

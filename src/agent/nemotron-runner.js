@@ -93,7 +93,7 @@ export async function runNemotronAgentTurn({
   state,
   callLlm,
   studioApi = null,
-  model = DEFAULT_NEMOTRON_MODEL,
+  model,
 }) {
   // Fall back to scripted demo if no live LLM client provided
   if (typeof callLlm !== 'function') {
@@ -115,6 +115,7 @@ export async function runNemotronAgentTurn({
     };
 
     const firstResponse = await callLlm(firstTurnPayload);
+    model = firstResponse.model || model;
     const choice = firstResponse?.choices?.[0];
     const message = choice?.message || {};
 
@@ -144,7 +145,7 @@ export async function runNemotronAgentTurn({
           result = draftReminder(state, args.invoiceQuery);
           summary = `Drafted polite reminder email for ${result.invoiceNumber} (${result.recipientEmail}) — DRAFT ONLY.`;
         } else if (fnName === 'triage_exceptions') {
-          result = await triageExceptionsWithNemotron({ state, model });
+          result = await triageExceptionsWithNemotron({ state, callLlm });
           summary = `Triaged ${result.totalItems} exceptions (${result.verifiedCount} verified, ${result.rejectedCount} rejected).`;
         }
 

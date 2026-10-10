@@ -20,6 +20,8 @@ export interface ReconciliationContextValue {
   mode: 'demo' | 'live';
   hasLlm: boolean;
   llmProvider: 'nebius' | 'gemini' | 'none';
+  llmModel: string;
+  dataNotice: string;
   engineState: {
     invoices: any[];
     transactions: any[];
@@ -45,6 +47,8 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
   const [mode, setMode] = useState<'demo' | 'live'>(initial.mode);
   const [hasLlm, setHasLlm] = useState<boolean>(initial.hasLlm);
   const [llmProvider, setLlmProvider] = useState<'nebius' | 'gemini' | 'none'>(initial.llmProvider);
+  const [llmModel, setLlmModel] = useState(initial.llmModel);
+  const [dataNotice, setDataNotice] = useState(initial.dataNotice);
   const [engineState, setEngineState] = useState<any>(initial.state);
   const [summary, setSummary] = useState<any>(initial.summary);
   const [sources, setSources] = useState<AgDataSourcesDefinition>(initial.sources);
@@ -59,6 +63,8 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
       setMode(res.mode);
       setHasLlm(res.hasLlm);
       setLlmProvider(res.llmProvider);
+      setLlmModel(res.llmModel);
+      setDataNotice(res.dataNotice);
       setEngineState(res.state);
       setSummary(res.summary);
       setSources(res.sources);
@@ -160,6 +166,8 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
       mode,
       hasLlm,
       llmProvider,
+      llmModel,
+      dataNotice,
       engineState,
       summary: summary || summarize(engineState),
       sources,
@@ -171,7 +179,7 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
       rejectCandidate,
       reload,
     }),
-    [mode, hasLlm, llmProvider, engineState, summary, sources, loading, error, studioApi, setStudioApi, approveCandidate, rejectCandidate, reload]
+    [mode, hasLlm, llmProvider, llmModel, dataNotice, engineState, summary, sources, loading, error, studioApi, setStudioApi, approveCandidate, rejectCandidate, reload]
   );
 
   return <ReconciliationContext.Provider value={value}>{children}</ReconciliationContext.Provider>;

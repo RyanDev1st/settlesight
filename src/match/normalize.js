@@ -135,11 +135,16 @@ export function normalizeInvoices(paypalInvoices, opts = {}) {
       `Customer ${index + 1}`;
 
     const totalAmount = toCents(item.amount?.value ?? detail.amount?.value ?? 0);
-    const paidAmount = toCents(
-      item.payments?.paid_amount?.value ??
-      item.paid_amount?.value ??
-      0
-    );
+    const recordedPayments = (item.payments?.transactions || [])
+      .filter((payment) => payment.type !== 'REFUND')
+      .map((payment) => ({
+        id: payment.payment_id || payment.transaction_id,
+        amount: toCents(payment.amount?.value || 0),
+        currency: payment.amount?.currency_code || item.amount?.currency_code || 'USD',
+        date: (payment.payment_date || payment.payment_date_time || '').slice(0, 10),
+      }));
+    const paidValue = item.payments?.paid_amount?.value ?? item.paid_amount?.value;
+    const paidAmount = paidValue !== undefined ? toCents(paidValue) : recordedPayments.reduce((sum, payment) => sum + payment.amount, 0);
     const openAmount = Math.max(0, totalAmount - paidAmount);
     const dueDate = detail.payment_term?.due_date || detail.invoice_date || '';
     const daysOverdue = openAmount > 0 ? calculateDaysOverdue(dueDate, asOf) : 0;
@@ -160,6 +165,8 @@ export function normalizeInvoices(paypalInvoices, opts = {}) {
       currency: item.amount?.currency_code || detail.currency_code || 'USD',
       paypal_status: item.status || (openAmount === 0 ? 'PAID' : 'SENT'),
       paid_amount: paidAmount,
+      baseline_paid: paidAmount,
+      recorded_payments: recordedPayments,
       open_amount: openAmount,
       days_overdue: daysOverdue,
       match_status: matchStatus,

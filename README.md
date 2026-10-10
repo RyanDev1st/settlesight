@@ -127,13 +127,19 @@ In [`src/agent/agent-definition.ts`](src/agent/agent-definition.ts), SettleSight
 SettleSight includes first-class support for **Nebius Token Factory** and **NVIDIA Nemotron** open models for autonomous financial agent reasoning and exception triage:
 
 ### 1. Nebius Token Factory Architecture
-- **OpenAI-Compatible Endpoint:** Requests are proxied server-side to `https://api.tokenfactory.nebius.com/v1/chat/completions` ([Nebius Token Factory Documentation](https://docs.nebius.com/token-factory/)).
+- **OpenAI-Compatible Endpoint:** Requests are proxied server-side to `https://api.tokenfactory.nebius.com/v1/chat/completions` ([Nebius Token Factory Documentation](https://docs.tokenfactory.nebius.com/quickstart)).
 - **Authorization:** Standard Bearer token authentication via `Authorization: Bearer <NEBIUS_API_KEY>`. API keys remain strictly server-side inside `.env`; the browser never handles credentials.
 - **Provider Selection:** Selected via `LLM_PROVIDER=nebius` (default) or `LLM_PROVIDER=gemini` in `.env`.
 - **Supported Nemotron Models:**
-  - `nvidia/nemotron-3-super-120b-a12b` (Default): High-speed tool calling and multi-agent interaction.
-  - `nvidia/Nemotron-3-Ultra-550b-a55b`: Deep reasoning exception triage and complex audit explanations.
-  - `nvidia/nemotron-3-nano-30b`: Low-latency lightweight inference.
+  - Runtime discovery uses cached `GET /v1/models`; `NEBIUS_MODEL` overrides automatic selection and must exist in the catalog.
+  - `nvidia/nemotron-3-super-120b-a12b`: Preferred for triage; also verified with real tool calling.
+  - `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B` or `nvidia/Nemotron-3_5-Lightning`: Preferred for fast tool calls.
+  - `nvidia/Nemotron-3-Ultra-550b-a55b`: Discovered alternative; not live-tested here.
+  - If no NVIDIA Nemotron model is available, discovery fails explicitly.
+
+### Verified live on 2026-10-11
+
+Real Nemotron triage and tool calling, 30 PayPal sandbox invoices, Transaction Search, and one confirmed payment write-back were verified locally. Recorded payments remain a baseline on reload, without double-counting matching transactions. The dashboard labels its demo transaction fallback if Transaction Search is denied. See [live verification results](docs/live-verification.md) for timings, token usage, evidence, and limitations.
 
 ### 2. LLM-Ranked Exception Triage Mode
 In [`src/agent/triage.js`](src/agent/triage.js), SettleSight introduces **LLM-Ranked Exception Triage**:

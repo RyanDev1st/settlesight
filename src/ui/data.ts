@@ -28,6 +28,8 @@ export interface ReconciliationDataResult {
   sources: AgDataSourcesDefinition;
 }
 
+import { listExceptions } from '../agent/tools.js';
+
 export const INVOICE_FIELDS: AgFieldDefinition[] = [
   { id: 'id', name: 'Invoice ID', format: 'textFormat' },
   { id: 'number', name: 'Invoice #', format: 'textFormat' },
@@ -35,11 +37,11 @@ export const INVOICE_FIELDS: AgFieldDefinition[] = [
   { id: 'customer_email', name: 'Customer Email', format: 'textFormat' },
   { id: 'issue_date', name: 'Issue Date', format: 'textFormat' },
   { id: 'due_date', name: 'Due Date', format: 'textFormat' },
-  { id: 'amount', name: 'Amount', format: 'currencyFormat' },
+  { id: 'amount', name: 'Amount', format: 'currencyFormat', formatOptions: { format: '$#,##0.00' } },
   { id: 'currency', name: 'Currency', format: 'textFormat' },
   { id: 'paypal_status', name: 'PayPal Status', format: 'textFormat' },
-  { id: 'paid_amount', name: 'Paid Amount', format: 'currencyFormat' },
-  { id: 'open_amount', name: 'Open Amount', format: 'currencyFormat' },
+  { id: 'paid_amount', name: 'Paid Amount', format: 'currencyFormat', formatOptions: { format: '$#,##0.00' } },
+  { id: 'open_amount', name: 'Open Amount', format: 'currencyFormat', formatOptions: { format: '$#,##0.00' } },
   { id: 'days_overdue', name: 'Days Overdue', format: 'integerFormat' },
   { id: 'match_status', name: 'Match Status', format: 'textFormat' },
   { id: 'aging_bucket', name: 'Aging Bucket', format: 'textFormat' },
@@ -50,9 +52,9 @@ export const TRANSACTION_FIELDS: AgFieldDefinition[] = [
   { id: 'date', name: 'Date', format: 'textFormat' },
   { id: 'payer_name', name: 'Payer', format: 'textFormat' },
   { id: 'payer_email', name: 'Payer Email', format: 'textFormat' },
-  { id: 'gross', name: 'Gross', format: 'currencyFormat' },
-  { id: 'fee', name: 'Fee', format: 'currencyFormat' },
-  { id: 'net', name: 'Net', format: 'currencyFormat' },
+  { id: 'gross', name: 'Gross', format: 'currencyFormat', formatOptions: { format: '$#,##0.00' } },
+  { id: 'fee', name: 'Fee', format: 'currencyFormat', formatOptions: { format: '$#,##0.00' } },
+  { id: 'net', name: 'Net', format: 'currencyFormat', formatOptions: { format: '$#,##0.00' } },
   { id: 'currency', name: 'Currency', format: 'textFormat' },
   { id: 'event_code', name: 'Event Code', format: 'textFormat' },
   { id: 'kind', name: 'Type', format: 'textFormat' },
@@ -65,7 +67,7 @@ export const MATCH_FIELDS: AgFieldDefinition[] = [
   { id: 'id', name: 'Match ID', format: 'textFormat' },
   { id: 'transaction_id', name: 'Transaction ID', format: 'textFormat' },
   { id: 'invoice_id', name: 'Invoice ID', format: 'textFormat' },
-  { id: 'allocated', name: 'Allocated', format: 'currencyFormat' },
+  { id: 'allocated', name: 'Allocated', format: 'currencyFormat', formatOptions: { format: '$#,##0.00' } },
   { id: 'method', name: 'Method', format: 'textFormat' },
   { id: 'confidence', name: 'Confidence', format: 'decimalFormat' },
   { id: 'reasons', name: 'Reasons', format: 'textFormat' },
@@ -74,8 +76,19 @@ export const MATCH_FIELDS: AgFieldDefinition[] = [
 
 export const AGING_FIELDS: AgFieldDefinition[] = [
   { id: 'bucket', name: 'Aging Period', format: 'textFormat' },
-  { id: 'open_balance', name: 'Open Balance', format: 'currencyFormat' },
+  { id: 'open_balance', name: 'Open Balance', format: 'currencyFormat', formatOptions: { format: '$#,##0.00' } },
   { id: 'count', name: 'Count', format: 'integerFormat' },
+];
+
+export const REVIEW_ITEM_FIELDS: AgFieldDefinition[] = [
+  { id: 'id', name: 'Item ID', format: 'textFormat' },
+  { id: 'invoice_id', name: 'Invoice ID', format: 'textFormat' },
+  { id: 'invoice_number', name: 'Invoice #', format: 'textFormat' },
+  { id: 'payer_name', name: 'Payer', format: 'textFormat' },
+  { id: 'allocated', name: 'Allocated', format: 'currencyFormat', formatOptions: { format: '$#,##0.00' } },
+  { id: 'method', name: 'Method', format: 'textFormat' },
+  { id: 'confidence', name: 'Confidence', format: 'decimalFormat' },
+  { id: 'state', name: 'State', format: 'textFormat' },
 ];
 
 /**
@@ -118,6 +131,19 @@ export function buildStudioSources(state: any, summary: any): AgDataSourcesDefin
     },
   ];
 
+  // Dedicated review_items source: exactly the rows needing review in Exceptions Queue (20 suggested + 3 unresolvable = 23 initially)
+  const rawExceptions = listExceptions(state || {}).filter((item: any) => item.state !== 'approved');
+  const reviewItemsData = rawExceptions.map((item: any) => ({
+    id: item.id,
+    invoice_id: item.invoiceId || item.id,
+    invoice_number: item.invoiceNumber || item.id,
+    payer_name: item.payerName || 'Unknown Payer',
+    allocated: Number(item.allocated) || 0,
+    method: item.method || 'manual',
+    confidence: Number(item.confidence) || 0,
+    state: item.state || 'exception',
+  }));
+
   return {
     sources: [
       {
@@ -147,6 +173,13 @@ export function buildStudioSources(state: any, summary: any): AgDataSourcesDefin
         description: 'Overdue invoice balances grouped by aging period',
         data: agingData,
         fields: AGING_FIELDS,
+      },
+      {
+        id: 'review_items',
+        name: 'Needs Review',
+        description: 'Exceptions and candidate matches awaiting seller confirmation',
+        data: reviewItemsData,
+        fields: REVIEW_ITEM_FIELDS,
       },
     ],
     relationships: [

@@ -72,7 +72,7 @@ export const AgingChart: React.FC<AgWidgetParams> = () => {
                   <span style={{ fontWeight: 600, color: '#1E293B' }}>
                     {b.label} <span style={{ color: '#64748B', fontWeight: 400 }}>({b.count} inv)</span>
                   </span>
-                  <span style={{ fontWeight: 600, color: '#0F172A' }}>
+                  <span style={{ fontWeight: 600, color: '#0F172A', fontVariantNumeric: 'tabular-nums' }}>
                     ${b.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}{' '}
                     <span style={{ fontSize: '10px', color: '#64748B', fontWeight: 400 }}>({sharePct}%)</span>
                   </span>
@@ -124,7 +124,7 @@ export const AgingChart: React.FC<AgWidgetParams> = () => {
             }}
           >
             <div style={{ fontSize: '10px', color: b.color, fontWeight: 700 }}>{b.key}</div>
-            <div style={{ fontSize: '11px', fontWeight: 600, color: '#0F172A' }}>
+            <div style={{ fontSize: '11px', fontWeight: 600, color: '#0F172A', fontVariantNumeric: 'tabular-nums' }}>
               ${b.amount >= 1000 ? `${(b.amount / 1000).toFixed(1)}k` : b.amount.toFixed(0)}
             </div>
           </div>

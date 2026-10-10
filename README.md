@@ -1,9 +1,11 @@
 # SettleSight — AI Reconciliation Desk for PayPal Sellers
 
-> **One-Line Pitch:** SettleSight reconciles PayPal invoices against bank deposits and sandbox transactions in minutes using deterministic math verification, an AG Studio analytics dashboard, and an AI auditor that explains discrepancies before you approve write-backs.
+> **One-Line Pitch:** SettleSight reconciles PayPal invoices against PayPal transactions in minutes using deterministic math verification, an AG Studio analytics dashboard, and an AI auditor that explains discrepancies before you approve write-backs.
 
 ### 🚀 Try It in 10 Seconds (No Keys Required)
-👉 **[Launch SettleSight Live Demo](https://<user>.github.io/settlesight/)**
+👉 **[Launch SettleSight Live Demo](https://ryandev1st.github.io/settlesight/)**
+
+![SettleSight Dashboard](docs/screenshots/dashboard.png)
 
 Runs 100% in your browser on GitHub Pages with pre-seeded sandbox snapshot data and a scripted AI runner. No PayPal credentials, API tokens, or server installations required to evaluate.
 
@@ -37,7 +39,7 @@ SettleSight enforces strict separation between deterministic financial verificat
    ┌──────────────────────────────────────────────────┐
    │    Deterministic Match Engine (src/match/)       │
    │  - Integer-cent math (zero rounding drift)       │
-   │  - Exact matches auto-reconciled (100% conf)     │
+   │  - Exact matches auto-reconciled (conf 1.0)      │
    │  - Heuristic candidate generation (fee/partial)  │
    └────────────────────────┬─────────────────────────┘
                             │
@@ -71,7 +73,7 @@ SettleSight enforces strict separation between deterministic financial verificat
 ```
 
 1. **Ingest & Normalize:** PayPal Invoicing v2 records and Transaction Search feeds are normalized into integer cents (`src/match/normalize.js`).
-2. **Deterministic Matching:** Auto-matches clean transactions (exact invoice reference and equal gross amount) with 100% confidence. Harder cases (fees, combined, partial, email match, refunds, duplicates) generate scored candidates (`src/match/rules.js`).
+2. **Deterministic Matching:** Auto-matches clean transactions (exact invoice reference and equal gross amount) with confidence 1.0 (rule-based). Harder cases (fees, combined, partial, email match, refunds, duplicates) generate scored candidates (`src/match/rules.js`).
 3. **AI Explanations & Audit:** The Reconciliation Agent reviews ambiguous exceptions, calculates fee deductions against standard merchant tiers (~2.9% + $0.30), and drafts payment reminder emails (`src/agent/agent-definition.ts`).
 4. **Invariant Validation:** Every candidate match passes mathematical validation (`validateAllocation` in `src/match/validator.js`) ensuring non-over-allocation, currency alignment, and capacity guarantees.
 5. **Human Approval & Write-Back:** The seller reviews suggestions in the **Exceptions Queue** widget and confirms write-backs with an explicit click. The backend records payments on PayPal or dispatches reminders.
@@ -125,13 +127,13 @@ In [`src/agent/agent-definition.ts`](src/agent/agent-definition.ts), SettleSight
 SettleSight showcases the capabilities of **AG Studio 3.0** (`ag-studio`, `ag-studio-react`):
 
 1. **Custom Analytics Widgets** ([`src/studio/widgets/`](src/studio/widgets/)):
-   - **Reconciliation Meter** ([`reconciliation-meter.tsx`](src/studio/widgets/reconciliation-meter.tsx)): Real-time radial progress indicator displaying percentage of reconciled revenue versus open receivables.
+   - **Reconciliation Meter** ([`reconciliation-meter.tsx`](src/studio/widgets/reconciliation-meter.tsx)): Real-time horizontal progress indicator displaying percentage of reconciled revenue versus open receivables.
    - **Aging Distribution Chart** ([`aging-chart.tsx`](src/studio/widgets/aging-chart.tsx)): Interactive bar chart segmenting open invoice balances across aging buckets (`0-30`, `31-60`, `61-90`, `90+` days).
    - **Exceptions Queue** ([`exceptions-queue.tsx`](src/studio/widgets/exceptions-queue.tsx)): Interactive triage grid showing candidate matches, confidence percentages, rule explanations, and one-click **Approve** and **Reject** buttons.
 2. **PayPal Brand Theme** ([`src/studio/theme.ts`](src/studio/theme.ts)):
    - Custom `paypalTheme` created using `studioTheme.withParams` with PayPal brand colors (`#0070BA` accent, clean light and dark palette tokens).
 3. **Saved Layout Persistence** ([`src/studio/state.ts`](src/studio/state.ts)):
-   - Dashboard layouts, open tabs, and custom widget placements persist automatically to browser `localStorage` (`settlesight_studio_layout_v1`) with full "Customize Layout" and "Reset layout" controls in the top shell.
+   - Dashboard layouts, open tabs, and custom widget placements persist automatically to browser `localStorage` (`settlesight_studio_layout_v3`) with full "Customize Layout" and "Reset layout" controls in the top shell.
 4. **Studio Agent Framework Integration**:
    - The Reconciliation Auditor agent runs directly inside the AG Studio agent architecture alongside Studio's built-in agents.
 
@@ -149,7 +151,7 @@ SettleSight showcases the capabilities of **AG Studio 3.0** (`ag-studio`, `ag-st
 
 ```bash
 # 1. Clone the repository and install dependencies
-git clone https://github.com/<user>/settlesight.git
+git clone https://github.com/ryandev1st/settlesight.git
 cd settlesight
 npm install
 
@@ -188,12 +190,12 @@ SettleSight includes a comprehensive, zero-external-runner test suite built usin
 npm test
 ```
 
-The suite validates 56 individual test cases across 3 suites:
+The suite validates 57 individual test cases across 3 suites:
 - **Match Engine & Rules:** Verifies all 7 reconciliation heuristics (`exact`, `fee_adjusted`, `combined`, `partial`, `email`, `refund`, `duplicate`).
 - **Mathematical Invariant Validation:** Rejects over-allocations, currency mismatches, and negative amounts.
 - **Agent Tools & Scripted Runner:** Validates exception extraction, match explanations, reminder email generation, and tool step schemas.
 - **PayPal Client & Server:** Validates OAuth caching, 31-day search window chunking, and confirmation guards.
-- **Regression Suite:** Guarantees no floating-point rounding errors and preserves single-source-of-truth state transitions.
+- **Regression Suite:** Integer-cent arithmetic avoids floating-point drift; covered by regression tests and preserves single-source-of-truth state transitions.
 
 ---
 
@@ -211,7 +213,7 @@ All code in the `settlesight` repository was newly architected and written durin
   - `451750d Fri Oct 9 15:18:03 2026`: Initial scaffold of SettleSight AG Studio dashboard, themes, and shell.
   - `d894aae Fri Oct 9 15:27:40 2026`: PayPal sandbox proxy (`server/paypal.mjs`), live data loading, and 30-invoice seeder (`scripts/seed-sandbox.mjs`).
   - `87dc739 Fri Oct 9 15:50:41 2026`: AG Studio Agent Framework harness (`src/agent/`), Gemini LLM proxy (`server/llm.mjs`), custom tools, and scripted demo runner.
-  - `9169af6 Sat Oct 10 22:12:01 2026`: Deterministic match engine (`src/match/`), mathematical invariant validator, and 56-test regression suite.
+  - `9169af6 Sat Oct 10 22:12:01 2026`: Deterministic match engine (`src/match/`), mathematical invariant validator, and 57-test regression suite.
 - **Newly Built Features:**
   1. Complete PayPal REST integration: OAuth 2.0 credentials caching, Invoicing v2 (list, record payment, remind), and Transaction Search v1 with 31-day window chunking.
   2. AG Studio 3.0 embedded analytics dashboard with custom `paypalTheme` and 3 custom analytics widgets (`ReconciliationMeter`, `AgingChart`, `ExceptionsQueue`).

@@ -109,38 +109,38 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = () => {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '8px',
+          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+          gap: '6px',
           paddingTop: '8px',
           borderTop: '1px solid #EEF2F6',
         }}
       >
-        <div style={{ padding: '6px', backgroundColor: '#F8FAFC', borderRadius: '6px' }}>
-          <div style={{ fontSize: '11px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10B981' }} />
-            Reconciled
+        <div style={{ padding: '6px 8px', backgroundColor: '#F8FAFC', borderRadius: '6px', minWidth: 0, overflow: 'hidden' }}>
+          <div style={{ fontSize: '11px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10B981', flexShrink: 0 }} />
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>Reconciled</span>
           </div>
-          <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px' }}>
+          <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             ${reconciledValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
         </div>
 
-        <div style={{ padding: '6px', backgroundColor: '#F8FAFC', borderRadius: '6px' }}>
-          <div style={{ fontSize: '11px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#0070BA' }} />
-            Awaiting Review
+        <div style={{ padding: '6px 8px', backgroundColor: '#F8FAFC', borderRadius: '6px', minWidth: 0, overflow: 'hidden' }}>
+          <div style={{ fontSize: '11px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#0070BA', flexShrink: 0 }} />
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>Awaiting Review</span>
           </div>
-          <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px' }}>
+          <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             ${suggestedValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
         </div>
 
-        <div style={{ padding: '6px', backgroundColor: '#F8FAFC', borderRadius: '6px' }}>
-          <div style={{ fontSize: '11px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#94A3B8' }} />
-            Open Balance
+        <div style={{ padding: '6px 8px', backgroundColor: '#F8FAFC', borderRadius: '6px', minWidth: 0, overflow: 'hidden' }}>
+          <div style={{ fontSize: '11px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#94A3B8', flexShrink: 0 }} />
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>Open Balance</span>
           </div>
-          <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px' }}>
+          <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             ${openAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
         </div>

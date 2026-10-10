@@ -1,6 +1,6 @@
 import type { AgReportState } from 'ag-studio';
 
-export const STORAGE_KEY = 'settlesight_studio_layout_v2';
+export const STORAGE_KEY = 'settlesight_studio_layout_v3';
 
 export const DEFAULT_INITIAL_STATE: any = {
   pages: [
@@ -13,7 +13,7 @@ export const DEFAULT_INITIAL_STATE: any = {
             value: [{ id: 'invoices.amount', aggregation: 'sum' }],
           },
           format: {
-            title: { text: 'Invoiced' },
+            title: { text: 'Invoiced', enabled: true },
           },
         },
         'widget-kpi-matched': {
@@ -22,7 +22,7 @@ export const DEFAULT_INITIAL_STATE: any = {
             value: [{ id: 'invoices.paid_amount', aggregation: 'sum' }],
           },
           format: {
-            title: { text: 'Matched' },
+            title: { text: 'Reconciled', enabled: true },
           },
         },
         'widget-kpi-open': {
@@ -31,16 +31,16 @@ export const DEFAULT_INITIAL_STATE: any = {
             value: [{ id: 'invoices.open_amount', aggregation: 'sum' }],
           },
           format: {
-            title: { text: 'Open' },
+            title: { text: 'Open balance', enabled: true },
           },
         },
         'widget-kpi-exceptions': {
           type: 'value',
           dataMapping: {
-            value: [{ id: 'matches.id', aggregation: 'count' }],
+            value: [{ id: 'review_items.id', aggregation: 'count' }],
           },
           format: {
-            title: { text: 'Exceptions' },
+            title: { text: 'Needs review', enabled: true },
           },
         },
         'widget-meter': {
@@ -58,9 +58,9 @@ export const DEFAULT_INITIAL_STATE: any = {
         'widget-kpi-matched': { xTrack: 6, yTrack: 0, xSpan: 6, ySpan: 5 },
         'widget-kpi-open': { xTrack: 12, yTrack: 0, xSpan: 6, ySpan: 5 },
         'widget-kpi-exceptions': { xTrack: 18, yTrack: 0, xSpan: 6, ySpan: 5 },
-        'widget-meter': { xTrack: 0, yTrack: 5, xSpan: 10, ySpan: 12 },
-        'widget-aging-chart': { xTrack: 10, yTrack: 5, xSpan: 14, ySpan: 12 },
-        'widget-exceptions': { xTrack: 0, yTrack: 17, xSpan: 24, ySpan: 14 },
+        'widget-meter': { xTrack: 0, yTrack: 5, xSpan: 11, ySpan: 12 },
+        'widget-aging-chart': { xTrack: 11, yTrack: 5, xSpan: 13, ySpan: 12 },
+        'widget-exceptions': { xTrack: 0, yTrack: 17, xSpan: 24, ySpan: 26 },
       },
     },
     {

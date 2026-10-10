@@ -605,7 +605,7 @@ async function run() {
     '-framerate', String(FPS),
     '-i', 'frames/frame_%05d.jpg',
     '-i', 'audio/master_audio.wav',
-    '-vf', "scale=1920:1080,subtitles=subtitles.srt:force_style='FontSize=22,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,Outline=2,Shadow=0,MarginV=28,FontName=Segoe UI'",
+    '-vf', "scale=1920:1080,subtitles=subtitles.srt:charenc=UTF-8:force_style='FontSize=22,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,Outline=2,Shadow=0,MarginV=28,FontName=Segoe UI'",
     '-c:v', 'libx264',
     '-pix_fmt', 'yuv420p',
     '-b:v', '3500k',
@@ -686,7 +686,7 @@ export async function assembleVideo(directory, output, fps = FPS) {
     const ff = spawn(FFMPEG_BIN, [
       '-y', '-framerate', String(fps), '-i', 'frames/frame_%05d.jpg',
       '-i', 'audio/master_audio.wav',
-      '-vf', "scale=1920:1080,subtitles=subtitles.srt:force_style='FontSize=14,BorderStyle=3,Outline=2,Shadow=0,MarginV=16,FontName=Segoe UI'",
+      '-vf', "scale=1920:1080,subtitles=subtitles.srt:charenc=UTF-8:force_style='FontSize=14,BorderStyle=3,Outline=2,Shadow=0,MarginV=16,FontName=Segoe UI'",
       '-af', 'loudnorm=I=-16:TP=-1.5:LRA=11',
       '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-b:v', '3500k',
       '-c:a', 'aac', '-b:a', '192k', '-shortest', output,

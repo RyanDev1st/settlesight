@@ -1,5 +1,9 @@
 # Nebius video verification — 2026-10-11
 
+The video was rebuilt after fixing closing-card UTF-8 decoding. The [final extracted frame](qc/final-frame.png), at 127.6 seconds, visually confirms both `→` arrows and both `·` separators render correctly; its subtitle is clean. All six QC frames were re-extracted and inspected. The HTML card, SRT, and narration timing JSON are UTF-8 without a BOM, and both video renderers explicitly tell FFmpeg to decode subtitles as UTF-8. These pipelines render cards as browser screenshots rather than FFmpeg drawtext.
+
+The PayPal video's [final frame check](../video/qc/final-frame-encoding-check.png) showed no mojibake. Its card already had a UTF-8 meta tag and data URL charset, so that MP4 was not rebuilt. The shared subtitle filter and its PowerShell metadata writer received the explicit encoding fix.
+
 Recorded from local Vite (`npm run dev`, port 5173) and the Node server (port 8787), using headless Microsoft Edge. The primary scene uses `DATA_SOURCE=demo` and `LLM_PROVIDER=nebius`: synthetic records with real Token Factory inference. Both dashboard badges say **Demo data · Nemotron Live**. The final data cut reloads the server in PayPal sandbox mode.
 
 ## Results from this recording

@@ -103,7 +103,7 @@ $metadata = @{
     voice = "Microsoft Zira Desktop"
     shots = $results
 }
-$metadata | ConvertTo-Json -Depth 4 | Set-Content $metaPath -Encoding UTF8
+[System.IO.File]::WriteAllText($metaPath, ($metadata | ConvertTo-Json -Depth 4), (New-Object System.Text.UTF8Encoding($false)))
 Write-Host "Saved timing metadata to $metaPath"
 
 # Generate master_audio.wav with 2s title silence

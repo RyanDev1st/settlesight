@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { pathToFileURL } from 'node:url';
 import { spawn, execFileSync } from 'node:child_process';
 import { createServer } from '../../server/index.mjs';
 import { findBinary, assembleVideo } from '../video/build-video.mjs';
@@ -11,6 +12,10 @@ const ffmpeg = findBinary('FFMPEG_BIN', 'ffmpeg');
 const ffprobe = findBinary('FFPROBE_BIN', 'ffprobe');
 const output = 'settlesight-nebius.mp4';
 const fps = 10;
+
+function architectureHtml() {
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;background:#0a192f;color:white;font:28px Segoe UI;display:grid;place-content:center;height:1080px;text-align:center"><h1>SettleSight</h1><p>Deterministic authority → Nemotron ranking & explanations → Human approval</p><p style="color:#38bdf8">Synthetic demo data · Live Nebius inference · PayPal test sandbox</p><p>Best Apps and Agents Track</p></body></html>`;
+}
 
 // Capture actual UI actions first. Audio and edited shot lengths derive from that run.
 export async function runNebiusVideo() {
@@ -206,7 +211,7 @@ export async function runNebiusVideo() {
       document.body.appendChild(card);
     })()`);
     await capture('sandbox-proof');
-    await send('Page.navigate', { url: 'data:text/html,' + encodeURIComponent(`<body style="margin:0;background:#0a192f;color:white;font:28px Segoe UI;display:grid;place-content:center;height:1080px;text-align:center"><h1>SettleSight</h1><p>Deterministic authority → Nemotron ranking & explanations → Human approval</p><p style="color:#38bdf8">Synthetic demo data · Live Nebius inference · PayPal test sandbox</p><p>Best Apps and Agents Track</p></body>`) });
+    await send('Page.navigate', { url: 'data:text/html;charset=utf-8,' + encodeURIComponent(architectureHtml()) });
     await delay(400);
     await capture('architecture');
     run.consoleErrors = consoleErrors;
@@ -220,6 +225,16 @@ export async function runNebiusVideo() {
 }
 
 async function buildFromRun(run) {
+  // Recreate the closing screenshot when rebuilding saved footage, too.
+  const cardHtml = path.join(directory, 'captures', 'architecture.html');
+  const cardPng = path.join(directory, 'captures', 'architecture.png');
+  fs.writeFileSync(cardHtml, architectureHtml(), 'utf8');
+  execFileSync('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', [
+    '--headless=new', '--no-first-run', '--disable-gpu', '--disable-extensions', '--hide-scrollbars',
+    '--window-size=1920,1080', `--user-data-dir=${path.join(os.tmpdir(), 'settlesight-nebius-card-edge')}`,
+    `--screenshot=${cardPng}`, pathToFileURL(cardHtml).href,
+  ], { stdio: 'ignore', windowsHide: true, timeout: 30000 });
+  execFileSync(ffmpeg, ['-y', '-i', cardPng, '-q:v', '2', path.join(directory, 'captures', 'architecture.jpg')], { stdio: 'pipe', windowsHide: true });
   const dollars = cents => (cents / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const shots = [
     { id: 'overview', images: ['overview'], text: `Month-end PayPal reconciliation means checking invoice references, partial payments, and fees. SettleSight puts the review queue beside the money totals. This recording uses synthetic demo data, with live NVIDIA Nemotron inference through Nebius Token Factory.` },
@@ -260,19 +275,21 @@ async function buildFromRun(run) {
     if (['overview', 'triage', 'validator', 'approved', 'agent', 'sandbox'].includes(shot.id)) qc.push({ name: `frame_${qc.length + 1}_${shot.id}.png`, seconds: time + shot.duration * 0.8 });
     time += shot.duration;
   }
-  fs.writeFileSync(path.join(directory, 'subtitles.srt'), srt.join('\n'));
+  fs.writeFileSync(path.join(directory, 'subtitles.srt'), srt.join('\n'), 'utf8');
   fs.writeFileSync(path.join(directory, 'audio/concat.txt'), timings.map(shot => `file '${shot.id}.wav'`).join('\n'));
   execFileSync(ffmpeg, ['-y', '-f', 'concat', '-safe', '0', '-i', 'concat.txt', '-c:a', 'pcm_s16le', 'master_audio.wav'], { cwd: path.join(directory, 'audio'), stdio: 'pipe', windowsHide: true });
   await assembleVideo(directory, output, fps);
   const probe = JSON.parse(execFileSync(ffprobe, ['-v', 'error', '-show_entries', 'format=duration,size:stream=codec_type,codec_name,width,height,r_frame_rate,sample_rate,channels', '-of', 'json', path.join(directory, output)], { encoding: 'utf8', windowsHide: true }));
   if (Number(probe.format.duration) >= 170 || !probe.streams.some(stream => stream.codec_type === 'audio') || !probe.streams.some(stream => stream.codec_type === 'video')) throw new Error('Video QC failed');
   for (const frame of qc) execFileSync(ffmpeg, ['-y', '-ss', String(frame.seconds), '-i', path.join(directory, output), '-frames:v', '1', path.join(directory, 'qc', frame.name)], { stdio: 'pipe', windowsHide: true });
+  const finalFrame = { name: 'final-frame.png', seconds: Number(probe.format.duration) - 0.2 };
+  execFileSync(ffmpeg, ['-y', '-ss', String(finalFrame.seconds), '-i', path.join(directory, output), '-frames:v', '1', path.join(directory, 'qc', finalFrame.name)], { stdio: 'pipe', windowsHide: true });
   const volume = spawn(ffmpeg, ['-i', path.join(directory, output), '-af', 'volumedetect', '-vn', '-sn', '-dn', '-f', 'null', '-'], { stdio: ['ignore', 'ignore', 'pipe'], windowsHide: true });
   let volumeLog = '';
   volume.stderr.on('data', data => { volumeLog += data; });
   await new Promise(resolve => volume.on('close', resolve));
   const volumeSummary = volumeLog.split('\n').filter(line => /mean_volume|max_volume/.test(line)).join('\n');
-  const report = { ffprobe: probe, frames: qc, volume: volumeSummary, narrationSeconds: duration };
+  const report = { ffprobe: probe, frames: qc, finalFrame, volume: volumeSummary, narrationSeconds: duration };
   fs.writeFileSync(path.join(directory, 'video-qc.json'), JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report, null, 2));
   console.log('MP4: ' + path.join(directory, output));

@@ -6,19 +6,17 @@ import { fromCents } from '../../match/normalize.js';
 export const ReconciliationMeter: React.FC<AgWidgetParams> = () => {
   const { mode, summary, engineState } = useReconciliation();
 
+  // Single source of numbers: summarize() from src/match
   const totalInvoiced = summary?.total_invoiced ? fromCents(summary.total_invoiced) : 0;
-  const autoMatched = summary?.matched_value ? fromCents(summary.matched_value) : 0;
+  const reconciledValue = summary?.matched_value ? fromCents(summary.matched_value) : 0;
+  const reconciledPercent = summary?.matched_percent ?? (totalInvoiced > 0 ? (reconciledValue / totalInvoiced) * 100 : 0);
   const openAmount = summary?.open_value ? fromCents(summary.open_value) : 0;
 
-  // Suggested matches pending seller approval
-  const suggestedCents = (engineState?.matches || [])
-    .filter((m: any) => m.state === 'suggested')
-    .reduce((sum: number, m: any) => sum + (m.allocated || 0), 0);
-  const suggested = fromCents(suggestedCents);
-
-  const matchedPercent = totalInvoiced > 0 ? (autoMatched / totalInvoiced) * 100 : 0;
-  const suggestedPercent = totalInvoiced > 0 ? (suggested / totalInvoiced) * 100 : 0;
-  const totalReconciledPercent = Math.min(100, matchedPercent + suggestedPercent);
+  // Suggested matches pending seller review/approval shown separately
+  const suggestedMatches = (engineState?.matches || []).filter((m: any) => m.state === 'suggested');
+  const suggestedCents = suggestedMatches.reduce((sum: number, m: any) => sum + (m.allocated || 0), 0);
+  const suggestedValue = fromCents(suggestedCents);
+  const suggestedPercent = totalInvoiced > 0 ? (suggestedValue / totalInvoiced) * 100 : 0;
 
   const isLive = mode === 'live';
 
@@ -61,17 +59,23 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = () => {
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', margin: '8px 0 12px' }}>
-          <span style={{ fontSize: '28px', fontWeight: 700, color: '#0070BA' }}>
-            {totalReconciledPercent.toFixed(1)}%
+        {/* Primary Reconciled Metric */}
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', margin: '8px 0 2px', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '28px', fontWeight: 700, color: '#10B981' }}>
+            {reconciledPercent.toFixed(1)}%
           </span>
-          <span style={{ fontSize: '13px', color: '#546E7A' }}>
-            reconciled (${(autoMatched + suggested).toLocaleString('en-US', { minimumFractionDigits: 2 })} of $
+          <span style={{ fontSize: '13px', color: '#1E293B', fontWeight: 600 }}>
+            reconciled (${reconciledValue.toLocaleString('en-US', { minimumFractionDigits: 2 })} of $
             {totalInvoiced.toLocaleString('en-US', { minimumFractionDigits: 2 })})
           </span>
         </div>
 
-        {/* Dual Progress Bar */}
+        {/* Suggested Candidates Awaiting Review */}
+        <div style={{ fontSize: '12px', color: '#0070BA', marginBottom: '12px', fontWeight: 500 }}>
+          + ${suggestedValue.toLocaleString('en-US', { minimumFractionDigits: 2 })} awaiting review ({suggestedPercent.toFixed(1)}%, {(summary as any)?.suggested_count ?? suggestedMatches.length} candidates)
+        </div>
+
+        {/* Dual Progress Bar: Green (Reconciled) + Blue (Awaiting Review) */}
         <div
           style={{
             height: '10px',
@@ -83,17 +87,17 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = () => {
           }}
         >
           <div
-            title={`Auto-matched: ${matchedPercent.toFixed(1)}%`}
+            title={`Reconciled (auto + approved): ${reconciledPercent.toFixed(1)}%`}
             style={{
-              width: `${matchedPercent}%`,
+              width: `${Math.min(100, reconciledPercent)}%`,
               backgroundColor: '#10B981',
               transition: 'width 0.4s ease',
             }}
           />
           <div
-            title={`Suggested: ${suggestedPercent.toFixed(1)}%`}
+            title={`Awaiting review (suggested): ${suggestedPercent.toFixed(1)}%`}
             style={{
-              width: `${suggestedPercent}%`,
+              width: `${Math.min(100 - reconciledPercent, suggestedPercent)}%`,
               backgroundColor: '#0070BA',
               transition: 'width 0.4s ease',
             }}
@@ -114,20 +118,20 @@ export const ReconciliationMeter: React.FC<AgWidgetParams> = () => {
         <div style={{ padding: '6px', backgroundColor: '#F8FAFC', borderRadius: '6px' }}>
           <div style={{ fontSize: '11px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '4px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10B981' }} />
-            Auto-Matched
+            Reconciled
           </div>
           <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px' }}>
-            ${autoMatched.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            ${reconciledValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
         </div>
 
         <div style={{ padding: '6px', backgroundColor: '#F8FAFC', borderRadius: '6px' }}>
           <div style={{ fontSize: '11px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '4px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#0070BA' }} />
-            Suggested (AI)
+            Awaiting Review
           </div>
           <div style={{ fontSize: '13px', fontWeight: 600, color: '#0F172A', marginTop: '2px' }}>
-            ${suggested.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            ${suggestedValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
         </div>
 

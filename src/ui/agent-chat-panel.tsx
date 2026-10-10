@@ -18,7 +18,7 @@ const SUGGESTED_PROMPTS = [
 ];
 
 export const AgentChatPanel: React.FC = () => {
-  const { engineState, summary, hasLlm } = useReconciliation();
+  const { engineState, summary, hasLlm, studioApi } = useReconciliation();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -44,7 +44,7 @@ export const AgentChatPanel: React.FC = () => {
     setIsProcessing(true);
 
     try {
-      const reply = runScriptedDemo(text, engineState);
+      const reply = runScriptedDemo(text, engineState, studioApi);
       setMessages((prev) => [...prev, reply]);
     } catch (err: any) {
       setMessages((prev) => [

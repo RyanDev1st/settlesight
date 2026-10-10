@@ -6,8 +6,9 @@
  */
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
-import type { AgDataSourcesDefinition } from 'ag-studio';
+import type { AgDataSourcesDefinition, AgStudioApi } from 'ag-studio';
 import {
+  getInitialDemoData,
   loadReconciliationData,
   buildStudioSources,
   validateAllocation,
@@ -28,6 +29,8 @@ export interface ReconciliationContextValue {
   sources: AgDataSourcesDefinition;
   loading: boolean;
   error: string | null;
+  studioApi: AgStudioApi | null;
+  setStudioApi: (api: AgStudioApi | null) => void;
   approveCandidate: (matchId: string) => { success: boolean; error?: string };
   rejectCandidate: (matchId: string) => { success: boolean; error?: string };
   reload: () => Promise<void>;
@@ -36,24 +39,19 @@ export interface ReconciliationContextValue {
 const ReconciliationContext = createContext<ReconciliationContextValue | null>(null);
 
 export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [mode, setMode] = useState<'demo' | 'live'>('demo');
-  const [hasLlm, setHasLlm] = useState<boolean>(false);
-  const [engineState, setEngineState] = useState<any>({
-    invoices: [],
-    transactions: [],
-    matches: [],
-    exceptions: [],
-  });
-  const [summary, setSummary] = useState<any>(null);
-  const [sources, setSources] = useState<AgDataSourcesDefinition>(() =>
-    buildStudioSources({ invoices: [], transactions: [], matches: [], exceptions: [] }, null)
-  );
-  const [loading, setLoading] = useState<boolean>(true);
+  // Synchronously initialize with demo dataset so AG Studio mounts with non-empty data and explicit schemas
+  const initial = useMemo(() => getInitialDemoData(), []);
+  const [mode, setMode] = useState<'demo' | 'live'>(initial.mode);
+  const [hasLlm, setHasLlm] = useState<boolean>(initial.hasLlm);
+  const [engineState, setEngineState] = useState<any>(initial.state);
+  const [summary, setSummary] = useState<any>(initial.summary);
+  const [sources, setSources] = useState<AgDataSourcesDefinition>(initial.sources);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [studioApi, setStudioApi] = useState<AgStudioApi | null>(null);
 
   const reload = useCallback(async () => {
     setLoading(true);
-    setError(null);
     try {
       const res = await loadReconciliationData();
       setMode(res.mode);
@@ -61,12 +59,19 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
       setEngineState(res.state);
       setSummary(res.summary);
       setSources(res.sources);
+      if (studioApi) {
+        try {
+          studioApi.setProperty('data', res.sources);
+        } catch (e) {
+          console.warn('Failed to update studioApi data on reload:', e);
+        }
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to initialize reconciliation data');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [studioApi]);
 
   useEffect(() => {
     reload();
@@ -99,12 +104,20 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
         setEngineState(clonedState);
         setSummary(nextSummary);
         setSources(nextSources);
+
+        if (studioApi) {
+          try {
+            studioApi.setProperty('data', nextSources);
+          } catch (e) {
+            console.warn('Failed to update studioApi data on approve:', e);
+          }
+        }
         return { success: true };
       } catch (err: any) {
         return { success: false, error: err.message };
       }
     },
-    [engineState]
+    [engineState, studioApi]
   );
 
   const rejectCandidate = useCallback(
@@ -123,12 +136,20 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
         setEngineState(clonedState);
         setSummary(nextSummary);
         setSources(nextSources);
+
+        if (studioApi) {
+          try {
+            studioApi.setProperty('data', nextSources);
+          } catch (e) {
+            console.warn('Failed to update studioApi data on reject:', e);
+          }
+        }
         return { success: true };
       } catch (err: any) {
         return { success: false, error: err.message };
       }
     },
-    [engineState]
+    [engineState, studioApi]
   );
 
   const value = useMemo<ReconciliationContextValue>(
@@ -140,11 +161,13 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
       sources,
       loading,
       error,
+      studioApi,
+      setStudioApi,
       approveCandidate,
       rejectCandidate,
       reload,
     }),
-    [mode, hasLlm, engineState, summary, sources, loading, error, approveCandidate, rejectCandidate, reload]
+    [mode, hasLlm, engineState, summary, sources, loading, error, studioApi, setStudioApi, approveCandidate, rejectCandidate, reload]
   );
 
   return <ReconciliationContext.Provider value={value}>{children}</ReconciliationContext.Provider>;

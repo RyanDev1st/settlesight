@@ -19,13 +19,17 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
   activePageId,
   onPageChange,
 }) => {
-  const { sources } = useReconciliation();
+  const { sources, setStudioApi } = useReconciliation();
   const initialState = useMemo(() => loadSavedState(), [resetKey]);
   const apiRef = useRef<AgStudioApi | null>(null);
 
-  const handleApiReady = useCallback((event: AgStudioApiReadyEvent) => {
-    apiRef.current = event.api;
-  }, []);
+  const handleApiReady = useCallback(
+    (event: AgStudioApiReadyEvent) => {
+      apiRef.current = event.api;
+      setStudioApi?.(event.api);
+    },
+    [setStudioApi]
+  );
 
   const handleStateUpdated = useCallback(
     (event: AgStudioStateUpdatedEvent) => {
@@ -55,6 +59,17 @@ export const StudioDashboard: React.FC<DashboardProps> = ({
       }
     }
   }, [activePageId]);
+
+  // Sync data updates directly to Studio API
+  useEffect(() => {
+    if (apiRef.current && sources) {
+      try {
+        apiRef.current.setProperty('data', sources);
+      } catch (err) {
+        console.warn('Could not update Studio data property:', err);
+      }
+    }
+  }, [sources]);
 
   return (
     <div

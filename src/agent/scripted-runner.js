@@ -31,11 +31,13 @@ export function isScriptedPrompt(prompt) {
 
 /**
  * Executes a scripted response with visible tool calls for the given prompt.
+ * Optionally interacts with the real AG Studio API to dynamically mutate the dashboard.
  */
-export function runScriptedDemo(prompt, state) {
+export function runScriptedDemo(prompt, state, studioApi = null) {
   const p = String(prompt).toLowerCase();
   const toolCalls = [];
   let content = '';
+
   if (p.includes('reminder') || p.includes('draft')) {
     // Prompt 3: Draft reminder for overdue Horizon invoice (or any customer)
     const targetQuery = p.includes('horizon') ? 'Horizon' : p;
@@ -80,6 +82,112 @@ export function runScriptedDemo(prompt, state) {
       summary: `Found ${overdue30.length} unpaid invoices overdue by >30 days ($${totalOverdueDollars.toFixed(2)} total).`,
     });
 
+    let widgetAdded = false;
+    if (studioApi && typeof studioApi.getState === 'function' && typeof studioApi.setState === 'function') {
+      try {
+        const currentState = studioApi.getState();
+        const pageId = currentState.selectedPageId || 'Close the month';
+        const page = (currentState.pages || []).find((p) => p.id === pageId) || currentState.pages?.[0];
+        if (page) {
+          const widgetId = 'widget-grid-unpaid-30';
+          const newWidget = {
+            type: 'grid',
+            dataMapping: {
+              cols: [
+                { id: 'invoices.number' },
+                { id: 'invoices.customer_name' },
+                { id: 'invoices.amount' },
+                { id: 'invoices.open_amount' },
+                { id: 'invoices.days_overdue' },
+                { id: 'invoices.due_date' },
+                { id: 'invoices.match_status' },
+              ],
+            },
+            format: {
+              title: { text: 'Overdue Invoices (>30 Days)' },
+            },
+          };
+
+          const newWidgetLayout = {
+            xTrack: 0,
+            yTrack: 31,
+            xSpan: 24,
+            ySpan: 12,
+          };
+
+          const filterConditions = [
+            {
+              field: { id: 'invoices.days_overdue' },
+              model: {
+                operator: 'greaterThan',
+                value: 30,
+              },
+            },
+            {
+              field: { id: 'invoices.open_amount' },
+              model: {
+                operator: 'greaterThan',
+                value: 0,
+              },
+            },
+          ];
+
+          const nextPages = currentState.pages.map((p) => {
+            if (p.id === page.id) {
+              return {
+                ...p,
+                widgets: {
+                  ...(p.widgets || {}),
+                  [widgetId]: newWidget,
+                },
+                widgetLayout: {
+                  ...(p.widgetLayout || {}),
+                  [widgetId]: newWidgetLayout,
+                },
+                filter: {
+                  ...(p.filter || {}),
+                  widget: {
+                    ...(p.filter?.widget || {}),
+                    [widgetId]: filterConditions,
+                  },
+                },
+              };
+            }
+            return p;
+          });
+
+          const nextState = {
+            ...currentState,
+            pages: nextPages,
+          };
+
+          studioApi.setState(nextState);
+          try {
+            if (typeof window !== 'undefined' && window.localStorage) {
+              window.localStorage.setItem('settlesight_studio_layout_v2', JSON.stringify(nextState));
+            }
+          } catch {}
+          widgetAdded = true;
+        }
+      } catch (err) {
+        console.warn('Failed to dynamically add Studio widget:', err);
+      }
+    }
+
+    if (widgetAdded) {
+      toolCalls.push({
+        name: 'add_studio_widget',
+        args: {
+          widgetId: 'widget-grid-unpaid-30',
+          type: 'grid',
+          title: 'Overdue Invoices (>30 Days)',
+          filter: 'days_overdue > 30 && open_amount > 0',
+        },
+        result: { status: 'created', position: { xTrack: 0, yTrack: 31, xSpan: 24, ySpan: 12 } },
+        summary: 'Added Studio grid widget "Overdue Invoices (>30 Days)" filtered to unpaid accounts >30 days.',
+      });
+    }
+
     content =
       `### Overdue Invoices (>30 Days)\n\n` +
       `I identified **${overdue30.length} invoices** overdue past 30 days, totaling **$${totalOverdueDollars.toLocaleString('en-US', { minimumFractionDigits: 2 })}**:\n\n` +
@@ -90,6 +198,10 @@ export function runScriptedDemo(prompt, state) {
         )
         .join('\n') +
       `\n\n💡 *Action item:* Consider drafting payment reminders for these accounts or escalating 90+ day balances.`;
+
+    if (widgetAdded) {
+      content += `\n\n📊 **Dashboard Updated:** Added a real-time filtered AG Grid widget below showing all ${overdue30.length} overdue invoices.`;
+    }
   } else if (p.includes('partial') || p.includes('fee') || p.includes('discrepanc') || p.includes('audit')) {
     // Prompt 2: Audit partial payments & fee discrepancies
     const exceptions = listExceptions(state);

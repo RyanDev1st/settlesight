@@ -1,0 +1,95 @@
+1
+00:00:00,000 --> 00:00:02,000
+SettleSight — AI Reconciliation Desk for PayPal Sellers
+
+2
+00:00:02,000 --> 00:00:07,000
+Every month-end, small businesses spend painful hours matching PayPal transactions to invoices.
+
+3
+00:00:07,000 --> 00:00:12,400
+SettleSight turns hours of spreadsheet chaos into minutes of automated clarity.
+
+4
+00:00:12,400 --> 00:00:18,500
+Here is the reality: PayPal deducts processing fees, buyers send partial milestone payments...
+
+5
+00:00:18,500 --> 00:00:24,500
+...one transfer covers two invoices, and clients forget invoice reference numbers.
+
+6
+00:00:24,500 --> 00:00:30,250
+Standard accounting spreadsheets break, forcing sellers to manually calculate fees and guess which payment belongs to which invoice.
+
+7
+00:00:30,250 --> 00:00:37,500
+Meet SettleSight. Powered by AG Studio 3.0 and PayPal Developer APIs,
+
+8
+00:00:37,500 --> 00:00:46,000
+it instantly pulls your PayPal Invoicing v2 records and Transaction Search feeds.
+
+9
+00:00:46,000 --> 00:00:54,030
+Our deterministic match engine runs on integer cents, instantly auto-reconciling clean payments with confidence 1.0.
+
+10
+00:00:54,030 --> 00:01:00,500
+For complex transactions, the engine proposes scored candidates in the Exceptions Queue instead of guessing blindly.
+
+11
+00:01:00,500 --> 00:01:08,000
+Here, it identifies a fee-adjusted transaction: gross deposit minus standard PayPal processing fees equals net deposit.
+
+12
+00:01:08,000 --> 00:01:15,250
+Below it, partial milestone installments and combined multi-invoice payments are categorized with transparent confidence scores.
+
+13
+00:01:15,250 --> 00:01:22,500
+Need deeper insight? Our Reconciliation Auditor, built with AG Studio's Agent Framework, acts as your financial copilot.
+
+14
+00:01:22,500 --> 00:01:30,500
+When we ask to audit partial payments and fee discrepancies, the agent executes client-side tools with visible audit badges,
+
+15
+00:01:30,500 --> 00:01:38,360
+verifying fee formulas against standard merchant rates. The AI explains the exact reasoning in plain English before anything touches your ledger.
+
+16
+00:01:38,360 --> 00:01:45,500
+AG Studio gives merchants complete dashboard flexibility.
+
+17
+00:01:45,500 --> 00:01:51,500
+With one click, we enter layout mode to reposition widgets or expand our custom Aging Distribution chart,
+
+18
+00:01:51,500 --> 00:01:57,140
+highlighting overdue receivables across thirty, sixty, and ninety-day buckets. Every layout adjustment persists automatically to browser storage.
+
+19
+00:01:57,140 --> 00:02:03,500
+Now, the seller takes action. When we click Approve in the Exceptions Queue,
+
+20
+00:02:03,500 --> 00:02:10,000
+our invariant math validator ensures the allocation is strictly valid—preventing over-allocations, currency mismatches, or rounding drift.
+
+21
+00:02:10,000 --> 00:02:15,870
+The Reconciliation Meter recalculates instantly, keeping the business owner firmly in control.
+
+22
+00:02:15,870 --> 00:02:22,500
+Finally, SettleSight drafts polite customer reminders and writes confirmed payments back to PayPal Invoicing v2 when connected to live credentials,
+
+23
+00:02:22,500 --> 00:02:29,000
+never mutating balances without seller approval. Zero manual spreadsheet formulas, zero guesswork, and deterministic mathematical accuracy.
+
+24
+00:02:29,000 --> 00:02:36,560
+Reconcile your PayPal ledger today in seconds. Thank you!

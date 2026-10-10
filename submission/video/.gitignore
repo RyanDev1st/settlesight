@@ -1,0 +1,16 @@
+# Intermediate video build assets
+audio/
+frames/
+temp/
+*.wav
+*.mp4
+*.ts
+*.raw
+*.jpg
+
+# Preserve QC screenshots, subtitles, and scripts
+!qc/
+!qc/*.png
+!subtitles.srt
+!build-video.mjs
+!synthesize-audio.ps1

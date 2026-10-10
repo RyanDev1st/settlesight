@@ -116,7 +116,7 @@ Hook     Problem  Dashboard   Exceptions  Agent Chat  Add Widget    Validator   
   - Pan back to the clean header displaying the live sandbox status.
   - Display closing title card: *"SettleSight — Reconcile PayPal in Minutes. Live on GitHub Pages."*
 - **Voiceover (48 words | 20s):**
-  > *"Finally, SettleSight writes confirmed payments directly back to PayPal Invoicing v2 and drafts polite customer reminders—never sending without your review. Zero manual spreadsheet formulas, zero guesswork, and 100% financial accuracy. Reconcile your PayPal ledger today in seconds. Thank you!"*
+  > *"Finally, SettleSight drafts polite customer reminders and writes confirmed payments back to PayPal Invoicing v2 when connected to live credentials, never mutating balances without seller approval. Zero manual spreadsheet formulas, zero guesswork, and deterministic mathematical accuracy. Reconcile your PayPal ledger today in seconds. Thank you!"*
 
 ---
 

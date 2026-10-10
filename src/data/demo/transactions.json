@@ -1,0 +1,1806 @@
+{
+  "total_items": 60,
+  "total_pages": 1,
+  "transaction_details": [
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-001",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "1250.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "36.55"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-001",
+        "transaction_note": "Full payment for INV-2026-001",
+        "invoice_id": "INV-2026-001"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-001",
+        "email_address": "alice.smith@example.com",
+        "payer_name": {
+          "given_name": "Alice",
+          "surname": "Smith",
+          "alternate_full_name": "Alice Smith"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-002",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "450.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "13.35"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-002",
+        "transaction_note": "Full payment for INV-2026-002",
+        "invoice_id": "INV-2026-002"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-002",
+        "email_address": "bob.jones@example.com",
+        "payer_name": {
+          "given_name": "Bob",
+          "surname": "Jones",
+          "alternate_full_name": "Bob Jones"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-003",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "2800.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "81.50"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-003",
+        "transaction_note": "Full payment for INV-2026-003",
+        "invoice_id": "INV-2026-003"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-003",
+        "email_address": "charlie.brown@example.com",
+        "payer_name": {
+          "given_name": "Charlie",
+          "surname": "Brown",
+          "alternate_full_name": "Charlie Brown"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-004",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "620.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "18.28"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-004",
+        "transaction_note": "Full payment for INV-2026-004",
+        "invoice_id": "INV-2026-004"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-004",
+        "email_address": "diana.prince@example.com",
+        "payer_name": {
+          "given_name": "Diana",
+          "surname": "Prince",
+          "alternate_full_name": "Diana Prince"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-005",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "1500.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "43.80"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-005",
+        "transaction_note": "Full payment for INV-2026-005",
+        "invoice_id": "INV-2026-005"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-005",
+        "email_address": "evan.wright@example.com",
+        "payer_name": {
+          "given_name": "Evan",
+          "surname": "Wright",
+          "alternate_full_name": "Evan Wright"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-006",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "310.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "9.29"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-006",
+        "transaction_note": "Full payment for INV-2026-006",
+        "invoice_id": "INV-2026-006"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-006",
+        "email_address": "fiona.gallagher@example.com",
+        "payer_name": {
+          "given_name": "Fiona",
+          "surname": "Gallagher",
+          "alternate_full_name": "Fiona Gallagher"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-007",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "890.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "26.11"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-007",
+        "transaction_note": "Full payment for INV-2026-007",
+        "invoice_id": "INV-2026-007"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-007",
+        "email_address": "george.clark@example.com",
+        "payer_name": {
+          "given_name": "George",
+          "surname": "Clark",
+          "alternate_full_name": "George Clark"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-008",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "2200.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "64.10"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-008",
+        "transaction_note": "Full payment for INV-2026-008",
+        "invoice_id": "INV-2026-008"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-008",
+        "email_address": "hannah.abbott@example.com",
+        "payer_name": {
+          "given_name": "Hannah",
+          "surname": "Abbott",
+          "alternate_full_name": "Hannah Abbott"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-009",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "740.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "21.76"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-009",
+        "transaction_note": "Full payment for INV-2026-009",
+        "invoice_id": "INV-2026-009"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-009",
+        "email_address": "ian.malcolm@example.com",
+        "payer_name": {
+          "given_name": "Ian",
+          "surname": "Malcolm",
+          "alternate_full_name": "Ian Malcolm"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-010",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "850.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "24.95"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-010",
+        "transaction_note": "Full payment for INV-2026-010",
+        "invoice_id": "INV-2026-010"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-010",
+        "email_address": "julia.roberts@example.com",
+        "payer_name": {
+          "given_name": "Julia",
+          "surname": "Roberts",
+          "alternate_full_name": "Julia Roberts"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-011",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "1120.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "32.78"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-011",
+        "transaction_note": "Full payment for INV-2026-011",
+        "invoice_id": "INV-2026-011"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-011",
+        "email_address": "kevin.bacon@example.com",
+        "payer_name": {
+          "given_name": "Kevin",
+          "surname": "Bacon",
+          "alternate_full_name": "Kevin Bacon"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-012",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "530.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "15.67"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-012",
+        "transaction_note": "Full payment for INV-2026-012",
+        "invoice_id": "INV-2026-012"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-012",
+        "email_address": "laura.croft@example.com",
+        "payer_name": {
+          "given_name": "Laura",
+          "surname": "Croft",
+          "alternate_full_name": "Laura Croft"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-013",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "1950.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "56.85"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-013",
+        "transaction_note": "Full payment for INV-2026-013",
+        "invoice_id": "INV-2026-013"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-013",
+        "email_address": "michael.scott@example.com",
+        "payer_name": {
+          "given_name": "Michael",
+          "surname": "Scott",
+          "alternate_full_name": "Michael Scott"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-014",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "400.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "11.90"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-014",
+        "transaction_note": "Full payment for INV-2026-014",
+        "invoice_id": "INV-2026-014"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-014",
+        "email_address": "nancy.wheeler@example.com",
+        "payer_name": {
+          "given_name": "Nancy",
+          "surname": "Wheeler",
+          "alternate_full_name": "Nancy Wheeler"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-015",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "1675.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "48.88"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-015",
+        "transaction_note": "Full payment for INV-2026-015",
+        "invoice_id": "INV-2026-015"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-015",
+        "email_address": "oscar.martinez@example.com",
+        "payer_name": {
+          "given_name": "Oscar",
+          "surname": "Martinez",
+          "alternate_full_name": "Oscar Martinez"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-016",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-19T10:00:00Z",
+        "transaction_updated_date": "2026-09-19T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "970.70"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "29.30"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-016",
+        "transaction_note": "Payment minus fees for INV-2026-016",
+        "invoice_id": "INV-2026-016"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-016",
+        "email_address": "pam.beesly@example.com",
+        "payer_name": {
+          "given_name": "Pam",
+          "surname": "Beesly",
+          "alternate_full_name": "Pam Beesly"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-017",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-19T10:00:00Z",
+        "transaction_updated_date": "2026-09-19T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "485.20"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "14.80"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-017",
+        "transaction_note": "Payment minus fees for INV-2026-017",
+        "invoice_id": "INV-2026-017"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-017",
+        "email_address": "quinn.fabray@example.com",
+        "payer_name": {
+          "given_name": "Quinn",
+          "surname": "Fabray",
+          "alternate_full_name": "Quinn Fabray"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-018",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-19T10:00:00Z",
+        "transaction_updated_date": "2026-09-19T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "728.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "22.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-018",
+        "transaction_note": "Payment minus fees for INV-2026-018",
+        "invoice_id": "INV-2026-018"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-018",
+        "email_address": "ryan.howard@example.com",
+        "payer_name": {
+          "given_name": "Ryan",
+          "surname": "Howard",
+          "alternate_full_name": "Ryan Howard"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-019",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-19T10:00:00Z",
+        "transaction_updated_date": "2026-09-19T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "1165.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "35.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-019",
+        "transaction_note": "Payment minus fees for INV-2026-019",
+        "invoice_id": "INV-2026-019"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-019",
+        "email_address": "stanley.hudson@example.com",
+        "payer_name": {
+          "given_name": "Stanley",
+          "surname": "Hudson",
+          "alternate_full_name": "Stanley Hudson"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-020",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-20T10:00:00Z",
+        "transaction_updated_date": "2026-09-20T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "1000.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "29.30"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Combined settlement for open project invoices",
+        "transaction_note": "Combined settlement for open project invoices",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-020",
+        "email_address": "toby.combined@example.com",
+        "payer_name": {
+          "given_name": "Toby",
+          "surname": "Flenderson",
+          "alternate_full_name": "Toby Flenderson"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-021",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-22T10:00:00Z",
+        "transaction_updated_date": "2026-09-22T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "1000.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "29.30"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Consolidated payment for 3 open invoices",
+        "transaction_note": "Consolidated payment for 3 open invoices",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-021",
+        "email_address": "ursula.batch@example.com",
+        "payer_name": {
+          "given_name": "Ursula",
+          "surname": "Buffay",
+          "alternate_full_name": "Ursula Buffay"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-022",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-24T10:00:00Z",
+        "transaction_updated_date": "2026-09-24T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "400.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "11.90"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-025",
+        "transaction_note": "Initial 50% deposit for INV-2026-025",
+        "invoice_id": "INV-2026-025"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-022",
+        "email_address": "victor.creed@example.com",
+        "payer_name": {
+          "given_name": "Victor",
+          "surname": "Creed",
+          "alternate_full_name": "Victor Creed"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-023",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-24T10:00:00Z",
+        "transaction_updated_date": "2026-09-24T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "500.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "14.80"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-026",
+        "transaction_note": "Initial 50% deposit for INV-2026-026",
+        "invoice_id": "INV-2026-026"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-023",
+        "email_address": "wendy.darling@example.com",
+        "payer_name": {
+          "given_name": "Wendy",
+          "surname": "Darling",
+          "alternate_full_name": "Wendy Darling"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-024",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-24T10:00:00Z",
+        "transaction_updated_date": "2026-09-24T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "300.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "9.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-027",
+        "transaction_note": "Initial 50% deposit for INV-2026-027",
+        "invoice_id": "INV-2026-027"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-024",
+        "email_address": "xander.cage@example.com",
+        "payer_name": {
+          "given_name": "Xander",
+          "surname": "Cage",
+          "alternate_full_name": "Xander Cage"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-025",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-26T10:00:00Z",
+        "transaction_updated_date": "2026-09-26T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "450.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "13.35"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Direct bank payment received without invoice reference",
+        "transaction_note": "Direct bank payment received without invoice reference",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-025",
+        "email_address": "yvonne.direct@example.com",
+        "payer_name": {
+          "given_name": "Yvonne",
+          "surname": "Strahovski",
+          "alternate_full_name": "Yvonne Strahovski"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-026",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-26T10:00:00Z",
+        "transaction_updated_date": "2026-09-26T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "920.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "26.98"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Direct bank payment received without invoice reference",
+        "transaction_note": "Direct bank payment received without invoice reference",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-026",
+        "email_address": "zachary.direct@example.com",
+        "payer_name": {
+          "given_name": "Zachary",
+          "surname": "Levi",
+          "alternate_full_name": "Zachary Levi"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-027",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-26T10:00:00Z",
+        "transaction_updated_date": "2026-09-26T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "340.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "10.16"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Direct bank payment received without invoice reference",
+        "transaction_note": "Direct bank payment received without invoice reference",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-027",
+        "email_address": "amber.direct@example.com",
+        "payer_name": {
+          "given_name": "Amber",
+          "surname": "Heard",
+          "alternate_full_name": "Amber Heard"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-028",
+        "transaction_event_code": "T1107",
+        "transaction_initiation_date": "2026-09-28T10:00:00Z",
+        "transaction_updated_date": "2026-09-28T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-1250.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-001",
+        "transaction_note": "Customer refund for cancelled milestone on INV-2026-001",
+        "invoice_id": "INV-2026-001"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-028",
+        "email_address": "alice.smith@example.com",
+        "payer_name": {
+          "given_name": "Alice",
+          "surname": "Smith",
+          "alternate_full_name": "Alice Smith"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-029",
+        "transaction_event_code": "T1107",
+        "transaction_initiation_date": "2026-09-29T10:00:00Z",
+        "transaction_updated_date": "2026-09-29T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-450.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-002",
+        "transaction_note": "Full refund issued for INV-2026-002",
+        "invoice_id": "INV-2026-002"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-029",
+        "email_address": "bob.jones@example.com",
+        "payer_name": {
+          "given_name": "Bob",
+          "surname": "Jones",
+          "alternate_full_name": "Bob Jones"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-030",
+        "transaction_event_code": "T1107",
+        "transaction_initiation_date": "2026-09-30T10:00:00Z",
+        "transaction_updated_date": "2026-09-30T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-2800.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Refund of retainer Charlie Brown",
+        "transaction_note": "Refund of retainer Charlie Brown",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-030",
+        "email_address": "charlie.brown@example.com",
+        "payer_name": {
+          "given_name": "Charlie",
+          "surname": "Brown",
+          "alternate_full_name": "Charlie Brown"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-031",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-29T10:00:00Z",
+        "transaction_updated_date": "2026-09-29T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "620.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "18.28"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-004",
+        "transaction_note": "Second duplicate transfer for INV-2026-004",
+        "invoice_id": "INV-2026-004"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-031",
+        "email_address": "diana.prince@example.com",
+        "payer_name": {
+          "given_name": "Diana",
+          "surname": "Prince",
+          "alternate_full_name": "Diana Prince"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-032",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-30T10:00:00Z",
+        "transaction_updated_date": "2026-09-30T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "1500.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "43.80"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-005",
+        "transaction_note": "Duplicate payment received for INV-2026-005",
+        "invoice_id": "INV-2026-005"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-032",
+        "email_address": "evan.wright@example.com",
+        "payer_name": {
+          "given_name": "Evan",
+          "surname": "Wright",
+          "alternate_full_name": "Evan Wright"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-033",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-28T10:00:00Z",
+        "transaction_updated_date": "2026-09-28T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "250.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "7.55"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for Brad Pitt design work",
+        "transaction_note": "Payment for Brad Pitt design work",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-033",
+        "email_address": "brad.ambig@example.com",
+        "payer_name": {
+          "given_name": "Brad",
+          "surname": "Pitt",
+          "alternate_full_name": "Brad Pitt"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-034",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-30T10:00:00Z",
+        "transaction_updated_date": "2026-09-30T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "180.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "5.52"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-033",
+        "transaction_note": "Transfer 1 for INV-2026-033",
+        "invoice_id": "INV-2026-033"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-034",
+        "email_address": "cate.ambig@example.com",
+        "payer_name": {
+          "given_name": "Cate",
+          "surname": "Blanchett",
+          "alternate_full_name": "Cate Blanchett"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-035",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-30T10:00:00Z",
+        "transaction_updated_date": "2026-09-30T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "180.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "5.52"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Payment for INV-2026-033",
+        "transaction_note": "Transfer 2 for INV-2026-033",
+        "invoice_id": "INV-2026-033"
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-035",
+        "email_address": "cate.ambig@example.com",
+        "payer_name": {
+          "given_name": "Cate",
+          "surname": "Blanchett",
+          "alternate_full_name": "Cate Blanchett"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-036",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-10-01T10:00:00Z",
+        "transaction_updated_date": "2026-10-01T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "200.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "6.10"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Partial installment Daniel Craig",
+        "transaction_note": "Partial installment Daniel Craig",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-036",
+        "email_address": "daniel.ambig@example.com",
+        "payer_name": {
+          "given_name": "Daniel",
+          "surname": "Craig",
+          "alternate_full_name": "Daniel Craig"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-037",
+        "transaction_event_code": "T0000",
+        "transaction_initiation_date": "2026-09-02T10:00:00Z",
+        "transaction_updated_date": "2026-09-02T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "12.50"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Monthly account interest credit",
+        "transaction_note": "Monthly account interest credit",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-037",
+        "email_address": "service@paypal.com",
+        "payer_name": {
+          "given_name": "PayPal",
+          "surname": "Inc",
+          "alternate_full_name": "PayPal Inc"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-038",
+        "transaction_event_code": "T0200",
+        "transaction_initiation_date": "2026-09-05T10:00:00Z",
+        "transaction_updated_date": "2026-09-05T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-30.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Monthly recurring merchant service fee",
+        "transaction_note": "Monthly recurring merchant service fee",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-038",
+        "email_address": "service@paypal.com",
+        "payer_name": {
+          "given_name": "PayPal",
+          "surname": "Fee",
+          "alternate_full_name": "PayPal Fee"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-039",
+        "transaction_event_code": "T0000",
+        "transaction_initiation_date": "2026-09-08T10:00:00Z",
+        "transaction_updated_date": "2026-09-08T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-500.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Auto sweep withdrawal to checking",
+        "transaction_note": "Auto sweep withdrawal to checking",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-039",
+        "email_address": "seller@example.com",
+        "payer_name": {
+          "given_name": "Merchant",
+          "surname": "Bank",
+          "alternate_full_name": "Merchant Bank"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-040",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-11T10:00:00Z",
+        "transaction_updated_date": "2026-09-11T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "45.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "1.61"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Merchandise micro-purchase",
+        "transaction_note": "Merchandise micro-purchase",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-040",
+        "email_address": "guest1@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-041",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-12T10:00:00Z",
+        "transaction_updated_date": "2026-09-12T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "75.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "2.48"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "E-book digital download",
+        "transaction_note": "E-book digital download",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-041",
+        "email_address": "guest2@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-042",
+        "transaction_event_code": "T0000",
+        "transaction_initiation_date": "2026-09-14T10:00:00Z",
+        "transaction_updated_date": "2026-09-14T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-1000.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Auto sweep withdrawal to checking",
+        "transaction_note": "Auto sweep withdrawal to checking",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-042",
+        "email_address": "seller@example.com",
+        "payer_name": {
+          "given_name": "Merchant",
+          "surname": "Bank",
+          "alternate_full_name": "Merchant Bank"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-043",
+        "transaction_event_code": "T0200",
+        "transaction_initiation_date": "2026-09-15T10:00:00Z",
+        "transaction_updated_date": "2026-09-15T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-5.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Dispute inquiry fee",
+        "transaction_note": "Dispute inquiry fee",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-043",
+        "email_address": "service@paypal.com",
+        "payer_name": {
+          "given_name": "PayPal",
+          "surname": "Fee",
+          "alternate_full_name": "PayPal Fee"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-044",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-17T10:00:00Z",
+        "transaction_updated_date": "2026-09-17T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "60.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "2.04"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Merchandise store order #8841",
+        "transaction_note": "Merchandise store order #8841",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-044",
+        "email_address": "guest3@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-045",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-18T10:00:00Z",
+        "transaction_updated_date": "2026-09-18T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "88.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "2.85"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Print on demand poster",
+        "transaction_note": "Print on demand poster",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-045",
+        "email_address": "guest4@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-046",
+        "transaction_event_code": "T0000",
+        "transaction_initiation_date": "2026-09-20T10:00:00Z",
+        "transaction_updated_date": "2026-09-20T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "15.40"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Account balance yield distribution",
+        "transaction_note": "Account balance yield distribution",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-046",
+        "email_address": "service@paypal.com",
+        "payer_name": {
+          "given_name": "PayPal",
+          "surname": "Inc",
+          "alternate_full_name": "PayPal Inc"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-047",
+        "transaction_event_code": "T0000",
+        "transaction_initiation_date": "2026-09-22T10:00:00Z",
+        "transaction_updated_date": "2026-09-22T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-750.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Auto sweep withdrawal to checking",
+        "transaction_note": "Auto sweep withdrawal to checking",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-047",
+        "email_address": "seller@example.com",
+        "payer_name": {
+          "given_name": "Merchant",
+          "surname": "Bank",
+          "alternate_full_name": "Merchant Bank"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-048",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-23T10:00:00Z",
+        "transaction_updated_date": "2026-09-23T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "35.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "1.32"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Coffee tip jar payment",
+        "transaction_note": "Coffee tip jar payment",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-048",
+        "email_address": "guest5@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-049",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-25T10:00:00Z",
+        "transaction_updated_date": "2026-09-25T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "120.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "3.78"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Workshop ticket admission",
+        "transaction_note": "Workshop ticket admission",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-049",
+        "email_address": "guest6@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-050",
+        "transaction_event_code": "T0200",
+        "transaction_initiation_date": "2026-09-27T10:00:00Z",
+        "transaction_updated_date": "2026-09-27T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-15.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Cross border currency conversion fee",
+        "transaction_note": "Cross border currency conversion fee",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-050",
+        "email_address": "service@paypal.com",
+        "payer_name": {
+          "given_name": "PayPal",
+          "surname": "Fee",
+          "alternate_full_name": "PayPal Fee"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-051",
+        "transaction_event_code": "T0000",
+        "transaction_initiation_date": "2026-09-28T10:00:00Z",
+        "transaction_updated_date": "2026-09-28T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-1200.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Auto sweep withdrawal to checking",
+        "transaction_note": "Auto sweep withdrawal to checking",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-051",
+        "email_address": "seller@example.com",
+        "payer_name": {
+          "given_name": "Merchant",
+          "surname": "Bank",
+          "alternate_full_name": "Merchant Bank"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-052",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-29T10:00:00Z",
+        "transaction_updated_date": "2026-09-29T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "95.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "3.06"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Domain transfer service",
+        "transaction_note": "Domain transfer service",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-052",
+        "email_address": "guest7@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-053",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-09-30T10:00:00Z",
+        "transaction_updated_date": "2026-09-30T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "110.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "3.49"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Online masterclass recording",
+        "transaction_note": "Online masterclass recording",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-053",
+        "email_address": "guest8@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-054",
+        "transaction_event_code": "T0000",
+        "transaction_initiation_date": "2026-10-01T10:00:00Z",
+        "transaction_updated_date": "2026-10-01T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "14.20"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Monthly account interest credit",
+        "transaction_note": "Monthly account interest credit",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-054",
+        "email_address": "service@paypal.com",
+        "payer_name": {
+          "given_name": "PayPal",
+          "surname": "Inc",
+          "alternate_full_name": "PayPal Inc"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-055",
+        "transaction_event_code": "T0200",
+        "transaction_initiation_date": "2026-10-02T10:00:00Z",
+        "transaction_updated_date": "2026-10-02T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-30.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Monthly recurring merchant service fee",
+        "transaction_note": "Monthly recurring merchant service fee",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-055",
+        "email_address": "service@paypal.com",
+        "payer_name": {
+          "given_name": "PayPal",
+          "surname": "Fee",
+          "alternate_full_name": "PayPal Fee"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-056",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-10-03T10:00:00Z",
+        "transaction_updated_date": "2026-10-03T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "55.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "1.90"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Software license monthly renewal",
+        "transaction_note": "Software license monthly renewal",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-056",
+        "email_address": "guest9@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-057",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-10-04T10:00:00Z",
+        "transaction_updated_date": "2026-10-04T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "80.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "2.62"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Design template purchase",
+        "transaction_note": "Design template purchase",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-057",
+        "email_address": "guest10@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-058",
+        "transaction_event_code": "T0000",
+        "transaction_initiation_date": "2026-10-05T10:00:00Z",
+        "transaction_updated_date": "2026-10-05T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "-800.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Auto sweep withdrawal to checking",
+        "transaction_note": "Auto sweep withdrawal to checking",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-058",
+        "email_address": "seller@example.com",
+        "payer_name": {
+          "given_name": "Merchant",
+          "surname": "Bank",
+          "alternate_full_name": "Merchant Bank"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-059",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-10-06T10:00:00Z",
+        "transaction_updated_date": "2026-10-06T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "42.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "1.52"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Newsletter annual subscription",
+        "transaction_note": "Newsletter annual subscription",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-059",
+        "email_address": "guest11@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    },
+    {
+      "transaction_info": {
+        "transaction_id": "TXN-DEMO-060",
+        "transaction_event_code": "T0006",
+        "transaction_initiation_date": "2026-10-07T10:00:00Z",
+        "transaction_updated_date": "2026-10-07T10:00:00Z",
+        "transaction_amount": {
+          "currency_code": "USD",
+          "value": "68.00"
+        },
+        "fee_amount": {
+          "currency_code": "USD",
+          "value": "2.27"
+        },
+        "transaction_status": "S",
+        "transaction_subject": "Icon pack royalty license",
+        "transaction_note": "Icon pack royalty license",
+        "invoice_id": ""
+      },
+      "payer_info": {
+        "account_id": "ACT-DEMO-060",
+        "email_address": "guest12@example.com",
+        "payer_name": {
+          "given_name": "Unknown",
+          "surname": "Guest",
+          "alternate_full_name": "Unknown Guest"
+        },
+        "country_code": "US"
+      }
+    }
+  ]
+}

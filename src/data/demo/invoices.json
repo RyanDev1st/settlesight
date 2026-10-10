@@ -1,0 +1,1846 @@
+{
+  "total_items": 40,
+  "total_pages": 1,
+  "items": [
+    {
+      "id": "INV2-DEMO-001",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-001",
+        "reference": "REF-001",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Alice",
+              "surname": "Smith",
+              "full_name": "Alice Smith"
+            },
+            "email_address": "alice.smith@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "1250.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "1250.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-002",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-002",
+        "reference": "REF-002",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Bob",
+              "surname": "Jones",
+              "full_name": "Bob Jones"
+            },
+            "email_address": "bob.jones@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "450.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "450.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-003",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-003",
+        "reference": "REF-003",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Charlie",
+              "surname": "Brown",
+              "full_name": "Charlie Brown"
+            },
+            "email_address": "charlie.brown@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "2800.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "2800.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-004",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-004",
+        "reference": "REF-004",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Diana",
+              "surname": "Prince",
+              "full_name": "Diana Prince"
+            },
+            "email_address": "diana.prince@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "620.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "620.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-005",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-005",
+        "reference": "REF-005",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Evan",
+              "surname": "Wright",
+              "full_name": "Evan Wright"
+            },
+            "email_address": "evan.wright@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "1500.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "1500.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-006",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-006",
+        "reference": "REF-006",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Fiona",
+              "surname": "Gallagher",
+              "full_name": "Fiona Gallagher"
+            },
+            "email_address": "fiona.gallagher@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "310.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "310.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-007",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-007",
+        "reference": "REF-007",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "George",
+              "surname": "Clark",
+              "full_name": "George Clark"
+            },
+            "email_address": "george.clark@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "890.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "890.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-008",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-008",
+        "reference": "REF-008",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Hannah",
+              "surname": "Abbott",
+              "full_name": "Hannah Abbott"
+            },
+            "email_address": "hannah.abbott@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "2200.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "2200.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-009",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-009",
+        "reference": "REF-009",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Ian",
+              "surname": "Malcolm",
+              "full_name": "Ian Malcolm"
+            },
+            "email_address": "ian.malcolm@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "740.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "740.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-010",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-010",
+        "reference": "REF-010",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Julia",
+              "surname": "Roberts",
+              "full_name": "Julia Roberts"
+            },
+            "email_address": "julia.roberts@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "850.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "850.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-011",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-011",
+        "reference": "REF-011",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Kevin",
+              "surname": "Bacon",
+              "full_name": "Kevin Bacon"
+            },
+            "email_address": "kevin.bacon@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "1120.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "1120.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-012",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-012",
+        "reference": "REF-012",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Laura",
+              "surname": "Croft",
+              "full_name": "Laura Croft"
+            },
+            "email_address": "laura.croft@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "530.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "530.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-013",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-013",
+        "reference": "REF-013",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Michael",
+              "surname": "Scott",
+              "full_name": "Michael Scott"
+            },
+            "email_address": "michael.scott@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "1950.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "1950.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-014",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-014",
+        "reference": "REF-014",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Nancy",
+              "surname": "Wheeler",
+              "full_name": "Nancy Wheeler"
+            },
+            "email_address": "nancy.wheeler@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "400.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "400.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-015",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-015",
+        "reference": "REF-015",
+        "invoice_date": "2026-09-01",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-16"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Oscar",
+              "surname": "Martinez",
+              "full_name": "Oscar Martinez"
+            },
+            "email_address": "oscar.martinez@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "1675.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "1675.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-016",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-016",
+        "reference": "REF-016",
+        "invoice_date": "2026-09-05",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-20"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Pam",
+              "surname": "Beesly",
+              "full_name": "Pam Beesly"
+            },
+            "email_address": "pam.beesly@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "1000.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "1000.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-017",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-017",
+        "reference": "REF-017",
+        "invoice_date": "2026-09-05",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-20"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Quinn",
+              "surname": "Fabray",
+              "full_name": "Quinn Fabray"
+            },
+            "email_address": "quinn.fabray@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "500.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "500.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-018",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-018",
+        "reference": "REF-018",
+        "invoice_date": "2026-09-05",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-20"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Ryan",
+              "surname": "Howard",
+              "full_name": "Ryan Howard"
+            },
+            "email_address": "ryan.howard@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "750.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "750.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-019",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-019",
+        "reference": "REF-019",
+        "invoice_date": "2026-09-05",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-20"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Stanley",
+              "surname": "Hudson",
+              "full_name": "Stanley Hudson"
+            },
+            "email_address": "stanley.hudson@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "1200.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "1200.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-020",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-020",
+        "reference": "REF-020",
+        "invoice_date": "2026-09-06",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-21"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Toby",
+              "surname": "Flenderson",
+              "full_name": "Toby Flenderson"
+            },
+            "email_address": "toby.combined@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "350.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "350.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-021",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-021",
+        "reference": "REF-021",
+        "invoice_date": "2026-09-07",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-22"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Toby",
+              "surname": "Flenderson",
+              "full_name": "Toby Flenderson"
+            },
+            "email_address": "toby.combined@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "650.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "650.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-022",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-022",
+        "reference": "REF-022",
+        "invoice_date": "2026-09-08",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-23"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Ursula",
+              "surname": "Buffay",
+              "full_name": "Ursula Buffay"
+            },
+            "email_address": "ursula.batch@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "200.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "200.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-023",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-023",
+        "reference": "REF-023",
+        "invoice_date": "2026-09-09",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-24"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Ursula",
+              "surname": "Buffay",
+              "full_name": "Ursula Buffay"
+            },
+            "email_address": "ursula.batch@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "300.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "300.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-024",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-024",
+        "reference": "REF-024",
+        "invoice_date": "2026-09-10",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-25"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Ursula",
+              "surname": "Buffay",
+              "full_name": "Ursula Buffay"
+            },
+            "email_address": "ursula.batch@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "500.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "500.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-025",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-025",
+        "reference": "REF-025",
+        "invoice_date": "2026-09-10",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-25"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Victor",
+              "surname": "Creed",
+              "full_name": "Victor Creed"
+            },
+            "email_address": "victor.creed@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "800.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "800.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-026",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-026",
+        "reference": "REF-026",
+        "invoice_date": "2026-09-10",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-25"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Wendy",
+              "surname": "Darling",
+              "full_name": "Wendy Darling"
+            },
+            "email_address": "wendy.darling@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "1500.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "1500.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-027",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-027",
+        "reference": "REF-027",
+        "invoice_date": "2026-09-10",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-25"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Xander",
+              "surname": "Cage",
+              "full_name": "Xander Cage"
+            },
+            "email_address": "xander.cage@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "600.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "600.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-028",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-028",
+        "reference": "REF-028",
+        "invoice_date": "2026-09-12",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-27"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Yvonne",
+              "surname": "Strahovski",
+              "full_name": "Yvonne Strahovski"
+            },
+            "email_address": "yvonne.direct@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "450.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "450.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-029",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-029",
+        "reference": "REF-029",
+        "invoice_date": "2026-09-12",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-27"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Zachary",
+              "surname": "Levi",
+              "full_name": "Zachary Levi"
+            },
+            "email_address": "zachary.direct@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "920.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "920.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-030",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-030",
+        "reference": "REF-030",
+        "invoice_date": "2026-09-12",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-27"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Amber",
+              "surname": "Heard",
+              "full_name": "Amber Heard"
+            },
+            "email_address": "amber.direct@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "340.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "340.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-031",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-031",
+        "reference": "REF-031",
+        "invoice_date": "2026-09-14",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-29"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Brad",
+              "surname": "Pitt",
+              "full_name": "Brad Pitt"
+            },
+            "email_address": "brad.ambig@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "250.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "250.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-032",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-032",
+        "reference": "REF-032",
+        "invoice_date": "2026-09-15",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-30"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Brad",
+              "surname": "Pitt",
+              "full_name": "Brad Pitt"
+            },
+            "email_address": "brad.ambig@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "250.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "250.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-033",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-033",
+        "reference": "REF-033",
+        "invoice_date": "2026-09-16",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-10-01"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Cate",
+              "surname": "Blanchett",
+              "full_name": "Cate Blanchett"
+            },
+            "email_address": "cate.ambig@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "180.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "180.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-034",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-034",
+        "reference": "REF-034",
+        "invoice_date": "2026-09-18",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-10-03"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Daniel",
+              "surname": "Craig",
+              "full_name": "Daniel Craig"
+            },
+            "email_address": "daniel.ambig@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "400.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "400.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-035",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-035",
+        "reference": "REF-035",
+        "invoice_date": "2026-09-19",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-10-04"
+        },
+        "note": "Services"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Daniel",
+              "surname": "Craig",
+              "full_name": "Daniel Craig"
+            },
+            "email_address": "daniel.ambig@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "400.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "400.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-036",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-036",
+        "reference": "REF-036",
+        "invoice_date": "2026-09-14",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-09-29"
+        },
+        "note": "Overdue 10 days - 0-30 bucket"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Emma",
+              "surname": "Stone",
+              "full_name": "Emma Stone"
+            },
+            "email_address": "emma.overdue@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "550.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "550.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-037",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-037",
+        "reference": "REF-037",
+        "invoice_date": "2026-08-10",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-08-25"
+        },
+        "note": "Overdue 45 days - 31-60 bucket"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Frank",
+              "surname": "Sinatra",
+              "full_name": "Frank Sinatra"
+            },
+            "email_address": "frank.overdue@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "820.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "820.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-038",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-038",
+        "reference": "REF-038",
+        "invoice_date": "2026-07-11",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-07-26"
+        },
+        "note": "Overdue 75 days - 61-90 bucket"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Grace",
+              "surname": "Kelly",
+              "full_name": "Grace Kelly"
+            },
+            "email_address": "grace.overdue@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "1300.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "1300.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-039",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-039",
+        "reference": "REF-039",
+        "invoice_date": "2026-05-27",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-06-11"
+        },
+        "note": "Overdue 120 days - 90+ bucket"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Hugh",
+              "surname": "Jackman",
+              "full_name": "Hugh Jackman"
+            },
+            "email_address": "hugh.overdue@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "2100.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "2100.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    {
+      "id": "INV2-DEMO-040",
+      "status": "SENT",
+      "detail": {
+        "invoice_number": "INV-2026-040",
+        "reference": "REF-040",
+        "invoice_date": "2026-04-27",
+        "currency_code": "USD",
+        "payment_term": {
+          "term_type": "NET_15",
+          "due_date": "2026-05-12"
+        },
+        "note": "Overdue 150 days - 90+ bucket"
+      },
+      "invoicer": {
+        "name": {
+          "given_name": "SettleSight",
+          "surname": "Demo"
+        },
+        "email_address": "seller@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Idris",
+              "surname": "Elba",
+              "full_name": "Idris Elba"
+            },
+            "email_address": "idris.overdue@example.com"
+          }
+        }
+      ],
+      "amount": {
+        "currency_code": "USD",
+        "value": "3400.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "3400.00"
+      },
+      "paid_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    }
+  ]
+}

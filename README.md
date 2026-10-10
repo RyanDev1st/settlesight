@@ -75,7 +75,7 @@ SettleSight enforces strict separation between deterministic financial verificat
 1. **Ingest & Normalize:** PayPal Invoicing v2 records and Transaction Search feeds are normalized into integer cents (`src/match/normalize.js`).
 2. **Deterministic Matching:** Auto-matches clean transactions (exact invoice reference and equal gross amount) with confidence 1.0 (rule-based). Harder cases (fees, combined, partial, email match, refunds, duplicates) generate scored candidates (`src/match/rules.js`).
 3. **AI Explanations & Audit:** The Reconciliation Agent reviews ambiguous exceptions, calculates fee deductions against standard merchant tiers (~2.9% + $0.30), and drafts payment reminder emails (`src/agent/agent-definition.ts`).
-4. **Invariant Validation:** Every candidate match passes mathematical validation (`validateAllocation` in `src/match/validator.js`) ensuring non-over-allocation, currency alignment, and capacity guarantees.
+4. **Invariant Validation:** Every candidate match passes mathematical validation (`validateAllocation` in `src/match/validator.js`) ensuring non-over-allocation, currency alignment, and capacity checks.
 5. **Human Approval & Write-Back:** The seller reviews suggestions in the **Exceptions Queue** widget and confirms write-backs with an explicit click. The backend records payments on PayPal or dispatches reminders.
 
 ---
@@ -133,7 +133,7 @@ SettleSight showcases the capabilities of **AG Studio 3.0** (`ag-studio`, `ag-st
 2. **PayPal Brand Theme** ([`src/studio/theme.ts`](src/studio/theme.ts)):
    - Custom `paypalTheme` created using `studioTheme.withParams` with PayPal brand colors (`#0070BA` accent, clean light and dark palette tokens).
 3. **Saved Layout Persistence** ([`src/studio/state.ts`](src/studio/state.ts)):
-   - Dashboard layouts, open tabs, and custom widget placements persist automatically to browser `localStorage` (`settlesight_studio_layout_v3`) with full "Customize Layout" and "Reset layout" controls in the top shell.
+   - Dashboard layouts, open tabs, and custom widget placements persist automatically to browser `localStorage` (`settlesight_studio_layout_v4`) with full "Customize Layout" and "Reset layout" controls in the top shell.
 4. **Studio Agent Framework Integration**:
    - The Reconciliation Auditor agent runs directly inside the AG Studio agent architecture alongside Studio's built-in agents.
 

@@ -78,7 +78,7 @@ When multiple open invoices or transactions compete for the same candidate with 
 
 ---
 
-## 4. Invariant Validation Guarantees
+## 4. Invariant Validation Rules
 
 Before any allocation is approved or written to state, [`validateAllocation()`](../src/match/validator.js) enforces six mathematical invariants:
 

@@ -1,0 +1,111 @@
+1
+00:00:00,000 --> 00:00:05,522
+Month-end PayPal reconciliation means checking invoice references, partial payments, and fees.
+
+2
+00:00:05,522 --> 00:00:08,929
+SettleSight puts the review queue beside the money totals.
+
+3
+00:00:08,929 --> 00:00:15,156
+This recording uses synthetic demo data, with live NVIDIA Nemotron inference through Nebius Token Factory.
+
+4
+00:00:15,156 --> 00:00:22,962
+The deterministic engine works in integer cents and separates suggested matches from approved allocations.
+
+5
+00:00:22,962 --> 00:00:25,098
+This run has 23 review items.
+
+6
+00:00:25,098 --> 00:00:29,369
+Recorded and reconciled value starts at 17,285.00 dollars.
+
+7
+00:00:29,369 --> 00:00:32,167
+No language model controls the ledger.
+
+8
+00:00:32,167 --> 00:00:33,713
+I click Run AI Triage.
+
+9
+00:00:33,713 --> 00:00:37,788
+The response comes from nvidia/nemotron-3-super-120b-a12b.
+
+10
+00:00:37,788 --> 00:00:41,161
+Nemotron ranks the queue and explains the risks.
+
+11
+00:00:41,161 --> 00:00:47,484
+The displayed results are from a real API call; the waiting time is edited for this video.
+
+12
+00:00:47,484 --> 00:00:54,978
+Of 23 evaluated items, 15 allocation proposals pass the engine, 5 are rejected, and 3 are ambiguity cases.
+
+13
+00:00:54,978 --> 00:00:58,796
+Here the red card gives the exact invariant rejection.
+
+14
+00:00:58,796 --> 00:01:02,261
+A confident explanation cannot bypass that check.
+
+15
+00:01:02,261 --> 00:01:05,367
+I approve one validated candidate.
+
+16
+00:01:05,367 --> 00:01:12,128
+Recorded and reconciled value changes from 17,285.00 to 17,785.00 dollars.
+
+17
+00:01:12,128 --> 00:01:16,605
+This approval updates the synthetic local ledger.
+
+18
+00:01:16,605 --> 00:01:19,712
+It does not send a PayPal payment.
+
+19
+00:01:19,712 --> 00:01:23,353
+Now I ask, Audit partial payments and fee discrepancies.
+
+20
+00:01:23,353 --> 00:01:25,499
+Nemotron selects list exceptions.
+
+21
+00:01:25,499 --> 00:01:31,287
+The visible tool trace comes from live model calls and executes against the engine state.
+
+22
+00:01:31,287 --> 00:01:33,824
+The agent then summarizes the evidence.
+
+23
+00:01:33,824 --> 00:01:39,038
+A separate cut shows Live Sandbox mode, with 30 real PayPal sandbox invoices.
+
+24
+00:01:39,038 --> 00:01:40,866
+This is a test environment.
+
+25
+00:01:40,866 --> 00:01:46,419
+A fresh API read confirms SS DEMO 028 is partially paid, with 25 dollars recorded.
+
+26
+00:01:46,419 --> 00:01:52,514
+That payment was written in the earlier live verification; this recording only rereads it.
+
+27
+00:01:52,514 --> 00:02:02,281
+SettleSight keeps three responsibilities clear: deterministic financial authority, Nemotron ranking and explanations on Nebius Token Factory, and human approval.
+
+28
+00:02:02,281 --> 00:02:07,801
+The public repository includes setup instructions, tests, and the live verification report.

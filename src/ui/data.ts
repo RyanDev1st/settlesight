@@ -6,6 +6,7 @@
  */
 
 import type { AgDataSourcesDefinition, AgFieldDefinition } from 'ag-studio';
+import { usesPaypalData } from './mode.js';
 import { normalizeInvoices, normalizeTransactions, fromCents } from '../match/normalize.js';
 import { proposeMatches, applyDecision } from '../match/engine.js';
 import { validateAllocation } from '../match/validator.js';
@@ -242,7 +243,7 @@ export async function loadReconciliationData(): Promise<ReconciliationDataResult
       hasLlm = Boolean(health.hasLlm);
       llmProvider = (health.llmProvider as 'nebius' | 'gemini') || 'none';
       llmModel = health.llmModel || '';
-      if (health.hasPaypal) {
+      if (usesPaypalData(health)) {
         const [invRes, txnRes] = await Promise.all([
           fetch('/api/invoices'),
           fetch('/api/transactions'),

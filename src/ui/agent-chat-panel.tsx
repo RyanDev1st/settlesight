@@ -227,7 +227,7 @@ export const AgentChatPanel: React.FC = () => {
                   boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                 }}
               >
-                {triageResult ? 'Refresh Triage' : 'Run AI Triage'}
+                {triageResult ? 'Refresh Triage' : 'Run AI Triage (Nemotron)'}
               </button>
             </div>
             <div style={{ fontSize: '11px', color: '#15803D', lineHeight: 1.35 }}>

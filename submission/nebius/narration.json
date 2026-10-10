@@ -1,0 +1,62 @@
+[
+  {
+    "id": "overview",
+    "images": [
+      "overview"
+    ],
+    "text": "Month-end PayPal reconciliation means checking invoice references, partial payments, and fees. SettleSight puts the review queue beside the money totals. This recording uses synthetic demo data, with live NVIDIA Nemotron inference through Nebius Token Factory."
+  },
+  {
+    "id": "engine",
+    "images": [
+      "overview"
+    ],
+    "text": "The deterministic engine works in integer cents and separates suggested matches from approved allocations. This run has 23 review items. Recorded and reconciled value starts at 17,285.00 dollars. No language model controls the ledger."
+  },
+  {
+    "id": "triage",
+    "images": [
+      "triage-click",
+      "triage"
+    ],
+    "text": "I click Run AI Triage. The response comes from nvidia/nemotron-3-super-120b-a12b. Nemotron ranks the queue and explains the risks. The displayed results are from a real API call; the waiting time is edited for this video."
+  },
+  {
+    "id": "validator",
+    "images": [
+      "validator"
+    ],
+    "text": "Of 23 evaluated items, 15 allocation proposals pass the engine, 5 are rejected, and 3 are ambiguity cases. Here the red card gives the exact invariant rejection. A confident explanation cannot bypass that check."
+  },
+  {
+    "id": "approved",
+    "images": [
+      "approve-before",
+      "approved"
+    ],
+    "text": "I approve one validated candidate. Recorded and reconciled value changes from 17,285.00 to 17,785.00 dollars. This approval updates the synthetic local ledger. It does not send a PayPal payment."
+  },
+  {
+    "id": "agent",
+    "images": [
+      "agent-request",
+      "agent"
+    ],
+    "text": "Now I ask, Audit partial payments and fee discrepancies. Nemotron selects list exceptions. The visible tool trace comes from live model calls and executes against the engine state. The agent then summarizes the evidence."
+  },
+  {
+    "id": "sandbox",
+    "images": [
+      "sandbox",
+      "sandbox-proof"
+    ],
+    "text": "A separate cut shows Live Sandbox mode, with 30 real PayPal sandbox invoices. This is a test environment. A fresh API read confirms SS DEMO 028 is partially paid, with 25 dollars recorded. That payment was written in the earlier live verification; this recording only rereads it."
+  },
+  {
+    "id": "architecture",
+    "images": [
+      "architecture"
+    ],
+    "text": "SettleSight keeps three responsibilities clear: deterministic financial authority, Nemotron ranking and explanations on Nebius Token Factory, and human approval. The public repository includes setup instructions, tests, and the live verification report."
+  }
+]

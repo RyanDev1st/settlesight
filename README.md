@@ -1,5 +1,9 @@
 # SettleSight — AI Reconciliation Desk for PayPal Sellers
 
+For the Nebius presentation, run the local server with `DATA_SOURCE=demo` and `LLM_PROVIDER=nebius`, plus your server-side Nebius key. The dashboard keeps the synthetic dataset while inference runs live, and displays **Demo data · Nemotron Live**. Leave `DATA_SOURCE` unset to load configured PayPal sandbox data. Dashboard approvals update the local ledger; PayPal payment recording uses a separate confirmed API request.
+
+The [Nebius submission pack](submission/nebius/devpost.md) links the reports and video reproduction instructions. Generate the recording with `npm run dev` in one terminal and `node submission/video/build-video.mjs --nebius` in another. The recorder owns port 8787; stop an existing server first. `FFMPEG_BIN` and `FFPROBE_BIN` can select installed binaries; otherwise the builder checks the Windows WinGet links.
+
 > **One-Line Pitch:** SettleSight reconciles PayPal invoices against PayPal transactions in minutes using deterministic math verification, an AG Studio analytics dashboard, and an AI auditor that explains discrepancies before you approve write-backs.
 
 ### 🚀 Try It in 10 Seconds (No Keys Required)

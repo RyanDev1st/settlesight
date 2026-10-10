@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 
-function findBinary(envVar, name) {
+export function findBinary(envVar, name) {
   if (process.env[envVar]) return process.env[envVar];
   const wingetPath = `C:/Users/admin/AppData/Local/Microsoft/WinGet/Links/${name}.exe`;
   if (fs.existsSync(wingetPath)) return wingetPath;
@@ -681,7 +681,26 @@ async function run() {
   console.log('=== Pipeline Completed Successfully ===');
 }
 
-run().catch((err) => {
+export async function assembleVideo(directory, output, fps = FPS) {
+  await new Promise((resolve, reject) => {
+    const ff = spawn(FFMPEG_BIN, [
+      '-y', '-framerate', String(fps), '-i', 'frames/frame_%05d.jpg',
+      '-i', 'audio/master_audio.wav',
+      '-vf', "scale=1920:1080,subtitles=subtitles.srt:force_style='FontSize=14,BorderStyle=3,Outline=2,Shadow=0,MarginV=16,FontName=Segoe UI'",
+      '-af', 'loudnorm=I=-16:TP=-1.5:LRA=11',
+      '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-b:v', '3500k',
+      '-c:a', 'aac', '-b:a', '192k', '-shortest', output,
+    ], { cwd: directory, stdio: ['ignore', 'ignore', 'pipe'], windowsHide: true });
+    let stderr = '';
+    ff.stderr.on('data', d => { stderr += d; });
+    ff.on('close', code => code === 0 ? resolve() : reject(new Error(`FFmpeg failed (${code}): ${stderr.slice(-1000)}`)));
+  });
+}
+
+const pipeline = process.argv.includes('--nebius')
+  ? import('../nebius/record-video.mjs').then(module => module.runNebiusVideo())
+  : run();
+pipeline.catch((err) => {
   console.error('Video pipeline failed:', err);
   process.exit(1);
 });

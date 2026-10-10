@@ -60,6 +60,8 @@ describe('Server & Endpoints Integration Tests', () => {
     assert.equal(typeof body.mode, 'string');
     assert.equal(typeof body.hasPaypal, 'boolean');
     assert.equal(typeof body.hasLlm, 'boolean');
+    assert.equal(typeof body.llmProvider, 'string');
+    assert.equal(typeof body.hasLlmKey, 'boolean');
 
     const rawText = JSON.stringify(body);
     assert.equal(rawText.includes('mock-client-secret'), false, 'Must not leak client secrets');

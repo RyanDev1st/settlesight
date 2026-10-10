@@ -18,6 +18,7 @@ export { validateAllocation, applyDecision, summarize };
 export interface ReconciliationDataResult {
   mode: 'demo' | 'live';
   hasLlm: boolean;
+  llmProvider: 'nebius' | 'gemini' | 'none';
   state: {
     invoices: any[];
     transactions: any[];
@@ -210,6 +211,7 @@ export function getInitialDemoData(): ReconciliationDataResult {
   return {
     mode: 'demo',
     hasLlm: false,
+    llmProvider: 'none',
     state,
     summary,
     sources,
@@ -222,6 +224,7 @@ export function getInitialDemoData(): ReconciliationDataResult {
 export async function loadReconciliationData(): Promise<ReconciliationDataResult> {
   let mode: 'demo' | 'live' = 'demo';
   let hasLlm = false;
+  let llmProvider: 'nebius' | 'gemini' | 'none' = 'none';
   let rawInvoices: any = null;
   let rawTransactions: any = null;
 
@@ -231,6 +234,7 @@ export async function loadReconciliationData(): Promise<ReconciliationDataResult
     if (healthRes.ok) {
       const health = await healthRes.json();
       hasLlm = Boolean(health.hasLlm);
+      llmProvider = (health.llmProvider as 'nebius' | 'gemini') || 'none';
       if (health.hasPaypal) {
         const [invRes, txnRes] = await Promise.all([
           fetch('/api/invoices'),
@@ -249,7 +253,12 @@ export async function loadReconciliationData(): Promise<ReconciliationDataResult
 
   // 2. Demo fallback if not live
   if (!rawInvoices || !rawTransactions) {
-    return getInitialDemoData();
+    const initial = getInitialDemoData();
+    return {
+      ...initial,
+      hasLlm,
+      llmProvider,
+    };
   }
 
   // 3. Normalize and run reconciliation match engine
@@ -261,6 +270,7 @@ export async function loadReconciliationData(): Promise<ReconciliationDataResult
   return {
     mode,
     hasLlm,
+    llmProvider,
     state,
     summary,
     sources,

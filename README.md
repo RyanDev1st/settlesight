@@ -122,6 +122,37 @@ In [`src/agent/agent-definition.ts`](src/agent/agent-definition.ts), SettleSight
 
 ---
 
+## Nebius Token Factory & NVIDIA Nemotron Integration
+
+SettleSight includes first-class support for **Nebius Token Factory** and **NVIDIA Nemotron** open models for autonomous financial agent reasoning and exception triage:
+
+### 1. Nebius Token Factory Architecture
+- **OpenAI-Compatible Endpoint:** Requests are proxied server-side to `https://api.tokenfactory.nebius.com/v1/chat/completions` ([Nebius Token Factory Documentation](https://docs.nebius.com/token-factory/)).
+- **Authorization:** Standard Bearer token authentication via `Authorization: Bearer <NEBIUS_API_KEY>`. API keys remain strictly server-side inside `.env`; the browser never handles credentials.
+- **Provider Selection:** Selected via `LLM_PROVIDER=nebius` (default) or `LLM_PROVIDER=gemini` in `.env`.
+- **Supported Nemotron Models:**
+  - `nvidia/nemotron-3-super-120b-a12b` (Default): High-speed tool calling and multi-agent interaction.
+  - `nvidia/Nemotron-3-Ultra-550b-a55b`: Deep reasoning exception triage and complex audit explanations.
+  - `nvidia/nemotron-3-nano-30b`: Low-latency lightweight inference.
+
+### 2. LLM-Ranked Exception Triage Mode
+In [`src/agent/triage.js`](src/agent/triage.js), SettleSight introduces **LLM-Ranked Exception Triage**:
+- **Nemotron Reasoning:** Nemotron Super/Ultra evaluates the match engine's candidate pool, audits fee adjustments against PayPal's standard tiers (~2.9% + $0.30), detects partial milestone payments, and outputs a prioritized review queue with risk assessments.
+- **Deterministic Math Authority:** Every proposed allocation passes through `validateAllocation` in [`src/match/validator.js`](src/match/validator.js).
+- **Invariant Rejection Handling:** If the LLM proposes an allocation exceeding the invoice balance, allocating more than transaction gross, or mixing currencies, the deterministic engine flags it as `❌ Invariant Rejection` with the exact mathematical error. AI advises; the deterministic engine governs.
+
+### 3. Real Function Calling Loop
+In [`src/agent/nemotron-runner.js`](src/agent/nemotron-runner.js), the agent executes real OpenAI-compatible function calling with Nemotron:
+- Registers four client-side tools: `list_exceptions`, `explain_match`, `draft_reminder`, and `triage_exceptions`.
+- Traverses a two-turn loop: Nemotron emits structured `tool_calls`, the agent executes deterministic operations on the ledger state, and returns tool outputs for final assistant synthesis.
+- Gracefully falls back to the deterministic scripted runner when `NEBIUS_API_KEY` is not configured.
+
+### 4. Interactive UI Controls
+- **"AI triage (Nemotron)" Toggle:** Added to [`src/ui/agent-chat-panel.tsx`](src/ui/agent-chat-panel.tsx), visible only when the backend health check reports `llmProvider: "nebius"`.
+- Displays real-time triage status, priority rankings (`Critical`, `High`, `Medium`), Nemotron explanations, and one-click seller approval for validated allocations.
+
+---
+
 ## AG Studio Usage: Polish, Theming & Custom Analytics
 
 SettleSight showcases the capabilities of **AG Studio 3.0** (`ag-studio`, `ag-studio-react`):

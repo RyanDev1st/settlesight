@@ -19,6 +19,7 @@ import {
 export interface ReconciliationContextValue {
   mode: 'demo' | 'live';
   hasLlm: boolean;
+  llmProvider: 'nebius' | 'gemini' | 'none';
   engineState: {
     invoices: any[];
     transactions: any[];
@@ -43,6 +44,7 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
   const initial = useMemo(() => getInitialDemoData(), []);
   const [mode, setMode] = useState<'demo' | 'live'>(initial.mode);
   const [hasLlm, setHasLlm] = useState<boolean>(initial.hasLlm);
+  const [llmProvider, setLlmProvider] = useState<'nebius' | 'gemini' | 'none'>(initial.llmProvider);
   const [engineState, setEngineState] = useState<any>(initial.state);
   const [summary, setSummary] = useState<any>(initial.summary);
   const [sources, setSources] = useState<AgDataSourcesDefinition>(initial.sources);
@@ -56,6 +58,7 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
       const res = await loadReconciliationData();
       setMode(res.mode);
       setHasLlm(res.hasLlm);
+      setLlmProvider(res.llmProvider);
       setEngineState(res.state);
       setSummary(res.summary);
       setSources(res.sources);
@@ -156,6 +159,7 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
     () => ({
       mode,
       hasLlm,
+      llmProvider,
       engineState,
       summary: summary || summarize(engineState),
       sources,
@@ -167,7 +171,7 @@ export const ReconciliationProvider: React.FC<{ children: React.ReactNode }> = (
       rejectCandidate,
       reload,
     }),
-    [mode, hasLlm, engineState, summary, sources, loading, error, studioApi, setStudioApi, approveCandidate, rejectCandidate, reload]
+    [mode, hasLlm, llmProvider, engineState, summary, sources, loading, error, studioApi, setStudioApi, approveCandidate, rejectCandidate, reload]
   );
 
   return <ReconciliationContext.Provider value={value}>{children}</ReconciliationContext.Provider>;

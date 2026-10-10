@@ -8,6 +8,8 @@ import {
   draftReminder,
 } from './tools.js';
 import { runScriptedDemo, isScriptedPrompt } from './scripted-runner.js';
+import { triageExceptionsWithNemotron } from './triage.js';
+import { runNemotronAgentTurn } from './nemotron-runner.js';
 import { normalizeInvoices, normalizeTransactions } from '../match/normalize.js';
 import { proposeMatches } from '../match/engine.js';
 import demoInvoices from '../data/demo/invoices.json' with { type: 'json' };
@@ -156,6 +158,145 @@ describe('Reconciliation Agent & Tools Test Suite', () => {
     assert.equal(page.filter.widget['widget-grid-unpaid-30'][0].field.id, 'invoices.days_overdue');
     assert.equal(page.filter.widget['widget-grid-unpaid-30'][0].model.operator, 'greaterThan');
     assert.equal(page.filter.widget['widget-grid-unpaid-30'][0].model.value, 30);
+  });
+
+  test('runNemotronAgentTurn: falls back to scripted runner when no callLlm is provided', async () => {
+    const reply = await runNemotronAgentTurn({
+      prompt: 'Draft reminder for overdue Horizon invoice',
+      state: engineState,
+    });
+    assert.equal(reply.role, 'assistant');
+    assert.equal(reply.isDemoScripted, true);
+    assert.equal(reply.toolCalls[0].name, 'draft_reminder');
+  });
+
+  test('runNemotronAgentTurn: executes real tool-calling loop when callLlm is provided', async () => {
+    let callCount = 0;
+    const suggested = engineState.matches.find((m) => m.state === 'suggested');
+    assert.ok(suggested, 'Must have suggested match candidate');
+
+    const mockCallLlm = async (payload) => {
+      callCount++;
+      if (callCount === 1) {
+        // Turn 1: Nemotron selects a tool call
+        return {
+          choices: [
+            {
+              message: {
+                role: 'assistant',
+                content: null,
+                tool_calls: [
+                  {
+                    id: 'call_explain_1',
+                    type: 'function',
+                    function: {
+                      name: 'explain_match',
+                      arguments: JSON.stringify({ matchId: suggested.id }),
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        };
+      }
+      // Turn 2: Nemotron synthesizes response from tool output
+      assert.ok(payload.messages.some((m) => m.role === 'tool'));
+      return {
+        choices: [
+          {
+            message: {
+              role: 'assistant',
+              content: `Nemotron verified fee adjustment for candidate ${suggested.id}.`,
+            },
+          },
+        ],
+      };
+    };
+
+    const reply = await runNemotronAgentTurn({
+      prompt: `Explain fee discrepancy for match ${suggested.id}`,
+      state: engineState,
+      callLlm: mockCallLlm,
+      model: 'nvidia/nemotron-3-super-120b-a12b',
+    });
+
+    assert.equal(callCount, 2);
+    assert.equal(reply.isNemotron, true);
+    assert.equal(reply.model, 'nvidia/nemotron-3-super-120b-a12b');
+    assert.equal(reply.toolCalls[0].name, 'explain_match');
+    assert.ok(reply.content.includes(`Nemotron verified fee adjustment`));
+  });
+
+  test('triageExceptionsWithNemotron: deterministic fallback ranks exceptions without LLM', async () => {
+    const triage = await triageExceptionsWithNemotron({ state: engineState });
+    assert.equal(triage.mode, 'deterministic_fallback');
+    assert.ok(triage.totalItems > 0);
+    assert.ok(triage.verifiedCount > 0);
+    assert.equal(typeof triage.summaryText, 'string');
+    assert.ok(triage.rankedItems.length > 0);
+    assert.equal(triage.rankedItems[0].invariantPassed, true);
+  });
+
+  test('triageExceptionsWithNemotron: LLM triage enforces validateAllocation and flags invalid proposals', async () => {
+    const suggested = engineState.matches.find((m) => m.state === 'suggested');
+    assert.ok(suggested, 'Must have suggested match candidate');
+
+    // Simulate Nemotron returning 2 recommendations:
+    // 1. Valid allocation matching suggested candidate
+    // 2. An invalid over-allocation of $999,999.00
+    const mockCallLlm = async () => ({
+      choices: [
+        {
+          message: {
+            role: 'assistant',
+            content: JSON.stringify({
+              summary: 'Nemotron audited 2 exception cases.',
+              rankedItems: [
+                {
+                  matchId: suggested.id,
+                  priorityRank: 1,
+                  urgency: 'high',
+                  recommendedAction: 'approve',
+                  allocatedDollars: 50.0,
+                  reasoning: 'Valid payment deduction.',
+                  riskAssessment: 'Low risk.',
+                },
+                {
+                  matchId: suggested.id,
+                  priorityRank: 2,
+                  urgency: 'critical',
+                  recommendedAction: 'approve',
+                  allocatedDollars: 999999.0, // Excessive allocation that violates engine invariant!
+                  reasoning: 'Attempted excess settlement.',
+                  riskAssessment: 'High risk of balance breach.',
+                },
+              ],
+            }),
+          },
+        },
+      ],
+    });
+
+    const triage = await triageExceptionsWithNemotron({
+      state: engineState,
+      callLlm: mockCallLlm,
+      model: 'nvidia/nemotron-3-super-120b-a12b',
+    });
+
+    assert.equal(triage.mode, 'nemotron_live');
+    assert.equal(triage.model, 'nvidia/nemotron-3-super-120b-a12b');
+    assert.equal(triage.totalItems, 2);
+
+    // Item 1 passed deterministic validation
+    assert.equal(triage.rankedItems[0].invariantPassed, true);
+    assert.equal(triage.rankedItems[0].rejectionReason, null);
+
+    // Item 2 was rejected by deterministic engine validator
+    assert.equal(triage.rankedItems[1].invariantPassed, false);
+    assert.equal(triage.rankedItems[1].recommendedAction, 'rejected_by_engine');
+    assert.ok(triage.rankedItems[1].rejectionReason.length > 0);
+    assert.equal(triage.rejectedCount, 1);
   });
 });
 

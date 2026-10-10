@@ -125,4 +125,37 @@ describe('Reconciliation Agent & Tools Test Suite', () => {
     assert.ok(reply.content.includes('Safety Guard'));
     assert.ok(reply.content.includes('draft status only'));
   });
+
+  test('scriptedRunner: adds filtered Studio widget for "Show unpaid invoices over 30 days" when studioApi is provided', () => {
+    let updatedState = null;
+    const mockStudioApi = {
+      getState: () => ({
+        selectedPageId: 'Close the month',
+        pages: [
+          {
+            id: 'Close the month',
+            widgets: {},
+            widgetLayout: {},
+            filter: { widget: {} },
+          },
+        ],
+      }),
+      setState: (state) => {
+        updatedState = state;
+      },
+    };
+
+    const reply = runScriptedDemo('Show unpaid invoices over 30 days', engineState, mockStudioApi);
+    assert.ok(reply.content.includes('Overdue Invoices'));
+    assert.ok(updatedState, 'studioApi.setState must be called');
+    const page = updatedState.pages[0];
+    assert.ok(page.widgets['widget-grid-unpaid-30'], 'Widget must be added to widgets map');
+    assert.equal(page.widgets['widget-grid-unpaid-30'].type, 'grid');
+    assert.ok(page.widgetLayout['widget-grid-unpaid-30'], 'Widget must be positioned in layout');
+    assert.ok(page.filter.widget['widget-grid-unpaid-30'], 'Widget filter must be registered');
+    assert.equal(page.filter.widget['widget-grid-unpaid-30'][0].field.id, 'invoices.days_overdue');
+    assert.equal(page.filter.widget['widget-grid-unpaid-30'][0].model.operator, 'greaterThan');
+    assert.equal(page.filter.widget['widget-grid-unpaid-30'][0].model.value, 30);
+  });
 });
+

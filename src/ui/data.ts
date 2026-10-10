@@ -5,11 +5,13 @@
  * directly into the deterministic reconciliation match engine.
  */
 
-import type { AgDataSourcesDefinition } from 'ag-studio';
+import type { AgDataSourcesDefinition, AgFieldDefinition } from 'ag-studio';
 import { normalizeInvoices, normalizeTransactions, fromCents } from '../match/normalize.js';
 import { proposeMatches, applyDecision } from '../match/engine.js';
 import { validateAllocation } from '../match/validator.js';
 import { summarize, toStudioSources } from '../match/summary.js';
+import demoInvoices from '../data/demo/invoices.json';
+import demoTransactions from '../data/demo/transactions.json';
 
 export { validateAllocation, applyDecision, summarize };
 
@@ -26,14 +28,64 @@ export interface ReconciliationDataResult {
   sources: AgDataSourcesDefinition;
 }
 
+export const INVOICE_FIELDS: AgFieldDefinition[] = [
+  { id: 'id', name: 'Invoice ID', format: 'textFormat' },
+  { id: 'number', name: 'Invoice #', format: 'textFormat' },
+  { id: 'customer_name', name: 'Customer', format: 'textFormat' },
+  { id: 'customer_email', name: 'Customer Email', format: 'textFormat' },
+  { id: 'issue_date', name: 'Issue Date', format: 'textFormat' },
+  { id: 'due_date', name: 'Due Date', format: 'textFormat' },
+  { id: 'amount', name: 'Amount', format: 'currencyFormat' },
+  { id: 'currency', name: 'Currency', format: 'textFormat' },
+  { id: 'paypal_status', name: 'PayPal Status', format: 'textFormat' },
+  { id: 'paid_amount', name: 'Paid Amount', format: 'currencyFormat' },
+  { id: 'open_amount', name: 'Open Amount', format: 'currencyFormat' },
+  { id: 'days_overdue', name: 'Days Overdue', format: 'integerFormat' },
+  { id: 'match_status', name: 'Match Status', format: 'textFormat' },
+  { id: 'aging_bucket', name: 'Aging Bucket', format: 'textFormat' },
+];
+
+export const TRANSACTION_FIELDS: AgFieldDefinition[] = [
+  { id: 'id', name: 'Transaction ID', format: 'textFormat' },
+  { id: 'date', name: 'Date', format: 'textFormat' },
+  { id: 'payer_name', name: 'Payer', format: 'textFormat' },
+  { id: 'payer_email', name: 'Payer Email', format: 'textFormat' },
+  { id: 'gross', name: 'Gross', format: 'currencyFormat' },
+  { id: 'fee', name: 'Fee', format: 'currencyFormat' },
+  { id: 'net', name: 'Net', format: 'currencyFormat' },
+  { id: 'currency', name: 'Currency', format: 'textFormat' },
+  { id: 'event_code', name: 'Event Code', format: 'textFormat' },
+  { id: 'kind', name: 'Type', format: 'textFormat' },
+  { id: 'invoice_ref', name: 'Invoice Ref', format: 'textFormat' },
+  { id: 'note', name: 'Note', format: 'textFormat' },
+  { id: 'match_status', name: 'Match Status', format: 'textFormat' },
+];
+
+export const MATCH_FIELDS: AgFieldDefinition[] = [
+  { id: 'id', name: 'Match ID', format: 'textFormat' },
+  { id: 'transaction_id', name: 'Transaction ID', format: 'textFormat' },
+  { id: 'invoice_id', name: 'Invoice ID', format: 'textFormat' },
+  { id: 'allocated', name: 'Allocated', format: 'currencyFormat' },
+  { id: 'method', name: 'Method', format: 'textFormat' },
+  { id: 'confidence', name: 'Confidence', format: 'decimalFormat' },
+  { id: 'reasons', name: 'Reasons', format: 'textFormat' },
+  { id: 'state', name: 'State', format: 'textFormat' },
+];
+
+export const AGING_FIELDS: AgFieldDefinition[] = [
+  { id: 'bucket', name: 'Aging Period', format: 'textFormat' },
+  { id: 'open_balance', name: 'Open Balance', format: 'currencyFormat' },
+  { id: 'count', name: 'Count', format: 'integerFormat' },
+];
+
 /**
  * Builds AG Studio sources and aging summary from engine state.
  */
 export function buildStudioSources(state: any, summary: any): AgDataSourcesDefinition {
-  const baseSources = toStudioSources(state);
+  const baseSources = toStudioSources(state || {});
 
   // Add aging_bucket field to each invoice for chart grouping
-  const invoicesWithAging = baseSources.invoices.map((inv: any) => {
+  const invoicesWithAging = (baseSources.invoices || []).map((inv: any) => {
     let aging_bucket = '0-30 days';
     const od = Number(inv.days_overdue) || 0;
     if (od > 90) aging_bucket = '90+ days';
@@ -73,24 +125,28 @@ export function buildStudioSources(state: any, summary: any): AgDataSourcesDefin
         name: 'Invoices',
         description: 'PayPal Invoicing v2 records with payment terms and aging',
         data: invoicesWithAging,
+        fields: INVOICE_FIELDS,
       },
       {
         id: 'transactions',
         name: 'Transactions',
         description: 'PayPal Transaction Search records including gross, fees, and net',
-        data: baseSources.transactions,
+        data: baseSources.transactions || [],
+        fields: TRANSACTION_FIELDS,
       },
       {
         id: 'matches',
         name: 'Reconciliation Matches',
         description: 'Engine proposed allocations, confidence scores, and rule reasons',
-        data: baseSources.matches,
+        data: baseSources.matches || [],
+        fields: MATCH_FIELDS,
       },
       {
         id: 'aging',
         name: 'Aging Buckets',
         description: 'Overdue invoice balances grouped by aging period',
         data: agingData,
+        fields: AGING_FIELDS,
       },
     ],
     relationships: [
@@ -107,6 +163,23 @@ export function buildStudioSources(state: any, summary: any): AgDataSourcesDefin
         type: 'many-to-one',
       },
     ],
+  };
+}
+
+/**
+ * Returns the synchronous initial reconciliation state based on pre-seeded demo fixtures.
+ */
+export function getInitialDemoData(): ReconciliationDataResult {
+  const normInvoices = normalizeInvoices(demoInvoices);
+  const normTransactions = normalizeTransactions(demoTransactions);
+  const { state, summary } = proposeMatches(normInvoices, normTransactions);
+  const sources = buildStudioSources(state, summary);
+  return {
+    mode: 'demo',
+    hasLlm: false,
+    state,
+    summary,
+    sources,
   };
 }
 
@@ -143,13 +216,7 @@ export async function loadReconciliationData(): Promise<ReconciliationDataResult
 
   // 2. Demo fallback if not live
   if (!rawInvoices || !rawTransactions) {
-    const [invModule, txnModule] = await Promise.all([
-      import('../data/demo/invoices.json'),
-      import('../data/demo/transactions.json'),
-    ]);
-    rawInvoices = invModule.default || invModule;
-    rawTransactions = txnModule.default || txnModule;
-    mode = 'demo';
+    return getInitialDemoData();
   }
 
   // 3. Normalize and run reconciliation match engine
@@ -171,6 +238,5 @@ export async function loadReconciliationData(): Promise<ReconciliationDataResult
  * Backwards compatibility helper for AG Studio data loader.
  */
 export function loadDemoData(): AgDataSourcesDefinition {
-  // Synchronous initial fallback while async loader runs
-  return buildStudioSources({ invoices: [], transactions: [], matches: [], exceptions: [] }, null);
+  return getInitialDemoData().sources;
 }

@@ -9,8 +9,8 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PayPalClient, defaultPayPalClient } from './paypal.mjs';
-import { LlmClient, defaultLlmClient } from './llm.mjs';
+import { PayPalClient } from './paypal.mjs';
+import { LlmClient } from './llm.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -109,8 +109,8 @@ async function parseJsonBody(req) {
  * Factory for creating the server instance.
  */
 export function createServer(options = {}) {
-  const client = options.paypalClient || defaultPayPalClient;
-  const llmClient = options.llmClient || defaultLlmClient;
+  const client = options.paypalClient || new PayPalClient();
+  const llmClient = options.llmClient || new LlmClient();
 
   return http.createServer(async (req, res) => {
     setCorsHeaders(req, res);
@@ -136,6 +136,7 @@ export function createServer(options = {}) {
           hasPaypal,
           hasLlm,
           llmProvider,
+          llmModel: typeof llmClient.resolveModel === 'function' ? await llmClient.resolveModel() : '',
           hasLlmKey: hasLlm,
         };
         res.writeHead(200);
@@ -164,7 +165,16 @@ export function createServer(options = {}) {
 
         const startDate = parsedUrl.searchParams.get('start_date');
         const endDate = parsedUrl.searchParams.get('end_date');
-        const transactions = await client.listTransactions(startDate, endDate);
+        let transactions;
+        try {
+          transactions = await client.listTransactions(startDate, endDate);
+        } catch (err) {
+          if (err.status !== 403) throw err;
+          const reason = 'Live invoices + demo transactions (enable Transaction Search on your sandbox app)';
+          console.warn(`PayPal Transaction Search HTTP 403: ${reason}`);
+          res.writeHead(403);
+          return res.end(JSON.stringify({ error: reason, code: 'TRANSACTION_SEARCH_DISABLED' }));
+        }
         res.writeHead(200);
         return res.end(JSON.stringify(transactions));
       }
@@ -249,6 +259,6 @@ if (process.argv[1] && (process.argv[1].includes('server/index.mjs') || process.
   const server = createServer();
   server.listen(PORT, '127.0.0.1', () => {
     console.log(`SettleSight PayPal proxy server running at http://127.0.0.1:${PORT}`);
-    console.log(`Live Mode Active: ${defaultPayPalClient.hasCredentials()}`);
+    console.log(`Live Mode Active: ${new PayPalClient().hasCredentials()}`);
   });
 }

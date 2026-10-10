@@ -52,7 +52,7 @@ Respond with valid JSON conforming to:
  * @param {string} [options.model] Model ID (default: nvidia/nemotron-3-super-120b-a12b)
  * @returns {Promise<object>} Triage result with rankedItems, verifiedCount, and rejectedCount
  */
-export async function triageExceptionsWithNemotron({ state, callLlm, model = DEFAULT_NEMOTRON_TRIAGE_MODEL } = {}) {
+export async function triageExceptionsWithNemotron({ state, callLlm, model } = {}) {
   if (!state) {
     throw new Error('Reconciliation state is required for exception triage');
   }
@@ -61,7 +61,7 @@ export async function triageExceptionsWithNemotron({ state, callLlm, model = DEF
   if (!rawExceptions || rawExceptions.length === 0) {
     return {
       mode: callLlm ? 'nemotron_live' : 'deterministic_fallback',
-      model,
+      model: model || DEFAULT_NEMOTRON_TRIAGE_MODEL,
       rankedItems: [],
       verifiedCount: 0,
       rejectedCount: 0,
@@ -88,6 +88,7 @@ export async function triageExceptionsWithNemotron({ state, callLlm, model = DEF
         ],
         temperature: 0.1,
       });
+      model = completion.model || model;
 
       const content = completion?.choices?.[0]?.message?.content || '';
       let parsed = null;
@@ -215,7 +216,7 @@ export async function triageExceptionsWithNemotron({ state, callLlm, model = DEF
 
   return {
     mode,
-    model,
+    model: model || DEFAULT_NEMOTRON_TRIAGE_MODEL,
     rankedItems: validatedItems,
     verifiedCount,
     rejectedCount,

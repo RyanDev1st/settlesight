@@ -18,7 +18,7 @@
  */
 
 import { normalizeInvoices, normalizeTransactions } from './normalize.js';
-import { findCandidatesForTxn } from './rules.js';
+import { findCandidatesForTxn, matchRef } from './rules.js';
 import { validateAllocation } from './validator.js';
 import { summarize, toStudioSources } from './summary.js';
 
@@ -39,7 +39,7 @@ export function deriveInvoiceStatus(invoice, state = {}) {
     .filter((m) => m.invoice_id === invoice.id && (m.state === 'auto' || m.state === 'approved'))
     .reduce((sum, m) => sum + (m.allocated || 0), 0);
 
-  const openAmount = Math.max(0, invoice.amount - committed);
+  const openAmount = Math.max(0, invoice.amount - (invoice.baseline_paid || 0) - committed);
   if (openAmount === 0) {
     return 'matched';
   }
@@ -69,6 +69,7 @@ export function deriveInvoiceStatus(invoice, state = {}) {
  * @returns {'matched'|'suggested'|'exception'|'unmatched'}
  */
 export function deriveTransactionStatus(transaction, state = {}) {
+  if (transaction.recorded_payment_invoice_id) return 'matched';
   const matches = state.matches || [];
   const exceptions = state.exceptions || [];
 
@@ -109,8 +110,8 @@ export function refreshEntityStatus(state = {}) {
     const committed = matches
       .filter((m) => m.invoice_id === inv.id && (m.state === 'auto' || m.state === 'approved'))
       .reduce((sum, m) => sum + (m.allocated || 0), 0);
-    inv.paid_amount = committed;
-    inv.open_amount = Math.max(0, inv.amount - committed);
+    inv.paid_amount = (inv.baseline_paid || 0) + committed;
+    inv.open_amount = Math.max(0, inv.amount - inv.paid_amount);
     inv.match_status = deriveInvoiceStatus(inv, state);
   }
   for (const txn of state.transactions || []) {
@@ -149,7 +150,7 @@ export function proposeMatches(rawInvoices, rawTransactions, opts = {}) {
   const autoApplyExact = opts.autoApplyExact ?? true;
 
   const invoices = (rawInvoices || []).map((i) =>
-    i.open_amount !== undefined ? { ...i } : normalizeInvoices([i], opts)[0]
+    i.open_amount !== undefined ? { ...i, baseline_paid: i.baseline_paid ?? i.paid_amount ?? 0 } : normalizeInvoices([i], opts)[0]
   );
   const transactions = (rawTransactions || []).map((t) =>
     t.gross !== undefined ? { ...t } : normalizeTransactions([t], opts)[0]
@@ -168,7 +169,17 @@ export function proposeMatches(rawInvoices, rawTransactions, opts = {}) {
   });
 
   const txnsByDate = new Map();
+  // Exclude each already-recorded payment once, rather than allocating its baseline again.
+  for (const inv of invoices) {
+    for (const payment of inv.recorded_payments || []) {
+      const recordedTxn = sortedTxns.find((txn) => !txn.recorded_payment_invoice_id &&
+        txn.kind === 'payment' && txn.gross === payment.amount && txn.currency === payment.currency &&
+        payment.date && txn.date === payment.date && matchRef(txn.invoice_ref, inv));
+      if (recordedTxn) recordedTxn.recorded_payment_invoice_id = inv.id;
+    }
+  }
   for (const t of sortedTxns) {
+    if (t.recorded_payment_invoice_id) continue;
     const d = t.date || 'unknown';
     if (!txnsByDate.has(d)) txnsByDate.set(d, []);
     txnsByDate.get(d).push(t);

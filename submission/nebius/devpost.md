@@ -13,6 +13,10 @@
 
 ---
 
+## Verified live on 2026-10-11
+
+Verified real NVIDIA Nemotron Super triage and tool calling, 30 PayPal sandbox invoices, Transaction Search, and a confirmed USD 25.00 external payment write-back. Recorded-payment baselines survive reload without double-counting matching transactions; reporting denial preserves live invoices with labeled demo transactions. See [the live verification report](../../docs/live-verification.md) for measured latency, token usage, the sample response, and remaining limitations.
+
 ## 2. Devpost Form Fields
 
 ### Project Title
@@ -53,7 +57,7 @@ SettleSight orchestrates a 5-step reconciliation pipeline:
 
 #### Accomplishments We're Proud Of
 - **100% Invariant Enforcement:** Proved through unit tests that an LLM proposal attempting to over-allocate funds or mismatch currencies is immediately intercepted and flagged as rejected by the engine.
-- **Fast Function Calling with Nemotron Super:** Demonstrated sub-second function calling loops querying ledger state and drafting polite customer payment reminders.
+- **Live Function Calling with Nemotron Super:** Verified a real `triage_exceptions` tool call and final synthesis; measured timings are recorded in the live verification report.
 - **Zero-Key Evaluation Experience:** Judges can evaluate the full application immediately in their browser via GitHub Pages with pre-seeded demo fixtures and deterministic agent fallbacks.
 
 #### What We Learned
@@ -97,19 +101,19 @@ All integration details were verified from official documentation:
 1. **Token Factory Base URL & Chat Endpoint:**
    - Base URL: `https://api.tokenfactory.nebius.com/v1/`
    - Endpoint: `https://api.tokenfactory.nebius.com/v1/chat/completions`
-   - Documentation Reference: [Nebius Token Factory API Reference](https://docs.nebius.com/token-factory/api-reference)
+   - Documentation Reference: [Nebius Token Factory API Reference](https://docs.tokenfactory.nebius.com/api-reference/introduction)
 2. **Authentication Header:**
    - Format: `Authorization: Bearer <NEBIUS_API_KEY>`
-   - Documentation Reference: [Nebius Token Factory Authentication](https://docs.nebius.com/token-factory/authentication)
+   - Documentation Reference: [Nebius Token Factory Quickstart](https://docs.tokenfactory.nebius.com/quickstart)
 3. **Exact Nemotron Model IDs Available:**
    - `nvidia/nemotron-3-super-120b-a12b` (Recommended default: optimized for tool calling & multi-agent systems)
    - `nvidia/Nemotron-3-Ultra-550b-a55b` (For high-level reasoning and complex evaluations)
-   - `nvidia/nemotron-3-nano-30b` (Lightweight low-latency inference)
-   - `nvidia/Llama-3.1-Nemotron-70B-Instruct` (General instruction-following)
-   - Documentation Reference: [Nebius Models Catalogue — Nemotron](https://docs.nebius.com/token-factory/models/nemotron)
+   - `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B` (Preferred fast inference)
+   - `nvidia/Nemotron-3_5-Lightning` (Alternative fast inference)
+   - Catalog evidence: authenticated runtime discovery at `https://api.tokenfactory.nebius.com/v1/models`; no non-NVIDIA fallback is used.
 4. **Tool / Function-Calling Support:**
    - Conforms to standard OpenAI function-calling format with `tools: [{ type: "function", function: { name, description, parameters } }]` and `tool_choice: "auto"`.
-   - Documentation Reference: [Nebius Function Calling Guide](https://docs.nebius.com/token-factory/guides/function-calling)
+   - Documentation Reference: [Nebius Function Calling Guide](https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling)
 5. **Free Credits & Billing Information:**
    - Participants receive **$25 USD** in Token Factory credits via the form on the [Devpost Hackathon Resources Page](https://nebiusglobalaihackathon.devpost.com/resources) with activation promo code `NEBIUS-DEVPOST-GLOBAL26`, plus an additional $25 USD via the Nebius Builders Program ($50 USD total).
    - Card requirement: Standard registration prompts for payment card verification; however, as documented in the official Hackathon Discord FAQ, participants facing credit card or geographic restrictions can request manual credit provisioning directly through the Nebius Discord `#hackathon-support` channel without entering card details.

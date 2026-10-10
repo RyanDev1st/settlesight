@@ -3,6 +3,20 @@ import assert from 'node:assert/strict';
 import { PayPalClient, splitDateRangeIntoWindows } from './paypal.mjs';
 
 describe('PayPalClient Unit Tests', () => {
+  test('Paid invoice summaries load payment records needed to prevent transaction double-counting', async () => {
+    const record = { payment_id: 'PAY-1', payment_date: '2026-10-11', amount: { value: '25.00', currency_code: 'USD' } };
+    const calls = [];
+    const client = new PayPalClient({ clientId: 'stub', clientSecret: 'stub', fetchFn: async (url) => {
+      calls.push(url);
+      if (url.includes('oauth2')) return { ok: true, json: async () => ({ access_token: 'stub', expires_in: 3600 }) };
+      if (url.endsWith('/INV-PAID')) return { ok: true, json: async () => ({ id: 'INV-PAID', payments: { paid_amount: { value: '25.00' }, transactions: [record] } }) };
+      return { ok: true, json: async () => ({ items: [{ id: 'INV-PAID', payments: { paid_amount: { value: '25.00' } } }, { id: 'INV-OPEN' }], total_pages: 1 }) };
+    } });
+    const invoices = await client.listInvoices();
+    assert.deepEqual(invoices.items[0].payments.transactions, [record]);
+    assert.equal(calls.some(url => url.endsWith('/INV-OPEN')), false);
+  });
+
   test('Token caching: reuses cached token within validity period without re-authenticating', async () => {
     let oauthCallCount = 0;
 

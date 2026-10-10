@@ -60,6 +60,7 @@ describe('LlmClient Multi-Provider & Nebius Unit Tests', () => {
     let capturedOptions = null;
 
     const mockFetch = async (url, options) => {
+      if (options.method === 'GET') return { ok: true, json: async () => ({ data: [{ id: DEFAULT_NEBIUS_MODEL }] }) };
       capturedUrl = url;
       capturedOptions = options;
       return {
@@ -179,6 +180,7 @@ describe('LlmClient Multi-Provider & Nebius Unit Tests', () => {
   test('Model override: allows targeting Nemotron Ultra 550b for deep reasoning', async () => {
     let capturedBody = null;
     const mockFetch = async (url, options) => {
+      if (options.method === 'GET') return { ok: true, json: async () => ({ data: [{ id: 'nvidia/Nemotron-3-Ultra-550b-a55b' }] }) };
       capturedBody = JSON.parse(options.body);
       return {
         ok: true,
@@ -212,7 +214,7 @@ describe('LlmClient Multi-Provider & Nebius Unit Tests', () => {
     });
 
     await assert.rejects(
-      async () => client.chatCompletion({ messages: [] }),
+      async () => client.chatCompletion({ model: DEFAULT_NEBIUS_MODEL, messages: [] }),
       (err) => {
         assert.equal(err.status, 401);
         assert.ok(err.message.includes('Nebius Token Factory API error (401)'));
@@ -221,4 +223,37 @@ describe('LlmClient Multi-Provider & Nebius Unit Tests', () => {
       }
     );
   });
+});
+
+test('Discovery caches concurrent calls and selects Super for triage, Nano for tools', async () => {
+  let calls = 0;
+  const client = new LlmClient({ provider: 'nebius', apiKey: 'stub', fetchFn: async () => {
+    calls++;
+    return { ok: true, json: async () => ({ data: [
+      { id: 'nvidia/Nemotron-3-Ultra-550b-a55b' },
+      { id: DEFAULT_NEBIUS_MODEL },
+      { id: 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B' },
+    ] }) };
+  } });
+  const models = await Promise.all([client.resolveModel(), client.resolveModel()]);
+  assert.deepEqual(models, [DEFAULT_NEBIUS_MODEL, DEFAULT_NEBIUS_MODEL]);
+  assert.equal(await client.resolveModel(undefined, true), 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B');
+  assert.equal(calls, 1);
+});
+
+test('Discovery honors NEBIUS_MODEL and rejects missing overrides or non-NVIDIA catalogs', async () => {
+  const original = process.env.NEBIUS_MODEL;
+  const id = 'nvidia/Nemotron-3_5-Lightning';
+  try {
+    process.env.NEBIUS_MODEL = id;
+    const client = new LlmClient({ provider: 'nebius', apiKey: 'stub', fetchFn: async () => ({ ok: true, json: async () => ({ data: [{ id }] }) }) });
+    assert.equal(await client.resolveModel(), id);
+    process.env.NEBIUS_MODEL = 'nvidia/missing';
+    await assert.rejects(new LlmClient({ provider: 'nebius', apiKey: 'stub', fetchFn: client.fetchFn }).resolveModel(), /configured.*not available/i);
+    delete process.env.NEBIUS_MODEL;
+    await assert.rejects(new LlmClient({ provider: 'nebius', apiKey: 'stub', fetchFn: async () => ({ ok: true, json: async () => ({ data: [{ id: 'other/nemotron' }] }) }) }).resolveModel(), /No NVIDIA Nemotron/);
+  } finally {
+    if (original === undefined) delete process.env.NEBIUS_MODEL;
+    else process.env.NEBIUS_MODEL = original;
+  }
 });

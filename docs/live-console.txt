@@ -1,0 +1,23 @@
+Native headless Microsoft Edge page-console capture, 2026-10-11
+URL: http://127.0.0.1:5173/
+Full stderr capture inspected: 5,940 characters; Fatal error lines: 0.
+Page-console messages below are extracted from INFO:CONSOLE entries;
+native process IDs, timestamps, and repetitive license-border lines are omitted.
+
+[vite] connecting...
+[vite] connected.
+Download the React DevTools for a better development experience: https://react.dev/link/react-devtools
+AG Studio Core License
+License Key Not Found
+All AG Studio Core features are unlocked for trial.
+If you want to hide the watermark please email info@ag-grid.com for a trial license key.
+AG Studio Core License
+License Key Not Found
+All AG Studio Core features are unlocked for trial.
+If you want to hide the watermark please email info@ag-grid.com for a trial license key.
+
+The final DOM contained 30 invoices, 1 live sandbox transaction,
+USD 31,725.00 recorded/reconciled, USD 11,025.00 open,
+and nvidia/nemotron-3-super-120b-a12b.
+Earlier denied-reporting run: zero Fatal error lines; page logged
+Live invoices + demo transactions (enable Transaction Search on your sandbox app).

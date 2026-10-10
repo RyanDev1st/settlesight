@@ -20,8 +20,8 @@ const MAX_TRANSACTION_WINDOW_DAYS = 31;
 
 export class PayPalClient {
   constructor(options = {}) {
-    this.clientId = options.clientId || process.env.PAYPAL_CLIENT_ID || '';
-    this.clientSecret = options.clientSecret || process.env.PAYPAL_CLIENT_SECRET || '';
+    this.clientId = options.clientId ?? process.env.PAYPAL_CLIENT_ID ?? '';
+    this.clientSecret = options.clientSecret ?? process.env.PAYPAL_CLIENT_SECRET ?? '';
     this.baseUrl = (options.baseUrl || process.env.PAYPAL_BASE_URL || DEFAULT_SANDBOX_URL).replace(/\/+$/, '');
     this.fetchFn = options.fetchFn || globalThis.fetch;
 
@@ -125,10 +125,18 @@ export class PayPalClient {
       page++;
     }
 
+    // List responses omit payment transactions; paid invoice details supply dates/amounts for deduplication.
+    const items = await Promise.all(allItems.map(async (invoice) => {
+      if (!(Number(invoice.payments?.paid_amount?.value) > 0) || invoice.payments?.transactions) return invoice;
+      const res = await this.request(`/v2/invoicing/invoices/${encodeURIComponent(invoice.id)}`);
+      if (!res.ok) throw new Error(`Failed to load PayPal invoice payment details (HTTP ${res.status})`);
+      return { ...invoice, ...await res.json() };
+    }));
+
     return {
-      total_items: totalItems || allItems.length,
+      total_items: totalItems || items.length,
       total_pages: totalPages,
-      items: allItems,
+      items,
     };
   }
 
@@ -161,7 +169,9 @@ export class PayPalClient {
         const res = await this.request(`/v1/reporting/transactions?${query.toString()}`);
         if (!res.ok) {
           const text = await res.text();
-          throw new Error(`Failed to search transactions for window ${win.start.toISOString()} - ${win.end.toISOString()} (HTTP ${res.status}): ${text}`);
+          const err = new Error(`Failed to search transactions for window ${win.start.toISOString()} - ${win.end.toISOString()} (HTTP ${res.status}): ${text}`);
+          err.status = res.status;
+          throw err;
         }
 
         const body = await res.json();

@@ -38,7 +38,7 @@ describe('Server & Endpoints Integration Tests', () => {
       return { success: true };
     };
 
-    server = createServer({ paypalClient: mockPaypalClient });
+    server = createServer({ paypalClient: mockPaypalClient, llmClient: { hasApiKey: () => false, getProvider: () => 'nebius', resolveModel: async () => 'nvidia/test-nemotron' } });
     await new Promise((resolve) => {
       server.listen(0, '127.0.0.1', () => {
         serverPort = server.address().port;
@@ -61,6 +61,7 @@ describe('Server & Endpoints Integration Tests', () => {
     assert.equal(typeof body.hasPaypal, 'boolean');
     assert.equal(typeof body.hasLlm, 'boolean');
     assert.equal(typeof body.llmProvider, 'string');
+    assert.equal(body.llmModel, 'nvidia/test-nemotron');
     assert.equal(typeof body.hasLlmKey, 'boolean');
 
     const rawText = JSON.stringify(body);
@@ -98,6 +99,24 @@ describe('Server & Endpoints Integration Tests', () => {
     assert.equal(res.status, 400);
     const body = await res.json();
     assert.ok(body.error.includes('confirmedByUser'));
+  });
+
+  test('Transaction Search 403 preserves invoice access and gives an explicit demo fallback reason', async () => {
+    const localServer = createServer({ paypalClient: { ...mockPaypalClient,
+      hasCredentials: () => true,
+      listInvoices: mockPaypalClient.listInvoices,
+      listTransactions: async () => { const err = new Error('Reporting scope missing'); err.status = 403; throw err; },
+    }, llmClient: { hasApiKey: () => false } });
+    await new Promise((resolve) => localServer.listen(0, '127.0.0.1', resolve));
+    try {
+      const url = `http://127.0.0.1:${localServer.address().port}`;
+      const res = await fetch(`${url}/api/transactions`);
+      assert.equal(res.status, 403);
+      assert.deepEqual(await res.json(), { error: 'Live invoices + demo transactions (enable Transaction Search on your sandbox app)', code: 'TRANSACTION_SEARCH_DISABLED' });
+      assert.equal((await fetch(`${url}/api/invoices`)).status, 200);
+    } finally {
+      await new Promise((resolve) => localServer.close(resolve));
+    }
   });
 
   test('POST /api/invoices/:id/record-payment: succeeds when confirmedByUser is true', async () => {
@@ -145,7 +164,7 @@ describe('Server & Endpoints Integration Tests', () => {
 
   test('Unconfigured PayPal credentials: returns hasPaypal: false on health check and 503 on resources', async () => {
     const unconfiguredClient = new PayPalClient({ clientId: '', clientSecret: '' });
-    const localServer = createServer({ paypalClient: unconfiguredClient });
+    const localServer = createServer({ paypalClient: unconfiguredClient, llmClient: { hasApiKey: () => false } });
 
     await new Promise((resolve) => localServer.listen(0, '127.0.0.1', resolve));
     const port = localServer.address().port;

@@ -8,7 +8,7 @@ const AppShellInner: React.FC = () => {
   const [resetKey, setResetKey] = useState<number>(0);
   const [studioMode, setStudioMode] = useState<'view' | 'edit'>('view');
   const [activePage, setActivePage] = useState<string>('Close the month');
-  const { mode } = useReconciliation();
+  const { mode, dataNotice } = useReconciliation();
 
   const isLive = mode === 'live';
 
@@ -150,7 +150,7 @@ const AppShellInner: React.FC = () => {
               }}
             />
             <span style={{ fontSize: '12px', fontWeight: 600, color: isLive ? '#6EE7B7' : '#38BDF8' }}>
-              {isLive ? 'Live Sandbox' : 'Demo Mode'}
+              {dataNotice ? 'Live invoices + demo transactions' : isLive ? 'Live Sandbox' : 'Demo Mode'}
             </span>
           </div>
 

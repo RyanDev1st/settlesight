@@ -28,7 +28,7 @@ Meet SettleSight. Powered by AG Studio 3.0 and PayPal Developer APIs,
 
 8
 00:00:37,500 --> 00:00:46,000
-it instantly pulls your PayPal Invoicing v2 records and Transaction Search feeds.
+in live mode it pulls PayPal Invoicing v2 and Transaction Search data; this demo uses a synthetic sandbox-shaped dataset.
 
 9
 00:00:46,000 --> 00:00:54,030
@@ -56,7 +56,7 @@ When we ask to audit partial payments and fee discrepancies, the agent executes 
 
 15
 00:01:30,500 --> 00:01:38,360
-verifying fee formulas against standard merchant rates. The AI explains the exact reasoning in plain English before anything touches your ledger.
+verifying that fees fall within tolerance of the open amount. The AI explains the exact reasoning in plain English before anything touches your ledger.
 
 16
 00:01:38,360 --> 00:01:45,500

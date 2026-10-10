@@ -4,7 +4,7 @@ Add-Type -AssemblyName System.Speech
 $voice = New-Object System.Speech.Synthesis.SpeechSynthesizer
 $voice.SelectVoice('Microsoft Zira Desktop')
 $voice.Rate = 1
-$shots = Get-Content -LiteralPath (Join-Path $Directory 'narration.json') -Raw | ConvertFrom-Json
+$shots = Get-Content -LiteralPath (Join-Path $Directory 'narration.json') -Raw -Encoding UTF8 | ConvertFrom-Json
 foreach ($shot in $shots) {
   $file = Join-Path $Directory ('audio/' + $shot.id + '.wav')
   $voice.SetOutputToWaveFile($file)
@@ -14,4 +14,4 @@ foreach ($shot in $shots) {
   $shot | Add-Member -NotePropertyName duration -NotePropertyValue ([double]::Parse($duration, [cultureinfo]::InvariantCulture))
 }
 $voice.Dispose()
-$shots | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $Directory 'audio/timings.json') -Encoding UTF8
+[System.IO.File]::WriteAllText((Join-Path $Directory 'audio/timings.json'), ($shots | ConvertTo-Json -Depth 6), (New-Object System.Text.UTF8Encoding($false)))

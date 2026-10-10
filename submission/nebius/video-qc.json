@@ -23,7 +23,7 @@
     ],
     "format": {
       "duration": "127.800000",
-      "size": "7711785"
+      "size": "7691754"
     }
   },
   "frames": [
@@ -52,6 +52,10 @@
       "seconds": 108.7760266
     }
   ],
-  "volume": "[Parsed_volumedetect_0 @ 0000020aa4c7d1c0] mean_volume: -16.3 dB\r\n[Parsed_volumedetect_0 @ 0000020aa4c7d1c0] max_volume: -1.2 dB\r",
+  "finalFrame": {
+    "name": "final-frame.png",
+    "seconds": 127.6
+  },
+  "volume": "[Parsed_volumedetect_0 @ 00000192e9057700] mean_volume: -16.3 dB\r\n[Parsed_volumedetect_0 @ 00000192e9057700] max_volume: -1.2 dB\r",
   "narrationSeconds": 127.80067999999999
 }

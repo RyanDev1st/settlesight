@@ -8,9 +8,14 @@ import { modeBadge } from './mode.js';
 const AppShellInner: React.FC = () => {
   const [resetKey, setResetKey] = useState<number>(0);
   const [studioMode, setStudioMode] = useState<'view' | 'edit'>('view');
-  const [activePage, setActivePage] = useState<string>('Close the month');
+  const [activePage, setActivePage] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const p = new URLSearchParams(window.location.search).get('page');
+      if (p === 'all' || p === 'data') return 'All data';
+    }
+    return 'Close the month';
+  });
   const { mode, dataNotice, hasLlm, llmProvider } = useReconciliation();
-
   const isLive = mode === 'live';
 
   const handleResetLayout = () => {

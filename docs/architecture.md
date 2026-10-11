@@ -8,40 +8,65 @@ This document details the internal design, component relationships, and data flo
 
 SettleSight operates on a four-tier architecture designed to enforce strict separation between data ingestion, deterministic mathematical matching, AI auditing, and ledger mutations:
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        DATA INGESTION TIER                             │
-│  - PayPal REST Invoicing v2 (GET /v2/invoicing/invoices)               │
-│  - PayPal Transaction Search v1 (GET /v1/reporting/transactions)       │
-│  - Pre-seeded Demo Snapshot JSON (src/data/demo/)                      │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                    DETERMINISTIC MATCH ENGINE TIER                     │
-│  - Integer-Cent Normalization (src/match/normalize.js)                 │
-│  - Heuristic Candidate Matching (src/match/rules.js)                   │
-│  - Invariant Allocation Validator (src/match/validator.js)             │
-│  - Summary KPI & Aging Aggregator (src/match/summary.js)               │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                      AI AUDITOR & HARNESS TIER                         │
-│  - Studio Agent Framework Harness (src/agent/agent-definition.ts)      │
-│  - Guarded Client Tools: listExceptions, explainMatch, draftReminder   │
-│  - Backend Gemini LLM Proxy (server/llm.mjs)                           │
-│  - Deterministic Scripted Demo Runner (src/agent/scripted-runner.js)   │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                     USER INTERFACE & STUDIO TIER                       │
-│  - Embedded AG Studio 3.0 Dashboard (src/studio/dashboard.tsx)         │
-│  - Custom Widgets: ReconciliationMeter, AgingChart, ExceptionsQueue    │
-│  - PayPal Brand Theming (src/studio/theme.ts)                          │
-│  - Reactive Context & State Synchronization (src/ui/)                  │
-└────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph INGEST["1. Data Ingestion Tier"]
+        PP_INV["PayPal Invoicing v2 (GET /v2/invoicing/invoices)"]
+        PP_TXN["PayPal Transaction Search v1 (GET /v1/reporting/transactions)"]
+        DEMO_DATA["Sandbox Snapshot Fixtures (src/data/demo/)"]
+    end
+
+    subgraph ENGINE["2. Deterministic Match Engine Tier (src/match/)"]
+        NORM["Integer-Cent Normalizer (normalize.js)"]
+        RULES["7 Heuristic Rules Engine (rules.js)"]
+        VALIDATOR["Invariant Math Validator (validator.js)"]
+        SUMMARY["Ledger & Aging Aggregator (summary.js)"]
+    end
+
+    subgraph AI["3. AI Auditor & Studio Agent Tier (src/agent/)"]
+        HARNESS["AG Studio Agent Harness (createAiHarness)"]
+        TOOLS["Auditor Tools (listExceptions, explainMatch, draftReminder)"]
+        LLM_PROXY["Backend LLM Proxy (Nebius Nemotron / Gemini 2.5 Flash)"]
+        SCRIPTED["Scripted Demo Runner (Zero-Key Evaluation)"]
+    end
+
+    subgraph UI["4. Presentation & Cockpit Tier (AG Studio 3.0)"]
+        THEME["PayPal Brand Theme (paypalTheme withParams)"]
+        KPIS["KPI Tiles (Invoiced, Reconciled, Open, Needs Review)"]
+        METER["Reconciliation Meter Widget"]
+        AGING["Aging Distribution Chart Widget"]
+        EXCEPTIONS["Exceptions Queue Grid Widget"]
+        ALL_DATA["AG Grid Enterprise Tables (Invoices, Transactions, Matches)"]
+        STORAGE["Layout Persistence (localStorage)"]
+    end
+
+    subgraph WRITEBACK["5. PayPal Write-Back Tier (server/paypal.mjs)"]
+        CONFIRM{"Seller Human Confirmation (confirmedByUser: true)"}
+        REC_PAY["POST /v2/invoicing/invoices/{id}/payments"]
+        REMIND["POST /v2/invoicing/invoices/{id}/remind"]
+    end
+
+    PP_INV --> NORM
+    PP_TXN --> NORM
+    DEMO_DATA --> NORM
+    NORM --> RULES
+    RULES --> VALIDATOR
+    RULES --> SUMMARY
+    VALIDATOR --> HARNESS
+    SUMMARY --> HARNESS
+    HARNESS --> TOOLS
+    TOOLS --> LLM_PROXY
+    TOOLS --> SCRIPTED
+    SUMMARY --> KPIS
+    SUMMARY --> METER
+    SUMMARY --> AGING
+    RULES --> EXCEPTIONS
+    NORM --> ALL_DATA
+    THEME --> UI
+    STORAGE --> UI
+    EXCEPTIONS --> CONFIRM
+    CONFIRM -- "Approved" --> REC_PAY
+    CONFIRM -- "Remind" --> REMIND
 ```
 
 ---

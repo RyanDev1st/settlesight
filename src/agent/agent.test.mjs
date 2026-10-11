@@ -105,7 +105,7 @@ describe('Reconciliation Agent & Tools Test Suite', () => {
     assert.ok(reply.content.includes('Overdue Invoices'));
   });
 
-  test('scriptedRunner: handles "Audit partial payments & fee discrepancies"', () => {
+  test('scriptedRunner: handles "Audit partial payments & fee discrepancies" with derived counts and fee tolerance', () => {
     const prompt = 'Audit partial payments & fee discrepancies';
     assert.ok(isScriptedPrompt(prompt));
 
@@ -113,7 +113,40 @@ describe('Reconciliation Agent & Tools Test Suite', () => {
     assert.equal(reply.role, 'assistant');
     assert.equal(reply.isDemoScripted, true);
     assert.ok(reply.toolCalls.length >= 1);
-    assert.ok(reply.content.includes('PayPal Fee Deductions') || reply.content.includes('Partial Payments'));
+    assert.ok(reply.content.includes('PayPal Fee Deductions'));
+    assert.ok(reply.content.includes('Partial Payments'));
+
+    // Verify derived counts from engine state
+    const feeMatches = (engineState.matches || []).filter((m) => m.method === 'fee_adjusted');
+    const partialMatches = (engineState.matches || []).filter((m) => m.method === 'partial');
+    const exceptions = listExceptions(engineState);
+
+    assert.ok(reply.content.includes(`${feeMatches.length} fee-adjusted`));
+    assert.ok(reply.content.includes(`${partialMatches.length} partial payments`));
+    assert.ok(reply.content.includes(`All ${exceptions.length} items`));
+
+    // Verify no unverified fee formula overclaims
+    assert.ok(!reply.content.includes(['2', '.', '9', '%'].join('')));
+    assert.ok(!reply.content.includes(['0', '.', '3', '0'].join('')));
+    assert.ok(!reply.content.includes('standard processing fees'));
+    assert.ok(reply.content.includes('fee tolerance'));
+
+    // Verify counts are truly derived by running with an altered state
+    const customState = {
+      ...engineState,
+      exceptions: [],
+      matches: [
+        { id: 'm1', method: 'fee_adjusted', state: 'suggested', allocated: 1000 },
+        { id: 'm2', method: 'fee_adjusted', state: 'suggested', allocated: 2000 },
+        { id: 'm3', method: 'partial', state: 'suggested', allocated: 3000 },
+      ],
+      invoices: [],
+      transactions: [],
+    };
+    const customReply = runScriptedDemo(prompt, customState);
+    assert.ok(customReply.content.includes('2 fee-adjusted'));
+    assert.ok(customReply.content.includes('1 partial payments'));
+    assert.ok(customReply.content.includes('All 3 items'));
   });
 
   test('scriptedRunner: handles "Draft reminder for overdue Horizon invoice"', () => {

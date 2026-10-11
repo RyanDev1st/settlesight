@@ -7,6 +7,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
+import Markdown from 'react-markdown';
 import { useReconciliation } from './reconciliation-context';
 import { fromCents } from '../match/normalize.js';
 import { runScriptedDemo, SCRIPTED_DEMO_NOTICE } from '../agent/scripted-runner.js';
@@ -20,6 +21,77 @@ const SUGGESTED_PROMPTS = [
   'Audit partial payments & fee discrepancies',
   'Draft reminder for overdue Horizon invoice',
 ];
+
+const ChatMarkdown: React.FC<{ content: string }> = ({ content }) => {
+  return (
+    <div style={{ fontSize: '13px', lineHeight: 1.45, color: '#1E293B' }}>
+      <Markdown
+        components={{
+          h1: ({ children }) => (
+            <h3 style={{ fontSize: '13px', fontWeight: 700, margin: '6px 0 4px', color: '#0F172A' }}>{children}</h3>
+          ),
+          h2: ({ children }) => (
+            <h3 style={{ fontSize: '13px', fontWeight: 700, margin: '6px 0 4px', color: '#0F172A' }}>{children}</h3>
+          ),
+          h3: ({ children }) => (
+            <h3 style={{ fontSize: '13px', fontWeight: 700, margin: '6px 0 4px', color: '#0F172A' }}>{children}</h3>
+          ),
+          p: ({ children }) => <p style={{ margin: '4px 0' }}>{children}</p>,
+          ul: ({ children }) => <ul style={{ margin: '4px 0', paddingLeft: '18px' }}>{children}</ul>,
+          ol: ({ children }) => <ol style={{ margin: '4px 0', paddingLeft: '18px' }}>{children}</ol>,
+          li: ({ children }) => <li style={{ margin: '2px 0' }}>{children}</li>,
+          strong: ({ children }) => <strong style={{ fontWeight: 600, color: '#0F172A' }}>{children}</strong>,
+          em: ({ children }) => <em style={{ fontStyle: 'italic' }}>{children}</em>,
+          a: ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#0070BA', textDecoration: 'underline' }}>
+              {children}
+            </a>
+          ),
+          code: ({ className, children, ...props }) => {
+            const isInline = !className && typeof children === 'string' && !children.includes('\n');
+            return isInline ? (
+              <code
+                style={{
+                  backgroundColor: '#F1F5F9',
+                  padding: '1px 4px',
+                  borderRadius: '3px',
+                  fontSize: '12px',
+                  fontFamily: 'monospace',
+                  color: '#0F172A',
+                }}
+                {...props}
+              >
+                {children}
+              </code>
+            ) : (
+              <code style={{ fontFamily: 'monospace', fontSize: '11px', color: '#0F172A' }} {...props}>
+                {children}
+              </code>
+            );
+          },
+          pre: ({ children }) => (
+            <pre
+              style={{
+                backgroundColor: '#F8FAFC',
+                border: '1px solid #E2E8F0',
+                borderRadius: '4px',
+                padding: '6px 8px',
+                overflowX: 'auto',
+                margin: '4px 0',
+                fontSize: '11px',
+                whiteSpace: 'pre-wrap',
+              }}
+            >
+              {children}
+            </pre>
+          ),
+        }}
+      >
+        {content}
+      </Markdown>
+    </div>
+  );
+};
 
 export const AgentChatPanel: React.FC = () => {
   const { engineState, summary, hasLlm, llmProvider, llmModel, dataNotice, studioApi, approveCandidate } = useReconciliation();
@@ -129,11 +201,11 @@ export const AgentChatPanel: React.FC = () => {
         content:
           `### 🤖 Nemotron AI Exception Triage Complete\n\n` +
           `${result.summaryText}\n\n` +
-          `• **Total Items Evaluated:** ${result.totalItems}\n` +
-          `• **Deterministic Math Verified:** ${result.verifiedCount}\n` +
+          `- **Total Items Evaluated:** ${result.totalItems}\n` +
+          `- **Deterministic Math Verified:** ${result.verifiedCount}\n` +
           (result.rejectedCount > 0
-            ? `• ⚠️ **Invariant Rejections:** ${result.rejectedCount} (violations flagged below)\n`
-            : `• **Invariant Rejections:** 0\n`) +
+            ? `- ⚠️ **Invariant Rejections:** ${result.rejectedCount} (violations flagged below)\n`
+            : `- **Invariant Rejections:** 0\n`) +
           `\n*Review individual candidates in the triage view above. Deterministic engine maintains final approval authority.*`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
@@ -354,14 +426,25 @@ export const AgentChatPanel: React.FC = () => {
         {/* Message Entries */}
         {messages.map((m) => (
           <div key={m.id} style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '92%' }}>
-            <div style={{ backgroundColor: m.role === 'user' ? '#0070BA' : '#FFFFFF', color: m.role === 'user' ? '#FFFFFF' : '#1E293B', border: m.role === 'user' ? 'none' : '1px solid #E2E8F0', borderRadius: '8px', padding: '10px 12px', fontSize: '13px', lineHeight: 1.4, whiteSpace: 'pre-wrap' }}>
+            <div
+              style={{
+                backgroundColor: m.role === 'user' ? '#0070BA' : '#FFFFFF',
+                color: m.role === 'user' ? '#FFFFFF' : '#1E293B',
+                border: m.role === 'user' ? 'none' : '1px solid #E2E8F0',
+                borderRadius: '8px',
+                padding: '10px 12px',
+                fontSize: '13px',
+                lineHeight: 1.4,
+                whiteSpace: m.role === 'user' ? 'pre-wrap' : 'normal',
+              }}
+            >
               {m.toolCalls && m.toolCalls.map((tc: ToolCallStep, idx: number) => (
                 <div key={idx} style={{ padding: '6px 8px', backgroundColor: '#F1F5F9', borderLeft: '3px solid #0070BA', borderRadius: '3px', fontSize: '11px', color: '#334155', marginBottom: '6px' }}>
                   <div style={{ fontWeight: 600, color: '#0369A1' }}>🔧 Tool Call: <code style={{ color: '#0F172A' }}>{tc.name}()</code></div>
                   <div style={{ marginTop: '2px', color: '#475569' }}>↳ {tc.summary}</div>
                 </div>
               ))}
-              {m.content}
+              {m.role === 'user' ? m.content : <ChatMarkdown content={m.content} />}
             </div>
           </div>
         ))}

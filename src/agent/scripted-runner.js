@@ -230,7 +230,7 @@ export function runScriptedDemo(prompt, state, studioApi = null) {
     content =
       `### Audit: Partial Payments & Fee Discrepancies\n\n` +
       `Reconciliation analysis identified **${feeMatches.length} fee-adjusted** items and **${partialMatches.length} partial payments**:\n\n` +
-      `1. **PayPal Fee Deductions:** Invoices where transaction net amounts reflect merchant standard processing fees (~2.9% + $0.30).\n` +
+      `1. **PayPal Fee Deductions:** Invoices where transaction net or gross amounts fall within fee tolerance of the open balance.\n` +
       `2. **Partial Settlements:** Transactions matching invoice references but leaving remaining open balances.\n\n` +
       (sampleExplanation
         ? `**Detailed Example (${sampleExplanation.invoiceNumber}):**\n` +

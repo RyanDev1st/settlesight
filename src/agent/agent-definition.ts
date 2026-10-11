@@ -35,7 +35,7 @@ export function createReconciliationAgentDefinition(
         `- Proposed matches: ${matCount}\n\n` +
         `Guidelines:\n` +
         `1. Always explain why candidate matches were proposed (exact, fee_adjusted, partial, email).\n` +
-        `2. When reviewing fee adjustments, verify standard merchant fees (~2.9% + $0.30).\n` +
+        `2. When reviewing fee adjustments, verify that the transaction amount falls within fee tolerance of the open invoice balance.\n` +
         `3. Reminders for overdue invoices must only be drafted, never sent automatically.\n` +
         `4. Approving a match requires explicit seller validation.`
       );

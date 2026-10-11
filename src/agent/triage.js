@@ -132,7 +132,7 @@ export async function triageExceptionsWithNemotron({ state, callLlm, model } = {
           allocatedDollars: item.allocated || 0,
           reasoning: `Heuristic candidate via ${item.method} rule (${Math.round((item.confidence || 0) * 100)}% confidence). ${item.reasons}`,
           riskAssessment: item.method === 'fee_adjusted'
-            ? 'Verify PayPal merchant processing fee deduction against standard rates.'
+            ? 'Verify that the fee deduction falls within acceptable tolerance of the open balance.'
             : item.method === 'partial'
             ? 'Verify customer payment milestone schedule.'
             : 'Requires confirmation of payer identity.',

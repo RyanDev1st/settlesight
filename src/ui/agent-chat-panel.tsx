@@ -91,6 +91,24 @@ export const AgentChatPanel: React.FC = () => {
     }
   };
 
+  const hasAutoPrompted = useRef<boolean>(false);
+  useEffect(() => {
+    if (typeof window === 'undefined' || hasAutoPrompted.current) return;
+    const p = new URLSearchParams(window.location.search).get('prompt');
+    if (!p) return;
+    hasAutoPrompted.current = true;
+    const promptMap: Record<string, string> = {
+      audit: 'Audit partial payments & fee discrepancies',
+      unpaid: 'Show unpaid invoices over 30 days',
+      reminder: 'Draft reminder for overdue Horizon invoice',
+    };
+    const query = promptMap[p] || decodeURIComponent(p);
+    const timer = setTimeout(() => {
+      handleSendPrompt(query);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleRunTriage = async () => {
     if (isProcessing) return;
     setIsProcessing(true);

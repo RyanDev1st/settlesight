@@ -28,7 +28,7 @@ $shots = @(
     @{
         id = "shot_04_exceptions"
         name = "Shot 4: Exceptions Queue Triage"
-        text = "For complex transactions, the engine proposes scored candidates in the Exceptions Queue instead of guessing blindly. Here, it identifies a fee-adjusted transaction: gross deposit minus standard PayPal processing fees equals the net deposit. Below it, partial milestone installments and combined multi-invoice payments are categorized with transparent confidence scores."
+        text = "For complex transactions, the engine proposes scored candidates in the Exceptions Queue instead of guessing blindly. Here, it identifies a fee-adjusted transaction: gross deposit minus the PayPal fee equals the net deposit. Below it, partial milestone installments and combined multi-invoice payments are categorized with transparent confidence scores."
     },
     @{
         id = "shot_05_agent"

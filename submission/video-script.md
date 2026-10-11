@@ -62,7 +62,7 @@ Hook     Problem  Dashboard   Exceptions  Agent Chat  Add Widget    Validator   
   - Click on the row for `Iota Systems` (Invoice #009) to highlight the rule breakdown: `fee_adjusted` (Gross $1,800, Fee $62.70, Net $1,737.30, 92% confidence).
   - Hover over row `Quantum Corp` showing a partial payment installment.
 - **Voiceover (63 words | 25s):**
-  > *"For complex transactions, the engine proposes scored candidates in the Exceptions Queue instead of guessing blindly. Here, it identifies a fee-adjusted transaction for Iota Systems: gross deposit minus standard PayPal processing fees equals the net deposit. Below it, partial milestone installments and combined multi-invoice payments are categorized with transparent confidence scores."*
+  > *"For complex transactions, the engine proposes scored candidates in the Exceptions Queue instead of guessing blindly. Here, it identifies a fee-adjusted transaction for Iota Systems: gross deposit minus the PayPal fee equals the net deposit. Below it, partial milestone installments and combined multi-invoice payments are categorized with transparent confidence scores."*
 
 ---
 

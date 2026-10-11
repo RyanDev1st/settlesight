@@ -48,7 +48,7 @@ Sellers often spend hours cross-referencing PayPal CSV activity feeds against un
 1. **Ingests & Normalizes:** Connects to **PayPal Invoicing v2** and **Transaction Search v1** (or pre-seeded sandbox snapshots) and normalizes all amounts into integer cents to eliminate floating-point drift. Retains recorded payment baselines (`baseline_paid`) so reloaded data preserves past PayPal settlements.
 2. **Deterministic Auto-Matching:** Automatically matches unambiguous transactions (matching reference code and identical gross deposit) with confidence 1.0 (rule-based).
 3. **Smart Heuristic Candidate Proposals:** Evaluates 7 accounting reconciliation heuristics to generate scored match candidates:
-   - **Fee-Adjusted Matches:** Identifies transactions where gross received minus standard PayPal processing fees (~2.9% + $0.30) equals the net deposit.
+   - **Fee-Adjusted Matches:** Identifies transactions where gross received minus the PayPal fee (~2.9% + $0.30) equals the net deposit.
    - **Combined Payments:** Detects single payments that cover two or more open invoices from the same payer.
    - **Partial Installments:** Allocates milestone payments to open balances without over-allocating.
    - **Payer-Email Matching:** Associates transactions where the buyer forgot the invoice reference code.

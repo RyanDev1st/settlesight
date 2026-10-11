@@ -40,7 +40,7 @@ For complex transactions, the engine proposes scored candidates in the Exception
 
 11
 00:01:00,500 --> 00:01:08,000
-Here, it identifies a fee-adjusted transaction: gross deposit minus standard PayPal processing fees equals net deposit.
+Here, it identifies a fee-adjusted transaction: gross deposit minus the PayPal fee equals net deposit.
 
 12
 00:01:08,000 --> 00:01:15,250

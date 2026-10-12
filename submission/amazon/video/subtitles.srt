@@ -1,0 +1,36 @@
+1
+00:00:00,000 --> 00:00:04,099
+SettleSight for Alexa Plus, a simulated web experience.
+
+2
+00:00:04,099 --> 00:00:20,270
+Every month-end, small businesses face painful hours matching PayPal transactions against open invoices, struggling with fee deductions and unlinked payments. We are in scripted demo mode; the live mode uses Nemotron function calling. All records here use synthetic data.
+
+3
+00:00:20,270 --> 00:00:35,100
+Alexa, how is my month-end reconciliation? SettleSight queries the deterministic engine over Streamable HTTP. The visible trace records the reconciliation summary tool call, confirming that forty-six point seven two percent is reconciled.
+
+4
+00:00:35,100 --> 00:00:45,250
+What needs my review? The agent calls list exceptions through MCP, highlighting candidate matches and ambiguities so the reviewer sees every flagged reason before taking action.
+
+5
+00:00:45,250 --> 00:00:57,100
+Why is invoice 2026-016 flagged? The explain match tool unpacks the fee-adjusted evidence, showing the gross deposit minus the PayPal fee, and recommending human verification.
+
+6
+00:00:57,100 --> 00:01:09,140
+Approve it. SettleSight calls approve match with confirm false, returning an explicit confirmation prompt. Nothing changes without an explicit yes, keeping financial control in human hands.
+
+7
+00:01:09,140 --> 00:01:21,230
+Yes, confirm. With confirm set to true, the match is approved, and the reconciliation meter immediately advances from forty-six point seven two percent to forty-nine point three five percent in demo memory.
+
+8
+00:01:21,230 --> 00:01:33,969
+Behind the browser, our standalone Model Context Protocol server negotiates protocol 2025-11-25 over Streamable HTTP, verified directly by the official MCP SDK test suite.
+
+9
+00:01:33,969 --> 00:01:43,359
+SettleSight brings conversational clarity and deterministic safety to month-end bookkeeping. Explore the code and documentation on GitHub. Thank you.
+

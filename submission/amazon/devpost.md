@@ -31,6 +31,19 @@ SettleSight existed before this entry as a PayPal reconciliation dashboard and a
 
 Stateless transport is compatible with serverless deployment, but demo approvals live only in process memory. Hosted cold starts or separate instances may reset or diverge; this is not a durable accounting system. The prototype has no real customer authentication, production storage or native Alexa runtime. Live LLM mode requires an existing eligible provider key and quota; scripted mode is clearly labelled and never presented as live inference. The Devpost entry still needs a deployed URL and an English public video under three minutes.
 
+## How to try it
+
+```sh
+npm ci
+npm test
+npm run build
+npm run mcp
+```
+
+Open http://127.0.0.1:8790/alexa-sim/ in your browser. The MCP endpoint is available at http://127.0.0.1:8790/mcp. Check "Scripted demo (no LLM)" for offline rehearsal, or provide server-side `GEMINI_API_KEY` or `NEBIUS_API_KEY` in `.env` for live function calling. Run `npm run mcp:validate` to verify all five MCP tools and protocol negotiation, or run `npm run video:amazon` to generate the automated demo video.
+
+Hosted demo: <pending Vercel import>
+
 ## Evidence and links
 
 - Source: https://github.com/RyanDev1st/settlesight

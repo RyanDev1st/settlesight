@@ -1,0 +1,15 @@
+# Intermediate video build assets
+audio/
+frames/
+edge-profile/
+temp/
+*.wav
+*.mp4
+*.jpg
+
+# Preserve QC frames, subtitles, and scripts
+!qc/
+!qc/*.png
+!subtitles.srt
+!build.mjs
+!synthesize-audio.ps1

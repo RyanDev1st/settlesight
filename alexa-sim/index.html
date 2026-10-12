@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SettleSight · Alexa+ (simulated)</title><link rel="stylesheet" href="./style.css"></head>
+<body>
+  <main>
+    <header><span class="brand">SettleSight</span><span class="badge">Alexa+ (simulated)</span></header>
+    <section class="intro"><p class="eyebrow">MONTH-END, WITHOUT THE GUESSWORK</p><h1>Your books.<br>A clearer conversation.</h1><p>Ask what settled, review the evidence, and confirm every approval.</p></section>
+    <section class="meter"><div><span>Reconciled invoice value</span><strong id="percent">—</strong></div><progress id="meter" max="100" value="0"></progress><p id="metrics">Connecting to the MCP server…</p></section>
+    <div class="columns">
+      <section class="conversation"><h2>Talk to your reconciliation</h2><p id="provider" class="note">Connecting…</p><div id="messages" role="log" aria-live="polite"></div>
+        <form id="chat"><label for="question">Your question</label><div class="entry"><input id="question" placeholder="Alexa, how is my month-end reconciliation?" required autocomplete="off"><button id="send">Ask</button></div></form>
+        <div class="controls"><button id="talk" type="button">Push to talk</button><label><input id="spoken" type="checkbox" checked> Spoken replies</label><label><input id="scripted" type="checkbox"> Scripted demo (no LLM)</label></div><p id="speech-status" class="note"></p>
+        <div class="prompts"><button data-prompt="Alexa, how is my month-end reconciliation?">Month-end summary</button><button data-prompt="What needs my review?">Review queue</button><button data-prompt="Why is INV-2026-016 flagged?">Explain INV-2026-016</button><button data-prompt="Approve it">Approve it</button><button data-prompt="Yes">Yes, confirm</button></div>
+      </section>
+      <section class="trace"><h2>MCP tool-call trace</h2><p class="note">Official SDK · Streamable HTTP · protocol 2025-11-25</p><div id="trace" role="log" aria-live="polite"></div></section>
+    </div>
+    <footer>Synthetic data only · No PayPal changes · Reminders are drafts only · In-memory approvals may reset on a hosted cold start. This is an independent web simulation, with no Alexa device or Amazon integration.</footer>
+  </main><script type="module" src="./main.js"></script>
+</body></html>

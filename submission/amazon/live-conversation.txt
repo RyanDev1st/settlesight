@@ -1,0 +1,15 @@
+You: Alexa, how is my month-end reconciliation?
+SettleSight: Your month‑end reconciliation shows $36,995 total invoiced, with $17,285 (46.7 %) matched and $19,710 still open across 25 items. Three exceptions and 20 suggested matches await review, and aging reveals $12,090 in 0‑30‑day items, $820 in 31‑60, $1,300 in 61‑90 and $5,500 in 90+ buckets.
+You: What needs my review?
+SettleSight: You have 23 items awaiting your review:
+
+- **Suggested matches** (need confirmation) – INV‑2026‑016, INV‑2026‑017, INV‑2026‑018, INV‑2026‑019, INV‑2026‑020‑021, INV‑2026‑022‑023‑024, INV‑2026‑025‑026‑027, INV‑2026‑028‑029‑030, plus a few refund/duplicate entries.
+- **Exceptions** (require human decision) – Competing‑claims cases for TXN‑DEMO‑033, INV‑2026‑033, and TXN‑DEMO‑036.
+
+Would you like to approve any of these matches now? (I’ll need an explicit “yes” before any changes are recorded.)
+You: Why is INV-2026-016 flagged?
+SettleSight: INV‑2026‑016 is flagged as a **fee‑adjusted match**. The payment of $970.70 falls within the allowed tolerance of the $29.30 fee, so the net deposit ($941.40) aligns with the expected net amount after fees. You should confirm that the PayPal fee deduction is correct before approving the match.
+You: Approve it
+SettleSight: Approve INV-2026-016 for $970.70 in the synthetic demo? Say yes to confirm.
+You: Yes
+SettleSight: Approved mat_16 in the synthetic demo. Reconciliation is now 49.35%.

@@ -1,0 +1,221 @@
+initialize: {
+  "result": {
+    "protocolVersion": "2025-11-25",
+    "capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "serverInfo": {
+      "name": "settlesight",
+      "version": "0.2.0"
+    }
+  },
+  "jsonrpc": "2.0",
+  "id": 0
+}
+tools/list: {
+  "tools": [
+    {
+      "name": "reconciliation_summary",
+      "description": "Summarize synthetic month-end reconciliation. Raw money fields are integer USD cents; read formatted_usd for exact dollar strings without arithmetic. matched_percent is a percentage. No live account access.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "list_exceptions",
+      "description": "List unapproved candidate matches and ambiguities requiring human review in the synthetic demo.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "object",
+            "properties": {
+              "minConfidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "maxConfidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "overdueDays": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "explain_match",
+      "description": "Explain a match using deterministic evidence. Supply a match ID, invoice ID or invoice number such as INV-2026-016.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "draft_payment_reminder",
+      "description": "Draft a reminder for an exact invoice ID or number. Returns a draft only; never sends email or contacts a customer.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "invoice_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "invoice_id"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "approve_match",
+      "description": "Approve a synthetic candidate only after explicit human confirmation. Omit confirm or set false to obtain a confirmation prompt; confirm=true mutates in-memory demo state only. Never changes PayPal.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "confirm": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    }
+  ]
+}
+tools/call reconciliation_summary {}: {
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"total_invoiced\":3699500,\"matched_value\":1728500,\"matched_percent\":46.72,\"open_count\":25,\"open_value\":1971000,\"exceptions_count\":3,\"suggested_count\":20,\"aging_buckets\":{\"0-30\":{\"count\":21,\"value\":1209000},\"31-60\":{\"count\":1,\"value\":82000},\"61-90\":{\"count\":1,\"value\":130000},\"90+\":{\"count\":2,\"value\":550000}},\"formatted_usd\":{\"total_invoiced\":\"$36,995.00\",\"matched_value\":\"$17,285.00\",\"open_value\":\"$19,710.00\",\"aging_buckets\":{\"0-30\":\"$12,090.00\",\"31-60\":\"$820.00\",\"61-90\":\"$1,300.00\",\"90+\":\"$5,500.00\"}}}"
+    }
+  ]
+}
+tools/call list_exceptions {"filter":{"minConfidence":0.9}}: {
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"count\":7,\"items\":[{\"id\":\"mat_16\",\"invoiceId\":\"INV2-DEMO-016\",\"invoiceNumber\":\"INV-2026-016\",\"customerName\":\"Pam Beesly\",\"transactionId\":\"TXN-DEMO-016\",\"payerName\":\"Pam Beesly\",\"allocated\":970.7,\"openAmount\":1000,\"method\":\"fee_adjusted\",\"confidence\":0.92,\"reasons\":\"Fee-adjusted match: payment within fee tolerance of open amount for INV-2026-016 (fee: $29.30)\",\"state\":\"suggested\"},{\"id\":\"mat_17\",\"invoiceId\":\"INV2-DEMO-017\",\"invoiceNumber\":\"INV-2026-017\",\"customerName\":\"Quinn Fabray\",\"transactionId\":\"TXN-DEMO-017\",\"payerName\":\"Quinn Fabray\",\"allocated\":485.2,\"openAmount\":500,\"method\":\"fee_adjusted\",\"confidence\":0.92,\"reasons\":\"Fee-adjusted match: payment within fee tolerance of open amount for INV-2026-017 (fee: $14.80)\",\"state\":\"suggested\"},{\"id\":\"mat_18\",\"invoiceId\":\"INV2-DEMO-018\",\"invoiceNumber\":\"INV-2026-018\",\"customerName\":\"Ryan Howard\",\"transactionId\":\"TXN-DEMO-018\",\"payerName\":\"Ryan Howard\",\"allocated\":728,\"openAmount\":750,\"method\":\"fee_adjusted\",\"confidence\":0.92,\"reasons\":\"Fee-adjusted match: payment within fee tolerance of open amount for INV-2026-018 (fee: $22.00)\",\"state\":\"suggested\"},{\"id\":\"mat_19\",\"invoiceId\":\"INV2-DEMO-019\",\"invoiceNumber\":\"INV-2026-019\",\"customerName\":\"Stanley Hudson\",\"transactionId\":\"TXN-DEMO-019\",\"payerName\":\"Stanley Hudson\",\"allocated\":1165,\"openAmount\":1200,\"method\":\"fee_adjusted\",\"confidence\":0.92,\"reasons\":\"Fee-adjusted match: payment within fee tolerance of open amount for INV-2026-019 (fee: $35.00)\",\"state\":\"suggested\"},{\"id\":\"exc_1\",\"invoiceId\":\"multiple\",\"invoiceNumber\":\"Multiple Invoices\",\"customerName\":\"Competing Claims\",\"transactionId\":\"TXN-DEMO-033\",\"payerName\":\"Brad Pitt\",\"allocated\":0,\"openAmount\":0,\"method\":\"ambiguity\",\"confidence\":0.75,\"reasons\":\"Ambiguity: transaction TXN-DEMO-033 has 2 competing candidates with equal confidence 0.75\",\"state\":\"exception\"},{\"id\":\"exc_2\",\"invoiceId\":\"INV2-DEMO-033\",\"invoiceNumber\":\"INV-2026-033\",\"customerName\":\"Cate Blanchett\",\"transactionId\":\"multiple\",\"payerName\":\"Multiple Transactions\",\"allocated\":0,\"openAmount\":180,\"method\":\"ambiguity\",\"confidence\":1,\"reasons\":\"Ambiguity: multiple transactions (TXN-DEMO-034, TXN-DEMO-035) compete for invoice INV2-DEMO-033 with equal confidence 1\",\"state\":\"exception\"},{\"id\":\"exc_3\",\"invoiceId\":\"multiple\",\"invoiceNumber\":\"Multiple Invoices\",\"customerName\":\"Competing Claims\",\"transactionId\":\"TXN-DEMO-036\",\"payerName\":\"Daniel Craig\",\"allocated\":0,\"openAmount\":0,\"method\":\"ambiguity\",\"confidence\":0.8,\"reasons\":\"Ambiguity: transaction TXN-DEMO-036 has 2 competing candidates with equal confidence 0.8\",\"state\":\"exception\"}]}"
+    }
+  ]
+}
+tools/call explain_match {"id":"INV-2026-016"}: {
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"matchId\":\"mat_16\",\"invoiceId\":\"INV2-DEMO-016\",\"invoiceNumber\":\"INV-2026-016\",\"transactionId\":\"TXN-DEMO-016\",\"customerName\":\"Pam Beesly\",\"payerName\":\"Pam Beesly\",\"allocatedDollars\":970.7,\"invoiceTotalDollars\":1000,\"transactionGrossDollars\":970.7,\"feeDollars\":29.3,\"netDollars\":941.4,\"method\":\"fee_adjusted\",\"confidence\":0.92,\"explanation\":\"Match method 'fee_adjusted' with 92% confidence. Fee-adjusted match: payment within fee tolerance of open amount for INV-2026-016 (fee: $29.30)\",\"recommendedAction\":\"Confirm PayPal fee deduction: Gross $970.70 minus fee $29.30 matches net deposit.\",\"openAmountDollars\":1000,\"remainingAfterApprovalDollars\":29.3}"
+    }
+  ]
+}
+tools/call draft_payment_reminder {"invoice_id":"INV-2026-016"}: {
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"invoiceId\":\"INV2-DEMO-016\",\"invoiceNumber\":\"INV-2026-016\",\"recipientEmail\":\"pam.beesly@example.com\",\"recipientName\":\"Pam Beesly\",\"subject\":\"Friendly Reminder: Payment overdue for Invoice INV-2026-016 ($1000.00)\",\"body\":\"Dear Pam Beesly,\\n\\nI hope this note finds you well.\\n\\nThis is a friendly reminder regarding Invoice INV-2026-016 for $1000.00, which had a due date of 2026-09-20 (19 days ago).\\n\\nOur records show an open balance of $1000.00. You can review and complete payment securely via PayPal using your customer invoice link:\\nhttps://www.paypal.com/invoice/p/#INV2-DEMO-016\\n\\nIf you have already sent this payment or if you have any questions, please let us know so we can update our accounts.\\n\\nThank you for your business,\\nAccounts Receivable\",\"openAmountDollars\":1000,\"daysOverdue\":19,\"status\":\"draft_only\"}"
+    }
+  ]
+}
+tools/call approve_match {"id":"mat_16"}: {
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"confirmation_required\":true,\"matchId\":\"mat_16\",\"prompt\":\"Approve INV-2026-016 for $970.70 in the synthetic demo? Say yes to confirm.\",\"demo_only\":true}"
+    }
+  ]
+}
+tools/call reconciliation_summary {}: {
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"total_invoiced\":3699500,\"matched_value\":1728500,\"matched_percent\":46.72,\"open_count\":25,\"open_value\":1971000,\"exceptions_count\":3,\"suggested_count\":20,\"aging_buckets\":{\"0-30\":{\"count\":21,\"value\":1209000},\"31-60\":{\"count\":1,\"value\":82000},\"61-90\":{\"count\":1,\"value\":130000},\"90+\":{\"count\":2,\"value\":550000}},\"formatted_usd\":{\"total_invoiced\":\"$36,995.00\",\"matched_value\":\"$17,285.00\",\"open_value\":\"$19,710.00\",\"aging_buckets\":{\"0-30\":\"$12,090.00\",\"31-60\":\"$820.00\",\"61-90\":\"$1,300.00\",\"90+\":\"$5,500.00\"}}}"
+    }
+  ]
+}
+tools/call approve_match {"id":"mat_16","confirm":true}: {
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"success\":true,\"matchId\":\"mat_16\",\"summary\":{\"total_invoiced\":3699500,\"matched_value\":1825570,\"matched_percent\":49.35,\"open_count\":25,\"open_value\":1873930,\"exceptions_count\":3,\"suggested_count\":19,\"aging_buckets\":{\"0-30\":{\"count\":21,\"value\":1111930},\"31-60\":{\"count\":1,\"value\":82000},\"61-90\":{\"count\":1,\"value\":130000},\"90+\":{\"count\":2,\"value\":550000}},\"formatted_usd\":{\"total_invoiced\":\"$36,995.00\",\"matched_value\":\"$18,255.70\",\"open_value\":\"$18,739.30\",\"aging_buckets\":{\"0-30\":\"$11,119.30\",\"31-60\":\"$820.00\",\"61-90\":\"$1,300.00\",\"90+\":\"$5,500.00\"}}},\"demo_only\":true}"
+    }
+  ]
+}
+tools/call reconciliation_summary {}: {
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"total_invoiced\":3699500,\"matched_value\":1825570,\"matched_percent\":49.35,\"open_count\":25,\"open_value\":1873930,\"exceptions_count\":3,\"suggested_count\":19,\"aging_buckets\":{\"0-30\":{\"count\":21,\"value\":1111930},\"31-60\":{\"count\":1,\"value\":82000},\"61-90\":{\"count\":1,\"value\":130000},\"90+\":{\"count\":2,\"value\":550000}},\"formatted_usd\":{\"total_invoiced\":\"$36,995.00\",\"matched_value\":\"$18,255.70\",\"open_value\":\"$18,739.30\",\"aging_buckets\":{\"0-30\":\"$11,119.30\",\"31-60\":\"$820.00\",\"61-90\":\"$1,300.00\",\"90+\":\"$5,500.00\"}}}"
+    }
+  ]
+}

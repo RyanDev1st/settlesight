@@ -7,13 +7,18 @@
     "dev": "vite",
     "dev:server": "node server/index.mjs",
     "seed": "node scripts/seed-sandbox.mjs",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && vite build --config alexa-sim/vite.config.mjs",
+    "vercel-build": "npm run build",
+    "mcp": "node --env-file-if-exists=.env mcp/server.mjs",
+    "mcp:validate": "node mcp/validate.mjs",
+    "alexa-sim": "vite --config alexa-sim/vite.config.mjs",
     "preview": "vite preview",
-    "test": "node --test \"src/match/*.test.js\" \"src/agent/*.test.mjs\" \"server/*.test.mjs\"",
+    "test": "node --test src/match/baseline.test.js src/match/demo.test.js src/match/engine.test.js src/match/normalize.test.js src/match/regression.test.js src/match/rules.test.js src/match/validator.test.js src/agent/agent.test.mjs server/llm.test.mjs server/mode.test.mjs server/paypal.test.mjs server/server.test.mjs mcp/tools.test.mjs mcp/protocol.test.mjs",
     "test:server": "node --test server/*.test.mjs",
     "test:agent": "node --test src/agent/agent.test.mjs"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
     "ag-charts-enterprise": "~14.2.0",
     "ag-grid-enterprise": "~36.2.0",
     "ag-stack": "~36.2.0",
@@ -21,7 +26,8 @@
     "ag-studio-react": "3.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-markdown": "^10.1.0"
+    "react-markdown": "^10.1.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",

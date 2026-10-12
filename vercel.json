@@ -1,0 +1,14 @@
+{
+  "builds": [
+    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "dist" } },
+    { "src": "mcp/handler.mjs", "use": "@vercel/node" },
+    { "src": "alexa-sim/api.mjs", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/mcp", "dest": "/mcp/handler.mjs" },
+    { "src": "/alexa-sim/api", "dest": "/alexa-sim/api.mjs" },
+    { "src": "/alexa-sim/?", "dest": "/alexa-sim/index.html" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}

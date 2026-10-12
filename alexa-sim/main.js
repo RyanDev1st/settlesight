@@ -1,18 +1,73 @@
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
-const $ = id => document.getElementById(id);
+const $ = id => (typeof document !== 'undefined' ? document.getElementById(id) : null);
 const client = new Client({ name: 'settlesight-alexa-simulation', version: '0.2.0' });
 let tools = [], busy = false, pending = null, selected = 'INV-2026-016';
 const messages = [{ role: 'system', content: 'You are SettleSight in an Alexa+ web simulation, using synthetic data. Use MCP tools for all financial facts. Raw money in summaries is integer USD cents: use formatted_usd strings verbatim for dollar amounts and never calculate conversions yourself. Answer in at most three short sentences and explain evidence briefly. Approvals require a separate explicit user yes; first call approve_match with confirm=false. Drafts are never sent. Do not claim native Alexa or live PayPal access.' }];
 
+export function renderMarkdown(text, doc = (typeof document !== 'undefined' ? document : globalThis.document)) {
+  const fragment = doc.createDocumentFragment();
+  if (typeof text !== 'string') text = String(text ?? '');
+
+  const lines = text.split('\n');
+  let currentList = null;
+
+  function renderInline(str, parent) {
+    const regex = /\*\*([^*]+?)\*\*|`([^`]+?)`|([^*`]+|[*`])/g;
+    let match;
+    while ((match = regex.exec(str)) !== null) {
+      if (match[1] !== undefined) {
+        const strong = doc.createElement('strong');
+        strong.textContent = match[1];
+        parent.appendChild(strong);
+      } else if (match[2] !== undefined) {
+        const code = doc.createElement('code');
+        code.textContent = match[2];
+        parent.appendChild(code);
+      } else if (match[3] !== undefined) {
+        parent.appendChild(doc.createTextNode(match[3]));
+      }
+    }
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const match = line.match(/^\s*-\s+(.+)$/);
+
+    if (match) {
+      if (!currentList) {
+        currentList = doc.createElement('ul');
+        fragment.appendChild(currentList);
+      }
+      const li = doc.createElement('li');
+      renderInline(match[1], li);
+      currentList.appendChild(li);
+    } else {
+      currentList = null;
+      if (i > 0) {
+        fragment.appendChild(doc.createElement('br'));
+      }
+      if (line.length > 0) {
+        renderInline(line, fragment);
+      }
+    }
+  }
+
+  return fragment;
+}
+
 function say(text, role = 'assistant') {
   const node = document.createElement('div');
   node.className = `message ${role}`;
-  node.textContent = `${role === 'user' ? 'You' : 'SettleSight'}: ${text}`;
+  if (role === 'user') {
+    node.textContent = `You: ${text}`;
+  } else {
+    node.append('SettleSight: ', renderMarkdown(text));
+  }
   $('messages').append(node);
   node.scrollIntoView({ block: 'nearest' });
-  if (role === 'assistant' && $('spoken').checked && 'speechSynthesis' in window) {
+  if (role === 'assistant' && $('spoken')?.checked && 'speechSynthesis' in window) {
     speechSynthesis.cancel();
     speechSynthesis.speak(new SpeechSynthesisUtterance(text));
   }
@@ -98,17 +153,22 @@ async function submit(question) {
   finally { busy = false; $('send').disabled = false; $('talk').disabled = !Recognition; }
 }
 
-$('chat').addEventListener('submit', event => { event.preventDefault(); void submit($('question').value); });
-document.querySelectorAll('[data-prompt]').forEach(button => button.addEventListener('click', () => void submit(button.dataset.prompt)));
-$('scripted').addEventListener('change', () => { $('provider').textContent = $('scripted').checked ? 'Scripted demo · no LLM · real MCP calls' : 'LLM mode · server-side keys required'; });
-const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-if (Recognition) {
-  const recognition = new Recognition(); recognition.lang = 'en-US'; recognition.interimResults = false;
-  $('talk').addEventListener('click', () => { $('speech-status').textContent = 'Listening…'; recognition.start(); });
-  recognition.onresult = event => { void submit(event.results[0][0].transcript); };
-  recognition.onerror = event => { $('speech-status').textContent = `Speech recognition: ${event.error}. Use the text box.`; };
-  recognition.onend = () => { if ($('speech-status').textContent === 'Listening…') $('speech-status').textContent = ''; };
-} else { $('talk').disabled = true; $('speech-status').textContent = 'Speech recognition is unavailable here. Use the text box.'; }
+let Recognition = null;
+if (typeof window !== 'undefined' && typeof document !== 'undefined' && $('chat')) {
+  $('chat').addEventListener('submit', event => { event.preventDefault(); void submit($('question').value); });
+  document.querySelectorAll('[data-prompt]').forEach(button => button.addEventListener('click', () => void submit(button.dataset.prompt)));
+  $('scripted').addEventListener('change', () => { $('provider').textContent = $('scripted').checked ? 'Scripted demo · no LLM · real MCP calls' : 'LLM mode · server-side keys required'; });
+  Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (Recognition) {
+    const recognition = new Recognition(); recognition.lang = 'en-US'; recognition.interimResults = false;
+    $('talk').addEventListener('click', () => { $('speech-status').textContent = 'Listening…'; recognition.start(); });
+    recognition.onresult = event => { void submit(event.results[0][0].transcript); };
+    recognition.onerror = event => { $('speech-status').textContent = `Speech recognition: ${event.error}. Use the text box.`; };
+    recognition.onend = () => { if ($('speech-status').textContent === 'Listening…') $('speech-status').textContent = ''; };
+  } else { $('talk').disabled = true; $('speech-status').textContent = 'Speech recognition is unavailable here. Use the text box.'; }
+
+  void connect();
+}
 
 async function connect() {
 try {
@@ -119,4 +179,3 @@ try {
   await invoke('reconciliation_summary');
 } catch (error) { $('provider').textContent = `Connection failed: ${error.message}`; }
 }
-void connect();

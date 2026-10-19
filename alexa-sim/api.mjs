@@ -24,10 +24,14 @@ export default async function agentHandler(req, res) {
       }
       body = JSON.parse(raw);
     }
-    const result = await client.chatCompletion({ messages: body.messages, tools: body.tools, tool_choice: 'auto', max_tokens: 2048 }, AbortSignal.timeout(45000));
+    // Providers reject tool_choice without tools, so only send it alongside a tool list.
+    const tools = Array.isArray(body.tools) && body.tools.length ? { tools: body.tools, tool_choice: 'auto' } : {};
+    const result = await client.chatCompletion({ messages: body.messages, ...tools, max_tokens: 2048 }, AbortSignal.timeout(45000));
     res.end(JSON.stringify({ message: result.choices?.[0]?.message, provider: client.getProvider() }));
   } catch (error) {
     res.writeHead(error.status === 503 ? 503 : 502);
-    res.end(JSON.stringify({ error: error.status === 503 ? 'No server LLM key configured; use the clearly labelled scripted demo.' : 'LLM unavailable; retry or use the scripted demo.', offline_available: true }));
+    // Upstream status and a short reason help diagnose hosted failures; the key is never echoed.
+    const detail = { upstream_status: error.status ?? null, reason: String(error.message || '').slice(0, 160) };
+    res.end(JSON.stringify({ error: error.status === 503 ? 'No server LLM key configured; use the clearly labelled scripted demo.' : 'LLM unavailable; retry or use the scripted demo.', offline_available: true, detail }));
   }
 }

@@ -25,8 +25,8 @@ SettleSight combines React 19, TypeScript, Vite, Node.js, and AG Studio 3.0:
 - **Deterministic Math Engine:** Developed integer-cent matching rules and an invariant allocation validator in ESM JavaScript (`src/match/`).
 - **Submission Window Milestones (Aug 26 – Oct 30, 2026):**
   - *2026-10-09:* Dashboard scaffold (`451750d`), PayPal sandbox client (`d894aae`), and agent harness (`87dc739`).
-  - *2026-10-10:* Matching engine (`9169af6`), Node 22 CI (`501dd33`), and automated video pipeline (`32cdd85`).
-  - *2026-10-11:* Nebius Token Factory provider (`7bfa495`), live Nemotron triage and PayPal write-back (`f012ea5`), hybrid mode (`c6aad99`), and video fixes (`927b4cc`, `6920a47`).
+  - *2026-10-10:* Matching engine (`2c2d3d4`), Node 22 CI (`7bc156e`), and automated video pipeline (`145bae2`).
+  - *2026-10-11:* Nebius Token Factory provider (`fa04901`), live Nemotron triage and PayPal write-back (`4080e23`), hybrid mode (`c865a71`), and video fixes (`667f128`, `d139c7b`).
 
 ## Challenges we ran into
 - **Undocumented Nemotron Model IDs:** Token Factory docs featured Llama and DeepSeek, omitting exact Nemotron IDs. We implemented dynamic discovery against `GET /v1/models` to resolve `nvidia/nemotron-3-super-120b-a12b` and `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B`.

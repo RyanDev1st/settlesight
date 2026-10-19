@@ -31,16 +31,16 @@ The [official rules](https://nebiusglobalaihackathon.devpost.com/rules) give a s
 | 2026-10-09 | `451750d` | AG Studio dashboard scaffold. |
 | 2026-10-09 | `d894aae` | PayPal proxy, live data loading, and sandbox seeding. |
 | 2026-10-09 | `87dc739` | Engine-driven dashboard and agent. |
-| 2026-10-10 | `9169af6` | Deterministic matching, validator, and synthetic fixtures. |
-| 2026-10-10 | `b38d943` | README, license, Pages deployment, and submission drafts. |
-| 2026-10-10 | `94ea815` | Studio schemas and meter labels. |
-| 2026-10-10 | `03adb1e` | Dashboard polish and accurate documentation. |
-| 2026-10-10 | `aff02e2` | Corrected KPI labels and overclaims. |
-| 2026-10-10 | `501dd33` | Node 22 test CI. |
-| 2026-10-10 | `32cdd85` | Video automation, subtitles, and QC frames. |
-| 2026-10-10 | `ac7da24` | Corrected sandbox/fee narration. |
-| 2026-10-11 | `7bfa495` | Nebius provider and Nemotron triage. |
-| 2026-10-11 | `f012ea5` | Live model/tool and PayPal invoice/write-back verification; recorded-payment ledger support. |
+| 2026-10-10 | `2c2d3d4` | Deterministic matching, validator, and synthetic fixtures. |
+| 2026-10-10 | `15e74e0` | README, license, Pages deployment, and submission drafts. |
+| 2026-10-10 | `ae61b64` | Studio schemas and meter labels. |
+| 2026-10-10 | `09163ba` | Dashboard polish and accurate documentation. |
+| 2026-10-10 | `6691558` | Corrected KPI labels and overclaims. |
+| 2026-10-10 | `7bc156e` | Node 22 test CI. |
+| 2026-10-10 | `145bae2` | Video automation, subtitles, and QC frames. |
+| 2026-10-10 | `76dfe2c` | Corrected sandbox/fee narration. |
+| 2026-10-11 | `fa04901` | Nebius provider and Nemotron triage. |
+| 2026-10-11 | `4080e23` | Live model/tool and PayPal invoice/write-back verification; recorded-payment ledger support. |
 | 2026-10-11 | This delivery | Hybrid mode and tests, live Nemotron video, and corrected submission pack. |
 
 ## Feedback from using Nebius and NVIDIA models

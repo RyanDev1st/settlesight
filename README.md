@@ -342,7 +342,7 @@ All code in the `settlesight` repository was newly architected and written durin
   - `451750d Fri Oct 9 15:18:03 2026`: Initial scaffold of SettleSight AG Studio dashboard, themes, and shell.
   - `d894aae Fri Oct 9 15:27:40 2026`: PayPal sandbox proxy (`server/paypal.mjs`), live data loading, and 30-invoice seeder (`scripts/seed-sandbox.mjs`).
   - `87dc739 Fri Oct 9 15:50:41 2026`: AG Studio Agent Framework harness (`src/agent/`), Gemini LLM proxy (`server/llm.mjs`), custom tools, and scripted demo runner.
-  - `9169af6 Sat Oct 10 22:12:01 2026`: Deterministic match engine (`src/match/`), mathematical invariant validator, and 57-test regression suite.
+  - `2c2d3d4 Sat Oct 10 22:12:01 2026`: Deterministic match engine (`src/match/`), mathematical invariant validator, and 57-test regression suite.
 - **Newly Built Features:**
   1. Complete PayPal REST integration: OAuth 2.0 credentials caching, Invoicing v2 (list, record payment, remind), and Transaction Search v1 with 31-day window chunking.
   2. AG Studio 3.0 embedded analytics dashboard with custom `paypalTheme` and 3 custom analytics widgets (`ReconciliationMeter`, `AgingChart`, `ExceptionsQueue`).

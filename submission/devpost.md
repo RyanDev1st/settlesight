@@ -233,20 +233,20 @@ The `settlesight` repository was created completely from scratch during the hack
 | **2026-10-09** | `451750d` | Initial scaffold of SettleSight AG Studio dashboard, theme, and shell. |
 | **2026-10-09** | `d894aae` | PayPal OAuth 2.0, Invoicing v2, Transaction Search v1 client, and 30-invoice seeder (`scripts/seed-sandbox.mjs`). |
 | **2026-10-09** | `87dc739` | AG Studio Agent Framework harness, custom agent tools, Gemini LLM proxy, and scripted demo runner. |
-| **2026-10-10** | `9169af6` | Deterministic integer-cent match engine (`src/match/`), mathematical invariant validator, and demo dataset. |
-| **2026-10-10** | `b38d943` | README, license, GitHub Pages automated deployment, and initial submission drafts. |
-| **2026-10-10** | `94ea815` | Explicit Studio schemas and honest reconciliation meter labels. |
-| **2026-10-10** | `03adb1e` | Judge-ready dashboard polish and documentation alignment. |
-| **2026-10-10** | `aff02e2` | Fix KPI tile labels and overclaim wording. |
-| **2026-10-10** | `501dd33` | Node 22 test CI configuration. |
-| **2026-10-10** | `32cdd85` | Automated demo video pipeline, subtitles, and QC frame verification. |
-| **2026-10-10** | `ac7da24` | Fix narration honesty for sandbox data and fee tolerance logic. |
-| **2026-10-11** | `7bfa495` | Nebius Token Factory provider integration and Nemotron AI exception triage. |
-| **2026-10-11** | `f012ea5` | Live PayPal sandbox verification (30 invoices, confirmed write-back `SS-DEMO-028` $25), live Nemotron triage and function calling, recorded-payment ledger baseline fix, test suite expanded to 80 tests. |
-| **2026-10-11** | `c6aad99` | Hybrid demo mode, Nebius video pipeline, and submission packaging. |
-| **2026-10-11** | `927b4cc` | Isolate Edge capture profile from Vite watcher. |
-| **2026-10-11** | `6920a47` | UTF-8 title card and subtitle encoding fixes. |
-| **2026-10-11** | `0fa9146` | Absolute submission links and concrete Token Factory feedback. |
+| **2026-10-10** | `2c2d3d4` | Deterministic integer-cent match engine (`src/match/`), mathematical invariant validator, and demo dataset. |
+| **2026-10-10** | `15e74e0` | README, license, GitHub Pages automated deployment, and initial submission drafts. |
+| **2026-10-10** | `ae61b64` | Explicit Studio schemas and honest reconciliation meter labels. |
+| **2026-10-10** | `09163ba` | Judge-ready dashboard polish and documentation alignment. |
+| **2026-10-10** | `6691558` | Fix KPI tile labels and overclaim wording. |
+| **2026-10-10** | `7bc156e` | Node 22 test CI configuration. |
+| **2026-10-10** | `145bae2` | Automated demo video pipeline, subtitles, and QC frame verification. |
+| **2026-10-10** | `76dfe2c` | Fix narration honesty for sandbox data and fee tolerance logic. |
+| **2026-10-11** | `fa04901` | Nebius Token Factory provider integration and Nemotron AI exception triage. |
+| **2026-10-11** | `4080e23` | Live PayPal sandbox verification (30 invoices, confirmed write-back `SS-DEMO-028` $25), live Nemotron triage and function calling, recorded-payment ledger baseline fix, test suite expanded to 80 tests. |
+| **2026-10-11** | `c865a71` | Hybrid demo mode, Nebius video pipeline, and submission packaging. |
+| **2026-10-11** | `667f128` | Isolate Edge capture profile from Vite watcher. |
+| **2026-10-11** | `d139c7b` | UTF-8 title card and subtitle encoding fixes. |
+| **2026-10-11** | `051aab6` | Absolute submission links and concrete Token Factory feedback. |
 
 All production code, integrations, UI components, tests, and documentation were written entirely during the hackathon submission window.
 
